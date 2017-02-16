@@ -78,10 +78,11 @@ public class AudioOutput {
     }
 
     /**
-     * Method to play a sound from an AudioInputStream
-     * @param stm the AudioInputStream to play from
+     * Method to play a sound from a file
+     * @param filename the file in which to play audio from
      */
-    static void playSound(AudioInputStream stm) {
+    static void playSound(String filename) {
+        AudioInputStream stm = setupStream(filename);
         playStream( stm, readStream( stm ) );
     }
 

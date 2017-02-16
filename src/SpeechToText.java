@@ -1,3 +1,6 @@
+import jdk.nashorn.internal.parser.JSONParser;
+
+import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.util.UUID;
 
@@ -6,7 +9,7 @@ import java.util.UUID;
  * Created by 650007903 on 15/02/2017.
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
-class SpeechRecognition {
+class SpeechToText {
     private final static String LANG  = "en-US";
 
     /**
@@ -32,8 +35,7 @@ class SpeechRecognition {
                 = { { "Content-Type"   , "audio/wav; samplerate=16000"  }
                 , { "Content-Length" , String.valueOf( body.length )  }
                 , { "Authorization"  , "Bearer " + token              }
-        };
-        byte[] response = HTTPConnectCognitive.httpConnect( method, url, headers, body );
+        };        byte[] response = HTTPConnectCognitive.httpConnect( method, url, headers, body );
         return new String( response );
     }
 

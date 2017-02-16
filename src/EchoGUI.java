@@ -1,12 +1,10 @@
-package MainPackage;
-
 import javax.swing.*;
 
-public class echoGUI extends JFrame {
+public class EchoGUI extends JFrame {
 
     public static void main(String[] args) {
 
-        JFrame frame = new echoGUI();
+        JFrame frame = new EchoGUI();
 
         frame.setLocationRelativeTo(null);
         frame.setSize(353, 325);
