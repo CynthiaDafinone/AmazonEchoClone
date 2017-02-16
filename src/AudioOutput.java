@@ -1,10 +1,7 @@
 import java.io.File;
 import java.io.ByteArrayOutputStream;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.SourceDataLine;
+import java.io.IOException;
+import javax.sound.sampled.*;
 
 /**
  * Created by 650007903 on 15/02/2017.
@@ -20,10 +17,9 @@ public class AudioOutput {
     private static AudioInputStream setupStream(String filename ) {
         try {
             File file = new File(filename);
-            AudioInputStream stm = AudioSystem.getAudioInputStream(file);
-            return stm;
-        } catch (Exception ex) {
-            System.out.println(ex);
+            return AudioSystem.getAudioInputStream(file);
+        } catch (Exception e) {
+            e.printStackTrace();
             System.exit(1);
             return null;
         }
@@ -35,7 +31,7 @@ public class AudioOutput {
      * @param stm the AudioInputStream
      * @return the ByteArrayOutputStream
      */
-    public static ByteArrayOutputStream readStream( AudioInputStream stm ) {
+    private static ByteArrayOutputStream readStream( AudioInputStream stm ) {
         try {
             AudioFormat           af  = stm.getFormat();
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -53,8 +49,10 @@ public class AudioOutput {
             }
 
             return bos;
-        } catch ( Exception ex ) {
-            System.out.println( ex ); System.exit( 1 ); return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit( 1 );
+            return null;
         }
     }
 
@@ -73,8 +71,9 @@ public class AudioOutput {
             line.open( af );
             line.start();
             line.write( ba, 0, ba.length );
-        } catch ( Exception ex ) {
-            System.out.println( ex ); System.exit( 1 );
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 

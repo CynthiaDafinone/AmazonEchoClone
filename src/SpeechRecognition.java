@@ -6,8 +6,8 @@ import java.util.UUID;
  * Created by 650007903 on 15/02/2017.
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
-public class SpeechRecognition {
-    final static String LANG  = "en-US";
+class SpeechRecognition {
+    private final static String LANG  = "en-US";
 
     /**
      * Method to convert speech audio bytes to text
@@ -51,9 +51,10 @@ public class SpeechRecognition {
             dis.readFully( buffer );
             dis.close();
             return buffer;
-        } catch ( Exception ex ) {
-            System.out.println(System.getProperty("user.dir"));
-            System.out.println( ex ); System.exit( 1 ); return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
         }
     }
 

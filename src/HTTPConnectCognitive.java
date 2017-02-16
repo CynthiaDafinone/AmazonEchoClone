@@ -10,13 +10,13 @@ import java.net.HttpURLConnection;
  * Created by 650007903 on 15/02/2017.
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
-public class HTTPConnectCognitive {
-    final static int TIMEOUT  = 5000; // Timeout in ms
-    final static int BUFFSIZE = 4096; // Buffer response size
+class HTTPConnectCognitive {
+    private final static int TIMEOUT  = 5000; // Timeout in ms
+    private final static int BUFFSIZE = 4096; // Buffer response size
 
-    final static String KEY = "110c24ab25804509a223bac18251d6f2";
+    private final static String KEY = "110c24ab25804509a223bac18251d6f2";
     // An extra access key to use, should we need it
-    // final static String KEY = "ea072146f15446ed89d1c9f2498c0d87";
+    // private final static String KEY = "ea072146f15446ed89d1c9f2498c0d87";
 
 
     /**
@@ -44,7 +44,7 @@ public class HTTPConnectCognitive {
      * @param body the body of the request
      * @return a byte array containing the response
      */
-    public static byte[] httpConnect(String m, String u, String[][] h, byte[] body) {
+    static byte[] httpConnect(String m, String u, String[][] h, byte[] body) {
         try {
             URL url = new URL(u);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -53,8 +53,8 @@ public class HTTPConnectCognitive {
             conn.setDoOutput(true);
             conn.setConnectTimeout(TIMEOUT);
             conn.setReadTimeout(TIMEOUT);
-            for (int i = 0; i < h.length; i++) {
-                conn.setRequestProperty(h[i][0], h[i][1]);
+            for (String[] aH : h) {
+                conn.setRequestProperty(aH[0], aH[1]);
             }
             conn.connect();
 

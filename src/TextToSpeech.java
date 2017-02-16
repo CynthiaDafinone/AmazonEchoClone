@@ -1,16 +1,14 @@
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 
 /**
  * Created by 650007903 on 15/02/2017.
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
 public class TextToSpeech {
-    final static String LANG   = "en-US";
-    final static String GENDER = "Female";
-    final static String OUTPUT = "out.wav";
-    final static String FORMAT = "riff-16khz-16bit-mono-pcm";
+    private final static String LANG   = "en-US";
+    private final static String GENDER = "Female";
+    private final static String OUTPUT = "out.wav";
+    private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
     /**
      * Method to convert string to an audio byte array of the spoken text
@@ -40,8 +38,7 @@ public class TextToSpeech {
                 , { "Authorization"            , "Bearer " + token             }
                 , { "X-Microsoft-OutputFormat" , format                        }
         };
-        byte[] response = HTTPConnectCognitive.httpConnect( method, url, headers, body );
-        return response;
+        return HTTPConnectCognitive.httpConnect( method, url, headers, body );
     }
 
     /**
@@ -57,8 +54,9 @@ public class TextToSpeech {
             dos.write( buffer );
             dos.flush();
             dos.close();
-        } catch ( Exception ex ) {
-            System.out.println( ex ); System.exit( 1 ); return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 

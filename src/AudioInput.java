@@ -1,3 +1,5 @@
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.io.*;
 import javax.sound.sampled.*;
 
@@ -30,8 +32,10 @@ class AudioInput {
             line.open( af );
             line.start();
             return stm;
-        } catch ( Exception ex ) {
-            System.out.println( ex ); System.exit( 1 ); return null;
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
         }
     }
 
@@ -58,8 +62,10 @@ class AudioInput {
             }
 
             return bos;
-        } catch ( Exception ex ) {
-            System.out.println( ex ); System.exit( 1 ); return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+            return null;
         }
     }
 
