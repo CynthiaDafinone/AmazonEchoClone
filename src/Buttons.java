@@ -40,8 +40,8 @@ public class Buttons extends JFrame {
   /*
     IN ANSWER MODE THE LIGHT SHOULD GLOW BLUE
     */
-    
-    
+
+
     /*
     * Mute Button
     */
@@ -57,17 +57,21 @@ public class Buttons extends JFrame {
         });
     }
     }
-	
+
 	private class ListenButton extends JButton {
         ListenButton( String s ) {
             setIcon( new ImageIcon( "dot.png") );
             setBorder( null );
             addMouseListener( new MouseAdapter() {
-                public void mouseClicked( MouseEvent me) {
+                public void mouseClicked(MouseEvent me) {
                     System.out.println("Echo is listening");
                     //Remains muted until pressed again
+                }
+            }
+        }
+    }
 
-					
+
   public Buttons() {
     setTitle( "Echo" );
     setContentPane( new JLabel( new ImageIcon( "echo.jpg" ) ) );
@@ -77,15 +81,14 @@ public class Buttons extends JFrame {
 
     btnMUTE.setBounds( 48, 149,  53, 30 ); add(btnMUTE);
     btnPOW.setBounds(140, 149, 626, 626);  add(btnPOW );
-    
+
   }
 
- /*public static void main( String[] argv ) {
+ public static void main( String[] argv ) {
     JFrame frame = new Buttons();
     frame.setLocationRelativeTo( null );
-    frame.setSize( 1500, 1500 ); 
+    frame.setSize( 1500, 1500 );
     frame.setResizable( false );
-    frame.setVisible( true ); */
+    frame.setVisible( true );
   }
-}
 
