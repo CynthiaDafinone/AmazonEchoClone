@@ -2,12 +2,9 @@ import java.io.*;
 import java.util.UUID;
 
 
-/*
- * Speech to text conversion using Microsoft Cognitive Services.
- *
- * See http://www.microsoft.com/cognitive-services/en-us/speech-api
- *
- * David Wakeling, 2017.
+/**
+ * Created by 650007903 on 15/02/2017.
+ * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
 public class SpeechRecognition {
     final static String LANG  = "en-US";

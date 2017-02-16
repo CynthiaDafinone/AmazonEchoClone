@@ -12,8 +12,14 @@ public class TextToSpeech {
     final static String OUTPUT = "out.wav";
     final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
-    /*
-     * Synthesize speech.
+    /**
+     * Method to convert string to an audio byte array of the spoken text
+     * @param token an access token for the Microsoft Cognitive servers
+     * @param text the text to translate
+     * @param lang the language to translate the text in
+     * @param gender the gender of the returned language
+     * @param format the audio format preferred
+     * @return the byte array containing audio information
      */
     private static byte[] synthesizeSpeech( String token, String text
             , String lang,  String gender
@@ -38,8 +44,10 @@ public class TextToSpeech {
         return response;
     }
 
-    /*
-     * Write data to file.
+    /**
+     * Method to write an audio byte array to a wav file specified
+     * @param buffer the audio byte array to use
+     * @param name the filename in which to write to
      */
     private static void writeData( byte[] buffer, String name ) {
         try {
@@ -54,13 +62,15 @@ public class TextToSpeech {
         }
     }
 
-    /*
-     * Convert text to speech.
+    /**
+     * Method to convert a given string to an audio file
+     * @param text the string to convert
+     * @return the audio file in which the converted text is stored
      */
     static String convertStringToSpeech(String text) {
         final String token  = HTTPConnectCognitive.renewAccessToken();
         final byte[] speech = synthesizeSpeech( token, text, LANG, GENDER, FORMAT );
-        writeData( speech, OUTPUT );
+        writeData(speech, OUTPUT );
         return OUTPUT;
     }
 }

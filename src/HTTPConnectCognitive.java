@@ -15,7 +15,8 @@ public class HTTPConnectCognitive {
     final static int BUFFSIZE = 4096; // Buffer response size
 
     final static String KEY = "110c24ab25804509a223bac18251d6f2";
-//    final static String KEY = "ea072146f15446ed89d1c9f2498c0d87";
+    // An extra access key to use, should we need it
+    // final static String KEY = "ea072146f15446ed89d1c9f2498c0d87";
 
 
     /**
