@@ -1,6 +1,7 @@
-import jdk.nashorn.internal.parser.JSONParser;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.util.UUID;
 
@@ -66,11 +67,26 @@ class SpeechToText {
      * @return the string returned from the server
      */
     static String getTextFromAudio(String filename) {
-        final String token = HTTPConnectCognitive.renewAccessToken();
-        final byte[] speech = readData(filename);
-        String JSONString = recognizeSpeech(token, speech);
-        // TODO: parse JSON into actual string, for now just return the JSON
-        return JSONString;
+        try {
+            final String token = HTTPConnectCognitive.renewAccessToken();
+            final byte[] speech = readData(filename);
+            String JSONString = recognizeSpeech(token, speech);
+
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(JSONString);
+
+            JSONObject header = (JSONObject) obj.get("header");
+
+            if (((String) header.get("status")).equals("success")) {
+                return (String) header.get("name");
+            } else {
+                return null; // Must be checked for by calling function
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

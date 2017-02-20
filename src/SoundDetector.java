@@ -28,6 +28,10 @@ public class SoundDetector implements AudioProcessor {
     private SilenceDetector silenceDetector;
     private AudioInputStream ais;
     private AudioDispatcher dispatcher;
+
+    /* TODO: Currently this threshold is hardcoded and works for testing purposes only
+       We must add another function to detect the background noise and put this threshold
+       above it on order to make it work correctly */
     private double threshold = -100;
     // double threshold = SilenceDetector.DEFAULT_SILENCE_THRESHOLD;
 
@@ -75,7 +79,6 @@ public class SoundDetector implements AudioProcessor {
                 counter--;
                 int n = stm.read( buffer, 0, buffer.length );
                 if ( n > 0 ) {
-                    System.out.println();
                     bos.write( buffer, 0, n );
                 } else {
                     break;
@@ -123,7 +126,6 @@ public class SoundDetector implements AudioProcessor {
 
     @Override
     public boolean process(AudioEvent audioEvent) {
-        System.out.println("Hello it's me");
         if (silenceDetector.currentSPL() > threshold) {
             recordSound(FILENAME, readStream(ais));
         }

@@ -14,11 +14,6 @@ public class Echo implements ActionListener {
         SoundDetector s = new SoundDetector();
         s.setUpDetection();
         s.addActionListener(e);
-
-
-
-//        AudioInput.recordAudio(FILENAME);
-//        System.out.println(SpeechToText.getTextFromAudio(FILENAME));
     }
 
     @Override
@@ -26,7 +21,11 @@ public class Echo implements ActionListener {
         if (e.getActionCommand().equals("soundDetected")) {
             System.out.println("called event");
             // SoundRecordedEvent
-            System.out.println(SpeechToText.getTextFromAudio(FILENAME));
+            String str = SpeechToText.getTextFromAudio(FILENAME);
+            // Checking that it is not returned as null
+            if (str != null) {
+                System.out.println(str);
+            }
         }
     }
 }
