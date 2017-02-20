@@ -17,7 +17,7 @@ class AudioInput {
      * Method to set up an audio stream from the default microphone
      * @return an AudioInputStream leading to the microphone
      */
-    private static AudioInputStream setupStream() {
+    static AudioInputStream setupStream() {
         try {
             AudioFormat af =
                     new AudioFormat( SAMPLE_RATE
@@ -44,7 +44,7 @@ class AudioInput {
      * @param stm the AudioInputStream
      * @return the ByteArrayOutputStream
      */
-    private static ByteArrayOutputStream readStream( AudioInputStream stm ) {
+    static ByteArrayOutputStream readStream( AudioInputStream stm ) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -74,7 +74,7 @@ class AudioInput {
      * @param name the filename to write to
      * @param bos the ByteArrayOutputStream to read from
      */
-    private static void recordSound(String name, ByteArrayOutputStream bos ) {
+    static void recordSound(String name, ByteArrayOutputStream bos ) {
         try {
             AudioFormat af =
                     new AudioFormat(SAMPLE_RATE
@@ -99,7 +99,7 @@ class AudioInput {
      * Method to record audio and write to a file
      * @param name the filename to write to
      */
-    static void recordAudio(String name) {
+    void recordAudio(String name) {
         ByteArrayOutputStream in = readStream(setupStream());
         recordSound(name, in);
     }
