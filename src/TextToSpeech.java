@@ -69,6 +69,7 @@ public class TextToSpeech {
         final String token  = HTTPConnectCognitive.renewAccessToken();
         final byte[] speech = synthesizeSpeech( token, text, LANG, GENDER, FORMAT );
         writeData(speech, OUTPUT );
+        AudioOutput.playSound(OUTPUT);
         return OUTPUT;
     }
 }

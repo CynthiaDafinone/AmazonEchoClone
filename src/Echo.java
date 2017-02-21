@@ -1,3 +1,4 @@
+import javax.sound.sampled.AudioInputStream;
 import javax.xml.bind.SchemaOutputResolver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +25,8 @@ public class Echo implements ActionListener {
             String str = SpeechToText.getTextFromAudio(FILENAME);
             // Checking that it is not returned as null
             if (str != null) {
-                System.out.println(str);
+                System.out.println("Hi");
+                TextToSpeech.convertStringToSpeech(str);
             }
         }
     }
