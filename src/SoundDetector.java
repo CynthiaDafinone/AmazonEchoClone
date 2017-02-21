@@ -65,7 +65,7 @@ public class SoundDetector implements AudioProcessor {
      * @param stm the AudioInputStream
      * @return the ByteArrayOutputStream
      */
-    private ByteArrayOutputStream readStream(AudioInputStream stm ) {
+    ByteArrayOutputStream readStream(AudioInputStream stm ) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -104,7 +104,7 @@ public class SoundDetector implements AudioProcessor {
      * @param name the filename to write to
      * @param bos the ByteArrayOutputStream to read from
      */
-    private static void recordSound(String name, ByteArrayOutputStream bos ) {
+    static void recordSound(String name, ByteArrayOutputStream bos ) {
         try {
             AudioFormat af =
                     new AudioFormat(SAMPLE_RATE
@@ -143,8 +143,7 @@ public class SoundDetector implements AudioProcessor {
     }
 
     @Override
-    public void processingFinished() {
-
+    public void processingFinished() { 
     }
 
 
