@@ -1,3 +1,4 @@
+import javax.net.ssl.SSLProtocolException;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
@@ -91,6 +92,10 @@ class HTTPConnectCognitive {
             for (String s[] : h) {
                 System.out.println(s[0] + " : " + s[1]);
             }
+            System.exit(1);
+            return null;
+        } catch (SSLProtocolException e) {
+            System.out.println("There was an error connecting to the server - the SSL certificate was invalud");
             System.exit(1);
             return null;
         } catch (IOException e) {

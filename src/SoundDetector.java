@@ -2,15 +2,12 @@ import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
 import be.tarsos.dsp.SilenceDetector;
 import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.beatroot.EventList;
 import be.tarsos.dsp.io.jvm.JVMAudioInputStream;
 
 import javax.sound.sampled.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.EventListener;
 
 /**
  * Created by 650007903 on 16/02/2017.
@@ -28,6 +25,7 @@ public class SoundDetector implements AudioProcessor {
     private SilenceDetector silenceDetector;
     private AudioInputStream ais;
     private AudioDispatcher dispatcher;
+    private boolean questionMode = true;
 
     /* TODO: Currently this threshold is hardcoded and works for testing purposes only
        We must add another function to detect the background noise and put this threshold
@@ -93,6 +91,14 @@ public class SoundDetector implements AudioProcessor {
         }
     }
 
+    void questionMode() {
+        questionMode = false;
+    }
+
+    void listenMode() {
+        questionMode = true;
+    }
+
     /**
      * Method to record sound and write to a file
      * @param name the filename to write to
@@ -126,12 +132,12 @@ public class SoundDetector implements AudioProcessor {
 
     @Override
     public boolean process(AudioEvent audioEvent) {
-        if (silenceDetector.currentSPL() > threshold) {
+        if (questionMode && silenceDetector.currentSPL() > threshold) {
             recordSound(FILENAME, readStream(ais));
-        }
-        SoundRecordedEvent e = new SoundRecordedEvent(this, 1, "soundDetected");
-        for (ActionListener l : listeners) {
-            l.actionPerformed(e);
+            SoundRecordedEvent e = new SoundRecordedEvent(this, 1, "soundDetected");
+            for (ActionListener l : listeners) {
+                l.actionPerformed(e);
+            }
         }
         return true;
     }
