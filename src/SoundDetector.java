@@ -20,12 +20,12 @@ public class SoundDetector implements AudioProcessor {
     private static final int     SAMPLE_SIZE     = 16;    /* bits */
     private static final int     SAMPLE_CHANNELS = 1;     /* mono */
 
-    private ArrayList<ActionListener> listeners = new ArrayList<>();
+    ArrayList<ActionListener> listeners = new ArrayList<>();
 
     private SilenceDetector silenceDetector;
     AudioInputStream ais;
     private AudioDispatcher dispatcher;
-    private boolean questionMode = true;
+    boolean questionMode = true;
 
     /* TODO: Currently this threshold is hardcoded and works for testing purposes only
        We must add another function to detect the background noise and put this threshold
