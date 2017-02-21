@@ -23,7 +23,7 @@ public class SoundDetector implements AudioProcessor {
     private ArrayList<ActionListener> listeners = new ArrayList<>();
 
     private SilenceDetector silenceDetector;
-    private AudioInputStream ais;
+    AudioInputStream ais;
     private AudioDispatcher dispatcher;
     private boolean questionMode = true;
 
