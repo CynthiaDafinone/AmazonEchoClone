@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
-public class echoGUI extends JFrame {
+public class EchoGUI extends JFrame {
 
     final PowerButton power = new PowerButton("POW");
     JFrame frame = new JFrame();
@@ -30,12 +30,12 @@ public class echoGUI extends JFrame {
                         System.out.println("TURNING ON");
                         powerMode = true;
                         
-                        frame.setContentPane(new JLabel(new ImageIcon("./resources/echoBlue.png")));
+                        frame.setContentPane(new JLabel(new ImageIcon("../resources/echoBlue.png")));
                         frame.setLayout(null);
                         frame.pack();
 
-                        startingSound.setFramePosition(0);
-                        startingSound.start();
+                       // startingSound.setFramePosition(0);
+                       //-Enginee startingSound.start();
 
                         addButtons();
 
@@ -44,7 +44,7 @@ public class echoGUI extends JFrame {
                         System.out.println("TURNING OFF");
                         powerMode = false;
                         
-                        frame.setContentPane(new JLabel(new ImageIcon("./resources/echoOff.png")));
+                        frame.setContentPane(new JLabel(new ImageIcon("../resources/echoOff.png")));
                         frame.setLayout(null);
                         frame.pack();
                         
@@ -62,11 +62,11 @@ public class echoGUI extends JFrame {
     }
 
 
-    public echoGUI() {
+    public EchoGUI() {
         
         //loads a wav file
         try {
-            soundName = AudioSystem.getAudioInputStream(new File("./resources/startSound.wav"));
+            soundName = AudioSystem.getAudioInputStream(new File("../resources/startSound.wav"));
 
             startingSound = AudioSystem.getClip();
             startingSound.open(soundName);
@@ -75,7 +75,7 @@ public class echoGUI extends JFrame {
         }
 
         frame.setTitle("The Amazon Echo");
-        frame.setContentPane(new JLabel(new ImageIcon("echoOff.PNG")));
+        frame.setContentPane(new JLabel(new ImageIcon("../resources/echoOff.png")));
         frame.setLayout(null);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -91,6 +91,6 @@ public class echoGUI extends JFrame {
 
     //sets up frame and give certain values
     public static void main(String[] argv) {
-        new echoGUI();
+        new EchoGUI();
     }
 }
