@@ -5,7 +5,7 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 
 
-public class HttpConnect {
+public class HttpConnectWolfram {
   final static int TIMEOUT  = 5000; /* ms  */
   final static int BUFFSIZE = 4096; /* 4KB */
 
