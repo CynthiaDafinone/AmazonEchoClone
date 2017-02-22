@@ -16,6 +16,7 @@ public class EchoGUI extends JFrame {
     final PowerButton btnPOW = new PowerButton("POW");
     final MuteButton btnMUTE = new MuteButton("MUTE");
     final ListenButton btnLIST = new ListenButton("LIST");
+    final private SoundDetector detector;
 
     private AudioInputStream soundName;
     private Clip startingSound;
@@ -37,8 +38,10 @@ public class EchoGUI extends JFrame {
                     if (isPowered == false) {
                         System.out.println("TURNING ON");
                         isPowered = true;
+                        
+                        AudioOutput.playSound("resources/startup.wav");
 
-                        frame.setContentPane(new JLabel(new ImageIcon("../resources/echoBlue.png")));
+                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
                         frame.setLayout(null);
                         frame.pack();
 
@@ -51,7 +54,10 @@ public class EchoGUI extends JFrame {
                         System.out.println("TURNING OFF");
                         isPowered = false;
 
-                        frame.setContentPane(new JLabel(new ImageIcon("../resources/echoOff.png")));
+                        AudioOutput.playSound("resources/shutdown.wav");
+
+                        
+                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoOff.png")));
                         frame.setLayout(null);
                         frame.pack();
 
@@ -78,8 +84,10 @@ public class EchoGUI extends JFrame {
 
                         if (isPressed) {
                             System.out.println("Microphone activated");
+                            AudioOutput.playSound("resources/unmuted.wav");
                             isPressed = false;
                             String[] args = {};
+                            
                             // Sound4.main(args);
 
                         } else {
@@ -88,7 +96,8 @@ public class EchoGUI extends JFrame {
                             String[] args = {};
                             // Sound3.main(args);
 
-                            frame.setContentPane(new JLabel(new ImageIcon("../resources/echoBlue.png")));
+                            AudioOutput.playSound("resources/muted.wav");
+                            frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
                             frame.setLayout(null);
                             frame.pack();
 
@@ -116,7 +125,7 @@ public class EchoGUI extends JFrame {
                     if (isPowered) {
                         System.out.println("Echo is listening");
 
-                        frame.setContentPane(new JLabel(new ImageIcon("../resources/echoCyan.png")));
+                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyan.png")));
                         frame.setLayout(null);
                         frame.pack();
 
@@ -142,12 +151,12 @@ public class EchoGUI extends JFrame {
         frame.add(btnLIST);
     }
 
-    public EchoGUI() {
-
+    public EchoGUI(SoundDetector detector) {
+        this.detector = detector;
         //loads a wav file
         try {
-            soundName = AudioSystem.getAudioInputStream(new File("../resources/startSound.wav"));
-
+           
+            soundName = AudioSystem.getAudioInputStream(new File("resources/startSound.wav"));
             startingSound = AudioSystem.getClip();
             startingSound.open(soundName);
         } catch (Exception e) {
@@ -155,7 +164,7 @@ public class EchoGUI extends JFrame {
         }
 
         frame.setTitle("The Amazon Echo");
-        frame.setContentPane(new JLabel(new ImageIcon("../resources/echoOff.png")));
+        frame.setContentPane(new JLabel(new ImageIcon("resources/echoOff.png")));
         frame.setLayout(null);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -166,10 +175,5 @@ public class EchoGUI extends JFrame {
 
         addButtons();
 
-    }
-
-    //sets up frame and give certain values
-    public static void main(String[] argv) {
-        new EchoGUI();
     }
 }
