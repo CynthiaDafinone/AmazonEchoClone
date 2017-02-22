@@ -94,7 +94,7 @@ public class EchoGUI extends JFrame {
 
                             addButtons();
 
-                            //Stop any audio inputs @Will
+                            //Stop any audio input
                         }
                     }
                 }
@@ -109,7 +109,6 @@ public class EchoGUI extends JFrame {
     private class ListenButton extends JButton {
 
         ListenButton(String s) {
-            // setIcon(new ImageIcon("list.png"));
             setBorder(null);
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
@@ -129,6 +128,7 @@ public class EchoGUI extends JFrame {
         }
     }
 
+    //adds the buttons back after background image is changed()
     public void addButtons() {
         //location and size of button - need to make transparent
         btnMUTE.setBounds(50, 120, 53, 30);
@@ -142,24 +142,25 @@ public class EchoGUI extends JFrame {
         frame.add(btnLIST);
     }
 
+    //initialize the gui
     public EchoGUI() {
 
-        //loads a wav file
-        try {
-            soundName = AudioSystem.getAudioInputStream(new File("../resources/startSound.wav"));
+        //unfinished 
+        // try {
+        //     soundName = AudioSystem.getAudioInputStream(new File("../resources/startSound.wav"));
 
-            startingSound = AudioSystem.getClip();
-            startingSound.open(soundName);
-        } catch (Exception e) {
-            System.out.println("Failure to load sound");
-        }
+        //     startingSound = AudioSystem.getClip();
+        //     startingSound.open(soundName);
+        // } catch (Exception e) {
+        //     System.out.println("Failure to load sound");
+        // }
 
         frame.setTitle("The Amazon Echo");
         frame.setContentPane(new JLabel(new ImageIcon("../resources/echoOff.png")));
         frame.setLayout(null);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setSize(770, 620);
+        frame.setSize(738, 622);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
@@ -169,7 +170,7 @@ public class EchoGUI extends JFrame {
     }
 
     //sets up frame and give certain values
-    public static void main(String[] argv) {
-        new EchoGUI();
-    }
+    // public static void main(String[] argv) {
+    //     new EchoGUI();
+    // }
 }
