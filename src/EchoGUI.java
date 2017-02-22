@@ -13,14 +13,10 @@ import javax.swing.ImageIcon;
 public class EchoGUI extends JFrame {
 
     JFrame frame = new JFrame();
-
     final PowerButton btnPOW = new PowerButton("POW");
     final MuteButton btnMUTE = new MuteButton("MUTE");
     final ListenButton btnLIST = new ListenButton("LIST");
     final private SoundDetector detector;
-
-    private AudioInputStream soundName;
-    private Clip startingSound;
     boolean isPowered = false;
     boolean isPressed = false;
     
@@ -44,10 +40,8 @@ public class EchoGUI extends JFrame {
 
                         frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
                         frame.setLayout(null);
-                        frame.pack();
+                        frame.pack()
 
-                        //  startingSound.setFramePosition(0);
-                        //  startingSound.start();
                         addButtons();
 
                     } //runs this if echo is turned on and turns it off
@@ -81,22 +75,16 @@ public class EchoGUI extends JFrame {
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
                     if (isPowered) {
-                        //Holds previous value after being switched off and on
 
+                        //Holds previous value after being switched off and on
                         if (isPressed) {
                             System.out.println("Microphone activated");
                             AudioOutput.playSound("resources/unmuted.wav");
-                            isPressed = false;
-                            String[] args = {};
-                            
-                            // Sound4.main(args);
+                            isPressed = false;                     
 
                         } else {
                             System.out.println("Microphone muted");
                             isPressed = true;
-                            String[] args = {};
-                            // Sound3.main(args);
-
                             AudioOutput.playSound("resources/muted.wav");
                             frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
                             frame.setLayout(null);
@@ -104,7 +92,7 @@ public class EchoGUI extends JFrame {
 
                             addButtons();
 
-                            //Stop any audio inputs @Will
+                            //Stop any audio inputs
                         }
                     }
                 }
@@ -119,7 +107,6 @@ public class EchoGUI extends JFrame {
     private class ListenButton extends JButton {
 
         ListenButton(String s) {
-            // setIcon(new ImageIcon("list.png"));
             setBorder(null);
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
@@ -139,8 +126,9 @@ public class EchoGUI extends JFrame {
         }
     }
 
+    //adds the three buttons onto the conent pane
     public void addButtons() {
-        //location and size of button - need to make transparent
+        //TODO - make buttons circular and transparent
         btnMUTE.setBounds(50, 120, 53, 30);
         (btnMUTE).setText("MUTE");
         frame.add(btnMUTE);
@@ -152,28 +140,18 @@ public class EchoGUI extends JFrame {
         frame.add(btnLIST);
     }
 
+    //constructs frame and sets other things up
     public EchoGUI(SoundDetector detector) {
         this.detector = detector;
-        //loads a wav file
-        try {
-           
-            soundName = AudioSystem.getAudioInputStream(new File("resources/startSound.wav"));
-            startingSound = AudioSystem.getClip();
-            startingSound.open(soundName);
-        } catch (Exception e) {
-            System.out.println("Failure to load sound");
-        }
-
         frame.setTitle("The Amazon Echo");
         frame.setContentPane(new JLabel(new ImageIcon("resources/echoOff.png")));
         frame.setLayout(null);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setSize(770, 620);
+        frame.setSize(738, 622);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
-
         addButtons();
 
     }
