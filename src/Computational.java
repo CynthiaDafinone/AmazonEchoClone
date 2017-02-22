@@ -14,6 +14,8 @@ public class Computational {
 
   /*
    * Solve.
+   * Takes input as String type Question returns
+   * output as Json object.
    */
   private static String solve( String input ) { 
     final String method = "POST";
@@ -45,49 +47,26 @@ public class Computational {
 
 
   /*
-  * Read input from command line.
+  * Read input from command line. for testing questions
   */
-  private static String readCmdInput(){
+  /*private static String readCmdInput(){
     System.out.println("Enter question: ");
     Scanner sc = new Scanner(System.in);
     return sc.nextLine();
-  }
+  }*/
 
-  /*
-  * write the returned Json object into a text file
-  */
-  private static void writeFileOut( String s ){
-    String file = "output.txt";
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
-
-      bw.write(s);
-      bw.close();
-
-    } catch(IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /*
-  *Decode JSON output into text
-  */
-
-
-
-
+  
   /*
    * Solve problem giving solution.
    */
-  public static void main( String[] argv ) {
-    String s;
+  
+    /*String s;
     s = readCmdInput();
     //System.out.println(s);
     final String solution = solve( s );
     String res = JsonDecoding.decode(solution);
-    System.out.println(res);
-    writeFileOut(res);
-   // System.out.println( solution );
-
-    //solution is variable holding Json
+    System.out.println(res);*/
+   
+   
   }
 }
