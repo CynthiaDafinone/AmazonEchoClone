@@ -29,7 +29,7 @@ public class Computational {
       = { { "Content-Length", "0" }
         };
     final byte[] body = new byte[0];
-    byte[] response   = HttpConnect.httpConnect( method, url, headers, body );
+    byte[] response   = HttpConnectWolfram.httpConnect( method, url, headers, body );
     String xml        = new String( response );
     return xml;
   } 
@@ -68,5 +68,5 @@ public class Computational {
     System.out.println(res);*/
    
    
-  }
 }
+
