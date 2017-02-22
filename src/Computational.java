@@ -8,19 +8,20 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.lang.Object;
 import java.util.regex.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
         
 /*
  *
  */
 public class Computational {
-  final static String PROBLEM = "What is the square root of 4165?";
-  //Pods->title=result->subpods->title
   final static String APPID   = "J66HRA-W47APJEV7R";
 
   /*
    * Solve.
    */
-  private static String solve( String input ) { 
+    static String solve( String input ) { 
     final String method = "POST";
     final String url    
       = ( "http://api.wolframalpha.com/v2/query"
@@ -32,7 +33,7 @@ public class Computational {
       = { { "Content-Length", "0" }
         };
     final byte[] body = new byte[0];
-    byte[] response   = HttpConnect.httpConnect( method, url, headers, body );
+    byte[] response   = HttpConnectWolfram.httpConnect( method, url, headers, body );
     String xml        = new String( response );
     return xml;
   } 
@@ -61,33 +62,38 @@ public class Computational {
   /*
    * Solve problem giving solution.
    */
-  public static void main( String[] argv ) throws FileNotFoundException, IOException {
-    
-    String answer = new String ("");  
-      
-    final String solution = solve( PROBLEM );
-    readJsonFile();
-    System.out.println( solution ); 
-    
-    //Everything below will be changed
-    //A way of reading the 53rd line in the file we output with readJsonFile()
-    FileInputStream fs = new FileInputStream("output.txt");
-    BufferedReader br = new BufferedReader(new InputStreamReader(fs));
-    for(int i=0; i<52; ++i)
-        br.readLine();
-    String line53 = br.readLine();
-    
-    //Create a new file for just our answer
-    File file = new File("answer.txt"); 
-    FileOutputStream fos = new FileOutputStream(file);
-    PrintStream ps = new PrintStream(fos);
-    System.setOut(ps);
-    
-    
-    line53 = line53.replaceAll("title","").replaceAll(":","")
-            .replaceAll("\"","").replaceAll(",","").replaceAll("alt","");
-    answer = line53.trim();
-    System.out.printf(answer);
+  static String getAnswer(String question) { 
+    try {
+        String answer = new String ("");  
+        final String json = solve( question );
+        
+        //Pods->title=result->subpods->title
+
+        JSONParser parser = new JSONParser();
+        JSONObject main = (JSONObject) parser.parse(json);
+        JSONObject result = (JSONObject) main.get("queryresult");
+        JSONArray pods = (JSONArray) result.get("pods");
+        Iterator iterator = pods.iterator();
+        
+        // Horrible json - parsed using json-simple
+        while(iterator.hasNext()) {
+            JSONObject obj = (JSONObject) iterator.next();
+            if (obj.get("title").equals("Result")) {
+                JSONArray subpods = (JSONArray) obj.get("subpods");
+                Iterator podIter = subpods.iterator();
+                while (podIter.hasNext()) {
+                    JSONObject item = (JSONObject) podIter.next();
+                    if (item.get("title").equals("")) {
+                        return (String) item.get("plaintext");
+                    }
+                }
+            }
+        }  
+    } catch (Exception e) {
+        System.out.println("Something went wrong parsing - computational");
+        System.exit(1);
+        return null;
     }
-    
+    return null;
+  }
 }

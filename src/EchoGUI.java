@@ -40,7 +40,7 @@ public class EchoGUI extends JFrame {
 
                         frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
                         frame.setLayout(null);
-                        frame.pack()
+                        frame.pack();
 
                         addButtons();
 

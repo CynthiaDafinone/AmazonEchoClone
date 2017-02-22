@@ -25,7 +25,7 @@ public class SoundDetector implements AudioProcessor {
     private SilenceDetector silenceDetector;
     AudioInputStream ais;
     private AudioDispatcher dispatcher;
-    boolean questionMode = true;
+    boolean micEnabled = true;
 
     /* TODO: Currently this threshold is hardcoded and works for testing purposes only
        We must add another function to detect the background noise and put this threshold
@@ -54,6 +54,9 @@ public class SoundDetector implements AudioProcessor {
 
             new Thread(dispatcher, "Audio Dispatcher").start();
 
+        } catch (IllegalArgumentException e) {
+            System.out.println("There was an error detecting your microphone - are you sure it's plugged in?");
+            System.exit(1);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
             System.exit(1);
@@ -92,17 +95,17 @@ public class SoundDetector implements AudioProcessor {
     }
 
     /**
-     * Method to enter question mode
+     * Method to disable the microphone
      */
-    void questionMode() {
-        questionMode = false;
+    void disableMic() {
+        micEnabled = false;
     }
 
     /**
-     * Method to enter listen mode
+     * Method to enable the microphone
      */
-    void listenMode() {
-        questionMode = true;
+    void enableMic() {
+        micEnabled = true;
     }
 
     /**
@@ -148,7 +151,7 @@ public class SoundDetector implements AudioProcessor {
      * @return True if successful
      */
     public boolean process(AudioEvent audioEvent) {
-        if (questionMode && silenceDetector.currentSPL() > threshold) {
+        if (micEnabled && silenceDetector.currentSPL() > threshold) {
             recordSound(FILENAME, readStream(ais));
             SoundRecordedEvent e = new SoundRecordedEvent(this, 1, "soundDetected");
             for (ActionListener l : listeners) {

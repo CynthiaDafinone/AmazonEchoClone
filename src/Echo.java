@@ -11,11 +11,15 @@ public class Echo implements ActionListener {
     final String FILENAME = "temp.wav";
 
     public static void main(String[] args) {
-        Echo e = new Echo();
-        SoundDetector s = new SoundDetector();
-        s.setUpDetection();
-        s.addActionListener(e);
+        Echo e = new Echo();        
     }
+    
+    Echo() {
+        SoundDetector detector = new SoundDetector();
+        EchoGUI gui = new EchoGUI(detector);
+        detector.setUpDetection();
+        detector.addActionListener(this);
+    }   
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -25,8 +29,8 @@ public class Echo implements ActionListener {
             String str = SpeechToText.getTextFromAudio(FILENAME);
             // Checking that it is not returned as null
             if (str != null) {
-                System.out.println("Hi");
-                TextToSpeech.convertStringToSpeech(str);
+                String result = Computational.getAnswer(str);
+                TextToSpeech.convertStringToSpeech(result);
             }
         }
     }
