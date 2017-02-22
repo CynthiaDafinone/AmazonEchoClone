@@ -22,8 +22,6 @@ import java.awt.*;
  * 5. Tests that the recordSound method works as intended
  * 6. Tests that the addActionListener method works as intended **to finish**
  * 7. Tests that the process method works as intended **to finish**
- * 
- * @author 650051048 16/02/2017
  */
 public class SoundDetectorTest {
     
@@ -48,8 +46,6 @@ public class SoundDetectorTest {
 
    /**
      * Test to check that the setUpDetection method works as intended
-     * 
-     * @author 650051048 16/02/2017
      */
     @Test
     public void testSetUpDetection() {
@@ -58,8 +54,6 @@ public class SoundDetectorTest {
 
     /**
      * Test to check that the readStream method works as intended
-     * 
-     * @author 650051048 16/02/2017
      */
     @Test
     public void testReadStream() throws IOException{
@@ -74,8 +68,6 @@ public class SoundDetectorTest {
 
     /**
      * Test to check that the questionMode method works as intended
-     * 
-     * @author 650051048 16/02/2017
      */
     @Test
     public void testQuestionMode() {
@@ -87,8 +79,6 @@ public class SoundDetectorTest {
 
     /**
      * Test to check that the listenMode method works as intended
-     * 
-     * @author 650051048 16/02/2017
      */
     @Test
     public void testListenMode() {
@@ -100,8 +90,6 @@ public class SoundDetectorTest {
 
     /**
      * Test to check that the recordSound method works as intended
-     * 
-     * @author 650051048 16/02/2017
      */
     @Test
     public void testRecordSound() throws IOException {
@@ -118,8 +106,6 @@ public class SoundDetectorTest {
 
     /**
      * Test to check that the addActionListener method works as intended
-     * 
-     * @author 650051048 16/02/2017
      */
     @Test
     public void testAddActionListener() {
@@ -135,8 +121,6 @@ public class SoundDetectorTest {
 
     /**
      * Test to check that the process method works as intended
-     * 
-     * @author 650051048 16/02/2017
      */
     @Test
     public void testProcess() {
