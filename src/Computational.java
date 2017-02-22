@@ -2,20 +2,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
 import java.net.URLEncoder;
-import java.util.Scanner;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
-
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.lang.Object;
+import java.util.regex.*;
+        
+/*
+ *
+ */
 public class Computational {
-  //final static String PROBLEM = "What is the melting point of silver?";
-  final static String APPID   = "J66HRA-W47APJEV7R"; //old key H46UG6-XKXYP5GH4R
+  final static String PROBLEM = "What is the square root of 4165?";
+  //Pods->title=result->subpods->title
+  final static String APPID   = "J66HRA-W47APJEV7R";
 
   /*
    * Solve.
-   * Takes input as String type Question returns
-   * output as Json object.
    */
   private static String solve( String input ) { 
     final String method = "POST";
@@ -29,7 +32,7 @@ public class Computational {
       = { { "Content-Length", "0" }
         };
     final byte[] body = new byte[0];
-    byte[] response   = HttpConnectWolfram.httpConnect( method, url, headers, body );
+    byte[] response   = HttpConnect.httpConnect( method, url, headers, body );
     String xml        = new String( response );
     return xml;
   } 
@@ -45,28 +48,46 @@ public class Computational {
     }
   }
 
-
   /*
-  * Read input from command line. for testing questions
+  * Takes cmd output and makes it more readable
   */
-  /*private static String readCmdInput(){
-    System.out.println("Enter question: ");
-    Scanner sc = new Scanner(System.in);
-    return sc.nextLine();
-  }*/
+  public static void readJsonFile() throws FileNotFoundException {
+    File file = new File("output.txt"); 
+    FileOutputStream fos = new FileOutputStream(file);
+    PrintStream ps = new PrintStream(fos);
+    System.setOut(ps);   
+  }
 
-  
   /*
    * Solve problem giving solution.
    */
-  
-    /*String s;
-    s = readCmdInput();
-    //System.out.println(s);
-    final String solution = solve( s );
-    String res = JsonDecoding.decode(solution);
-    System.out.println(res);*/
-   
-   
+  public static void main( String[] argv ) throws FileNotFoundException, IOException {
+    
+    String answer = new String ("");  
+      
+    final String solution = solve( PROBLEM );
+    readJsonFile();
+    System.out.println( solution ); 
+    
+    //Everything below will be changed
+    //A way of reading the 53rd line in the file we output with readJsonFile()
+    FileInputStream fs = new FileInputStream("output.txt");
+    BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+    for(int i=0; i<52; ++i)
+        br.readLine();
+    String line53 = br.readLine();
+    
+    //Create a new file for just our answer
+    File file = new File("answer.txt"); 
+    FileOutputStream fos = new FileOutputStream(file);
+    PrintStream ps = new PrintStream(fos);
+    System.setOut(ps);
+    
+    
+    line53 = line53.replaceAll("title","").replaceAll(":","")
+            .replaceAll("\"","").replaceAll(",","").replaceAll("alt","");
+    answer = line53.trim();
+    System.out.printf(answer);
+    }
+    
 }
-
