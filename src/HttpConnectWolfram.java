@@ -5,10 +5,21 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 
 
+
 public class HttpConnectWolfram {
   final static int TIMEOUT  = 5000; /* ms  */
   final static int BUFFSIZE = 4096; /* 4KB */
 
+  /**
+  * httpConnet uses a given url to  post 
+  * and recieve data from a sever.
+  * @param method 		for request/response between client and server
+  * @param url 			an absolute url given the location of the API
+  * @param headers
+  * @param body
+  * @return response   
+  
+  */
   public static byte[] httpConnect
     ( String      method
     , String      url

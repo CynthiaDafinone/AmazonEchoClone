@@ -91,10 +91,16 @@ public class SoundDetector implements AudioProcessor {
         }
     }
 
+    /**
+     * Method to enter question mode
+     */
     void questionMode() {
         questionMode = false;
     }
 
+    /**
+     * Method to enter listen mode
+     */
     void listenMode() {
         questionMode = true;
     }
@@ -125,12 +131,22 @@ public class SoundDetector implements AudioProcessor {
         }
     }
 
+    /**
+     * Method to register as an action listener for when a sound has been recorded
+     * @param l The action listener to be registered
+     * @return True if successful
+     */
     boolean addActionListener(ActionListener l) {
         return listeners.add(l);
     }
 
 
     @Override
+    /**
+     * Method to process and record audio when sound has been detected
+     * @param audioEvent The audio event called when a sound has been detected
+     * @return True if successful
+     */
     public boolean process(AudioEvent audioEvent) {
         if (questionMode && silenceDetector.currentSPL() > threshold) {
             recordSound(FILENAME, readStream(ais));
@@ -143,6 +159,10 @@ public class SoundDetector implements AudioProcessor {
     }
 
     @Override
+    /**
+     * Mandatory method that must be implemented - this is currently not
+     * of any use to us.
+     */
     public void processingFinished() { 
     }
 

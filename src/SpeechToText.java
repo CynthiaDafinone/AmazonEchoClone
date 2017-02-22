@@ -15,7 +15,7 @@ class SpeechToText {
 
     /**
      * Method to convert speech audio bytes to text
-     * @param token the access token to use for Microsoft Cognitive serveices
+     * @param token the access token to use for Microsoft Cognitive services
      * @param body the audio bytes
      * @return the JSON string returned from the server
      */
