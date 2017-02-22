@@ -15,13 +15,13 @@ import java.awt.*;
 /**
  * The test class for SoundDetector. Contains seven tests:
  * 
- * 1. Tests that the setupDection method works as intended (to finish)
+ * 1. Tests that the setupDection method works as intended **to finish**
  * 2. Tests that the readStream method works as intended 
  * 3. Tests that the questionMode method works as intended
  * 4. Tests that the listenMode method works as intended 
  * 5. Tests that the recordSound method works as intended
- * 6.
- * 7.
+ * 6. Tests that the addActionListener method works as intended **to finish**
+ * 7. Tests that the process method works as intended **to finish**
  * 
  * @author 650051048 16/02/2017
  */
@@ -49,7 +49,7 @@ public class SoundDetectorTest {
    /**
      * Test to check that the setUpDetection method works as intended
      * 
-     * @author 650051048 15/02/2017
+     * @author 650051048 16/02/2017
      */
     @Test
     public void testSetUpDetection() {
@@ -59,7 +59,7 @@ public class SoundDetectorTest {
     /**
      * Test to check that the readStream method works as intended
      * 
-     * @author 650051048 15/02/2017
+     * @author 650051048 16/02/2017
      */
     @Test
     public void testReadStream() throws IOException{
@@ -75,7 +75,7 @@ public class SoundDetectorTest {
     /**
      * Test to check that the questionMode method works as intended
      * 
-     * @author 650051048 15/02/2017
+     * @author 650051048 16/02/2017
      */
     @Test
     public void testQuestionMode() {
@@ -88,7 +88,7 @@ public class SoundDetectorTest {
     /**
      * Test to check that the listenMode method works as intended
      * 
-     * @author 650051048 15/02/2017
+     * @author 650051048 16/02/2017
      */
     @Test
     public void testListenMode() {
@@ -101,7 +101,7 @@ public class SoundDetectorTest {
     /**
      * Test to check that the recordSound method works as intended
      * 
-     * @author 650051048 15/02/2017
+     * @author 650051048 16/02/2017
      */
     @Test
     public void testRecordSound() throws IOException {
@@ -117,37 +117,31 @@ public class SoundDetectorTest {
     }
 
     /**
-     * Test of addActionListener method, of class SoundDetector.
+     * Test to check that the addActionListener method works as intended
+     * 
+     * @author 650051048 16/02/2017
      */
     @Test
     public void testAddActionListener() {
-       SoundDetector sd = new SoundDetector();  // Instance to test created
-       ActionListener mockListener;
-       int b = sd.listeners.size();
-       System.out.println(b);
-       
-       sd.addActionListener(mockListener);
-       int a = sd.listeners.size();
-       System.out.println(a);
-       
-       
-       
-       
+       //SoundDetector sd = new SoundDetector();  // Instance to test created
+       //ActionListener mockListener;
+       //int b = sd.listeners.size();
+       //System.out.println(b);             // To be returned to
+                                    //Need help creating mock ActionListener
+       //sd.addActionListener(mockListener);
+       //int a = sd.listeners.size();
+       //System.out.println(a);  
     }
 
     /**
-     * Test of process method, of class SoundDetector.
+     * Test to check that the process method works as intended
+     * 
+     * @author 650051048 16/02/2017
      */
     @Test
     public void testProcess() {
-        System.out.println("process");
-        AudioEvent audioEvent = null;
-        SoundDetector instance = new SoundDetector();
-        boolean expResult = false;
-        boolean result = instance.process(audioEvent);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+            // To be returned to
+            // Need help creating events to call and test the method
     }
     
 }
