@@ -4,7 +4,6 @@ import java.io.IOException;
 import javax.sound.sampled.*;
 
 /**
- * Created by 650007903 on 15/02/2017.
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
 public class AudioOutput {
