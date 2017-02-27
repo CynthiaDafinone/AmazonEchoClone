@@ -16,7 +16,6 @@ public class EchoGUI extends JFrame {
     final PowerButton btnPOW = new PowerButton("POW");
     final MuteButton btnMUTE = new MuteButton("MUTE");
     final ListenButton btnLIST = new ListenButton("LIST");
-    final private SoundDetector detector;
     boolean isPowered = false;
     boolean isPressed = false;
     
@@ -141,8 +140,7 @@ public class EchoGUI extends JFrame {
     }
 
     //constructs frame and sets other things up
-    public EchoGUI(SoundDetector detector) {
-        this.detector = detector;
+    public EchoGUI() {
         frame.setTitle("The Amazon Echo");
         frame.setContentPane(new JLabel(new ImageIcon("resources/echoOff.png")));
         frame.setLayout(null);
