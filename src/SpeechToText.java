@@ -66,27 +66,17 @@ class SpeechToText {
      * @return the string returned from the server
      */
     static String getTextFromAudio(String filename) {
-        try {
-            final String token = HTTPConnectCognitive.renewAccessToken();
-            final byte[] speech = readData(filename);
-            String JSONString = recognizeSpeech(token, speech);
+        final String token = HTTPConnectCognitive.renewAccessToken();
+        final byte[] speech = readData(filename);
+        String JSONString = recognizeSpeech(token, speech);
 
-            JSONParser parser = new JSONParser();
-            JSONObject obj = (JSONObject) parser.parse(JSONString);
-
-            JSONObject header = (JSONObject) obj.get("header");
-
-            if (((String) header.get("status")).equals("success")) {
-                return (String) header.get("name");
-            } else {
-                return null; // Must be checked for by calling function
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (JSONString.contains("\"status\":\"success\"")) {
+            int start = JSONString.indexOf("\"name\":\"") + 8;
+            int end = JSONString.indexOf("\"", start);
+            String result = JSONString.substring(start, end);
+            return result;
+        } else {
             return null;
         }
     }
-
-
 }

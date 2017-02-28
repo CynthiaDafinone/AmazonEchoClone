@@ -1,5 +1,3 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.xml.bind.SchemaOutputResolver;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,20 +14,22 @@ public class Echo implements ActionListener {
     
     Echo() {
         SoundDetector detector = new SoundDetector();
+        Thread detectorThread = new Thread(detector);
         EchoGUI gui = new EchoGUI(detector);
-        detector.setUpDetection();
-        detector.addActionListener(this);
+        detector.registerRecordingListener(this);
+        detectorThread.start();
     }   
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("soundDetected")) {
-            System.out.println("called event");
             // SoundRecordedEvent
             String str = SpeechToText.getTextFromAudio(FILENAME);
+            System.out.println("Got a string as: " + str);
             // Checking that it is not returned as null
             if (str != null) {
                 String result = Computational.getAnswer(str);
+                System.out.println("Got an answer as: " + result);
                 if (result == null) {
                     return;
                 }
