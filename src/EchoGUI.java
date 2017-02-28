@@ -1,10 +1,15 @@
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class EchoGUI extends JFrame {
 
@@ -17,9 +22,9 @@ public class EchoGUI extends JFrame {
     boolean isPressed = false;
     
 
-        /*
-  * Power button
-     */
+    /*
+    * Power button
+    */
     private class PowerButton extends JButton {
 
         PowerButton(String s) {
@@ -34,7 +39,7 @@ public class EchoGUI extends JFrame {
                         
                         AudioOutput.playSound("resources/startup.wav");
 
-                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
+                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyan.png")));
                         frame.setLayout(null);
                         frame.pack();
 
@@ -82,13 +87,16 @@ public class EchoGUI extends JFrame {
                             System.out.println("Microphone muted");
                             isPressed = true;
                             AudioOutput.playSound("resources/muted.wav");
-                            frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
-                            frame.setLayout(null);
-                            frame.pack();
+                            
+                            SoundDetector detector = new SoundDetector();
+                            detector.disableMic();
+                            //frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
+                            //frame.setLayout(null);
+                            //frame.pack();
 
                             addButtons();
 
-                            //Stop any audio inputs
+                            //STOP AUDIO INPUT
                         }
                     }
                 }
@@ -124,15 +132,23 @@ public class EchoGUI extends JFrame {
 
     //adds the three buttons onto the conent pane
     public void addButtons() {
-        //TODO - make buttons circular and transparent
-        btnMUTE.setBounds(50, 120, 53, 30);
-        (btnMUTE).setText("MUTE");
+        
+        btnMUTE.setOpaque(false);
+        btnMUTE.setContentAreaFilled(false);
+        btnMUTE.setBorderPainted(false);
+        btnMUTE.setBounds(301, 28, 30, 15);
         frame.add(btnMUTE);
-        btnPOW.setBounds(50, 180, 53, 30);
-        (btnPOW).setText("POWER");
+        
+        btnPOW.setOpaque(false);
+        btnPOW.setContentAreaFilled(false);
+        btnPOW.setBorderPainted(false);
+        btnPOW.setBounds(350, 244, 30, 30);
         frame.add(btnPOW);
-        btnLIST.setBounds(50, 240, 53, 30);
-        (btnLIST).setText("LIST");
+        
+        btnLIST.setOpaque(false);
+        btnLIST.setContentAreaFilled(false);
+        btnLIST.setBorderPainted(false);
+        btnLIST.setBounds(401, 28, 30, 15);
         frame.add(btnLIST);
     }
 
