@@ -23,6 +23,7 @@ public class SoundDetector implements Runnable {
 
     private boolean micOn = true;
     private boolean running = true;
+    private TargetDataLine line;
 
 
     void calibrateMic(SoundDetectionThread detector) {
@@ -40,20 +41,22 @@ public class SoundDetector implements Runnable {
      */
     public void run() {
         try {
-            final int bufferByteSize = format.getFrameSize() * SAMPLE_RATE;
-            TargetDataLine line;
+            final int bufferSize = format.getFrameSize() * SAMPLE_RATE;
 
             line = AudioSystem.getTargetDataLine(format);
-            line.open(format, bufferByteSize);
+            line.open(format, bufferSize);
             line.start();
 
             ais = new AudioInputStream(line);
-            soundDetector = new SoundDetectionThread(line, bufferByteSize);
+            soundDetector = new SoundDetectionThread(line, bufferSize);
             soundDetector.start();
             calibrateMic(soundDetector);
             System.out.println("Started silenceDetector");
 
             while (running) {
+                if (micOn && !soundDetector.isAlive()) {
+                    soundDetector = new SoundDetectionThread(line, bufferSize);
+                }
                 try {
                     if (soundDetector.soundDetected()) {
                         System.out.println("Detected Audio, starting recording..");
