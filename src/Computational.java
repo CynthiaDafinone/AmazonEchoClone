@@ -72,6 +72,9 @@ public class Computational {
         JSONParser parser = new JSONParser();
         JSONObject main = (JSONObject) parser.parse(json);
         JSONObject result = (JSONObject) main.get("queryresult");
+        if (!((boolean) result.get("success"))) {
+            return null;
+        }
         JSONArray pods = (JSONArray) result.get("pods");
         Iterator iterator = pods.iterator();
         
