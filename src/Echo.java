@@ -15,21 +15,24 @@ public class Echo implements ActionListener {
     }
     
     Echo() {
-        SoundDetectorNew detector = new SoundDetectorNew();
-        detector.registerRecordingListener(this);
-        Thread detectorThread = new Thread(detector);
-        detectorThread.start();
+        SoundDetector detector = new SoundDetector();
+        EchoGUI gui = new EchoGUI(detector);
+        detector.setUpDetection();
+        detector.addActionListener(this);
     }   
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("soundDetected")) {
+            System.out.println("called event");
             // SoundRecordedEvent
             String str = SpeechToText.getTextFromAudio(FILENAME);
-            System.out.println(str);
             // Checking that it is not returned as null
             if (str != null) {
                 String result = Computational.getAnswer(str);
+                if (result == null) {
+                    return;
+                }
                 TextToSpeech.convertStringToSpeech(result);
             }
         }
