@@ -8,8 +8,8 @@ import static org.junit.Assert.*;
 /**
  * The test class for HTTpConnectCognitive. Contains two tests:
  * 
- * 1. Tests that the renewAccessToken method works as intended **to finish**
- * 2. Tests that the httpConnect method works as intended **to finish**
+ * 1. Tests that the renewAccessToken method works as intended 
+ * 2. Tests that the httpConnect method works as intended
  */
 public class HTTPConnectCognitiveTest {
     
@@ -37,7 +37,8 @@ public class HTTPConnectCognitiveTest {
      */
     @Test
     public void testRenewAccessToken() {
-        HTTPConnectCognitive hcc = new HTTPConnectCognitive();
+        HTTPConnectCognitive hcc = new HTTPConnectCognitive(); // Instance to test created
+        
         String resp = hcc.renewAccessToken();
         assertNotNull("The renewed access token can't be null", resp);
     }
@@ -47,22 +48,22 @@ public class HTTPConnectCognitiveTest {
      */
     @Test
     public void testHttpConnect() {
-        HTTPConnectCognitive hcc = new HTTPConnectCognitive();
+        HTTPConnectCognitive hcc = new HTTPConnectCognitive(); // Instance to test created
         
-        final String KEY = "110c24ab25804509a223bac18251d6f2";
-        final String testMethod = "POST";
-        final String testUrl =
+        // Variables defined to test the instance
+        String KEY = "110c24ab25804509a223bac18251d6f2";
+        String testMethod = "POST";
+        String testUrl =
                 "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
-        final byte[] testBody = {};
-        final String[][] testHeaders
+        byte[] testBody = {};
+        String[][] testHeaders
                 = { { "Ocp-Apim-Subscription-Key", KEY}
                 , { "Content-Length"           , String.valueOf( testBody.length ) }
         };
         
-        
         byte[] resp = hcc.httpConnect(testMethod, testUrl, testHeaders, testBody);
-        assertNotNull("The byte array response can't be null", resp);
-        
+        assertNotNull("The byte array response can't be null", resp); 
+        System.out.print(resp);
     }
     
 }
