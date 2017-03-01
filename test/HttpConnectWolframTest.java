@@ -36,16 +36,26 @@ public class HttpConnectWolframTest {
      */
     @Test
     public void testHttpConnect() {
-        System.out.println("httpConnect");
-        String method = "";
-        String url = "";
-        String[][] headers = null;
-        byte[] body = null;
-        byte[] expResult = null;
-        byte[] result = HttpConnectWolfram.httpConnect(method, url, headers, body);
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        HttpConnectWolfram hcw = new HttpConnectWolfram(); // Instance to test created
+        
+        // Variables defined to test the instance
+        String input = "test";
+        final String APPID   = "J66HRA-W47APJEV7R";
+        final String testMethod = "POST";
+        final String testUrl    
+          = ( "http://api.wolframalpha.com/v2/query"
+            + "?" + "appid"  + "=" + APPID
+            + "&" + "input"  + "=" + Computational.urlEncode( input )
+            + "&" + "output" + "=" + "JSON"
+            );
+        final String[][] testHeaders
+          = { { "Content-Length", "0" }
+            };
+        final byte[] testBody = new byte[0];
+       
+        byte[] resp = hcw.httpConnect(testMethod, testUrl, testHeaders, testBody);
+        assertNotNull("The byte array response can't be null", resp);
+        System.out.println(resp);
     }
     
 }

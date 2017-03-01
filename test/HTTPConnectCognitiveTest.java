@@ -63,7 +63,6 @@ public class HTTPConnectCognitiveTest {
         
         byte[] resp = hcc.httpConnect(testMethod, testUrl, testHeaders, testBody);
         assertNotNull("The byte array response can't be null", resp); 
-        System.out.print(resp);
     }
     
 }

@@ -41,7 +41,7 @@ public class Computational {
   /*
    * URL encode string.
    */ 
-  private static String urlEncode( String s ) {
+  static String urlEncode( String s ) {
     try {
       return URLEncoder.encode( s, "utf-8" );
     } catch ( Exception ex ) {
