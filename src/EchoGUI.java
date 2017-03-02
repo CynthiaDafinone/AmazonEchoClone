@@ -1,11 +1,13 @@
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import java.util.concurrent.TimeUnit;
 
 public class EchoGUI extends JFrame {
 
@@ -16,12 +18,16 @@ public class EchoGUI extends JFrame {
     final private SoundDetector detector;
     boolean isPowered = false;
     boolean isPressed = false;
+    ScheduledExecutorService executorService;
+    int flashCount = 0;
 
 
     /*
     * Power button
      */
     private class PowerButton extends JButton {
+        
+
         PowerButton(String s) {
             setBorder(null);
             addMouseListener(new MouseAdapter() {
@@ -32,11 +38,25 @@ public class EchoGUI extends JFrame {
                         System.out.println("TURNING ON");
                         isPowered = true;
 
-                        changeColor("Cyan");
+                        
                         AudioOutput.playSound("resources/newStartSound.wav");
 
+                        
+                        executorService = Executors.newSingleThreadScheduledExecutor();
+                        executorService.scheduleAtFixedRate(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                Flash();
+                            }
+                        }, 0, 2, TimeUnit.SECONDS);
+
+                        
+                                  
                     } //runs this if echo is turned on and turns it off
                     else {
+                        executorService.shutdown();
+                        flashCount = 0;
                         System.out.println("TURNING OFF");
                         isPowered = false;
                         changeColor("Off");
@@ -53,6 +73,7 @@ public class EchoGUI extends JFrame {
     * Mute Button
      */
     private class MuteButton extends JButton {
+
         MuteButton(String s) {
             setIcon(new ImageIcon("mute.png"));
             setBorder(null);
@@ -62,11 +83,15 @@ public class EchoGUI extends JFrame {
 
                         //Holds previous value after being switched off and on
                         if (isPressed) {
+                            executorService.shutdown();
+                             flashCount = 0;
                             System.out.println("Microphone activated");
                             AudioOutput.playSound("resources/unmuted.wav");
                             isPressed = false;
 
                         } else {
+                            executorService.shutdown();
+                        flashCount = 0;
                             System.out.println("Microphone muted");
                             isPressed = true;
                             changeColor("Blue");
@@ -74,7 +99,6 @@ public class EchoGUI extends JFrame {
 
                             SoundDetector detector = new SoundDetector();
                             detector.disableMic();
-                            
 
                             //STOP AUDIO INPUT
                         }
@@ -89,6 +113,7 @@ public class EchoGUI extends JFrame {
   * Force Listen button
      */
     private class ListenButton extends JButton {
+
         ListenButton(String s) {
             setBorder(null);
             addMouseListener(new MouseAdapter() {
@@ -103,8 +128,8 @@ public class EchoGUI extends JFrame {
             });
         }
     }
-    
-    public void reportError(){
+
+    public void reportError() {
         //javascript style error message telling user server is down
     }
 
@@ -135,6 +160,28 @@ public class EchoGUI extends JFrame {
         frame.setLayout(null);
         frame.pack();
         addButtons();
+    }
+
+    
+    
+
+    public void Flash() {
+        if (flashCount % 2 == 0) {
+           
+            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyan.png")));
+            frame.setLayout(null);
+            frame.pack();
+            addButtons();
+            flashCount++;
+        } else {
+            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash.png")));
+             
+            frame.setLayout(null);
+            frame.pack();
+            addButtons();
+            flashCount++;
+            AudioOutput.playSound("resources/listSound.wav");
+        }
     }
 
     //constructs frame and sets other things up
