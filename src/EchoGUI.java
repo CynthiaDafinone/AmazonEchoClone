@@ -49,7 +49,7 @@ public class EchoGUI extends JFrame {
                             public void run() {
                                 Flash();
                             }
-                        }, 0, 2, TimeUnit.SECONDS);
+                        }, 0, 1, TimeUnit.SECONDS);
 
                         
                                   
@@ -168,13 +168,13 @@ public class EchoGUI extends JFrame {
     public void Flash() {
         if (flashCount % 2 == 0) {
            
-            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyan.png")));
+            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash.png")));
             frame.setLayout(null);
             frame.pack();
             addButtons();
             flashCount++;
         } else {
-            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash.png")));
+            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash2.png")));
              
             frame.setLayout(null);
             frame.pack();
