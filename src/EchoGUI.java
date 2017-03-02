@@ -1,10 +1,6 @@
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,13 +16,12 @@ public class EchoGUI extends JFrame {
     final private SoundDetector detector;
     boolean isPowered = false;
     boolean isPressed = false;
-    
+
 
     /*
     * Power button
-    */
+     */
     private class PowerButton extends JButton {
-
         PowerButton(String s) {
             setBorder(null);
             addMouseListener(new MouseAdapter() {
@@ -36,40 +31,28 @@ public class EchoGUI extends JFrame {
                     if (isPowered == false) {
                         System.out.println("TURNING ON");
                         isPowered = true;
-                        
-                        AudioOutput.playSound("resources/startup.wav");
 
-                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyan.png")));
-                        frame.setLayout(null);
-                        frame.pack();
-
-                        addButtons();
+                        changeColor("Cyan");
+                        AudioOutput.playSound("resources/newStartSound.wav");
 
                     } //runs this if echo is turned on and turns it off
                     else {
                         System.out.println("TURNING OFF");
                         isPowered = false;
+                        changeColor("Off");
+                        AudioOutput.playSound("resources/newOffSound.wav");
 
-                        AudioOutput.playSound("resources/shutdown.wav");
-
-                        
-                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoOff.png")));
-                        frame.setLayout(null);
-                        frame.pack();
-
-                        addButtons();
                     }
                 }
             });
         }
     }
-    
+
 
     /*
     * Mute Button
      */
     private class MuteButton extends JButton {
-
         MuteButton(String s) {
             setIcon(new ImageIcon("mute.png"));
             setBorder(null);
@@ -81,20 +64,17 @@ public class EchoGUI extends JFrame {
                         if (isPressed) {
                             System.out.println("Microphone activated");
                             AudioOutput.playSound("resources/unmuted.wav");
-                            isPressed = false;                     
+                            isPressed = false;
 
                         } else {
                             System.out.println("Microphone muted");
                             isPressed = true;
+                            changeColor("Blue");
                             AudioOutput.playSound("resources/muted.wav");
-                            
+
                             SoundDetector detector = new SoundDetector();
                             detector.disableMic();
-                            //frame.setContentPane(new JLabel(new ImageIcon("resources/echoBlue.png")));
-                            //frame.setLayout(null);
-                            //frame.pack();
-
-                            addButtons();
+                            
 
                             //STOP AUDIO INPUT
                         }
@@ -103,48 +83,45 @@ public class EchoGUI extends JFrame {
             });
         }
     }
-    
+
 
     /*
   * Force Listen button
      */
     private class ListenButton extends JButton {
-
         ListenButton(String s) {
             setBorder(null);
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
                     if (isPowered) {
                         System.out.println("Echo is listening");
+                        changeColor("Cyan");
 
-                        frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyan.png")));
-                        frame.setLayout(null);
-                        frame.pack();
-
-                        addButtons();
-
-                        //Forces Echo into listening mode, lights glow CYAN
+                        //this button should probably do something
                     }
                 }
             });
         }
     }
+    
+    public void reportError(){
+        //javascript style error message telling user server is down
+    }
 
     //adds the three buttons onto the conent pane
     public void addButtons() {
-        
         btnMUTE.setOpaque(false);
         btnMUTE.setContentAreaFilled(false);
         btnMUTE.setBorderPainted(false);
         btnMUTE.setBounds(301, 28, 30, 15);
         frame.add(btnMUTE);
-        
+
         btnPOW.setOpaque(false);
         btnPOW.setContentAreaFilled(false);
         btnPOW.setBorderPainted(false);
         btnPOW.setBounds(350, 244, 30, 30);
         frame.add(btnPOW);
-        
+
         btnLIST.setOpaque(false);
         btnLIST.setContentAreaFilled(false);
         btnLIST.setBorderPainted(false);
@@ -152,11 +129,19 @@ public class EchoGUI extends JFrame {
         frame.add(btnLIST);
     }
 
+    public void changeColor(String color) {
+        // options for color are Blue, Cyan, and Off
+        frame.setContentPane(new JLabel(new ImageIcon("resources/echo" + color + ".png")));
+        frame.setLayout(null);
+        frame.pack();
+        addButtons();
+    }
+
     //constructs frame and sets other things up
     public EchoGUI(SoundDetector detector) {
         this.detector = detector;
         frame.setTitle("The Amazon Echo");
-        frame.setContentPane(new JLabel(new ImageIcon("resources/echoOff.png")));
+        changeColor("Off");
         frame.setLayout(null);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -164,8 +149,6 @@ public class EchoGUI extends JFrame {
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
-        addButtons();
-
     }
 
 }
