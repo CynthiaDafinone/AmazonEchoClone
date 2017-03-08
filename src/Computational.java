@@ -1,16 +1,7 @@
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.DataInputStream;
 import java.net.URLEncoder;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.lang.Object;
-import java.util.regex.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+
 
 /*
  *
@@ -33,9 +24,14 @@ public class Computational {
       = { { "Content-Length", "0" }
         };
     final byte[] body = new byte[0];
-    byte[] response = HTTPConnect.httpConnect( method, url, headers, body );
-    String xml = new String( response );
-    return xml;
+    try {
+        byte[] response = HTTPConnect.httpConnect(method, url, headers, body);
+        String xml = new String(response);
+        return xml;
+    } catch (IOException e) {
+        System.out.println("Connection to the server timed out - invalid question?");
+        return null;
+    }
   }
 
 
@@ -64,19 +60,18 @@ public class Computational {
     static String getAnswer(String question) {
         try {
             String json = solve(question);
-            if (JSONTemp.getValue(json, "success").equals("true")) {
-                int index = json.indexOf("\"id\" : \"Result\"");
+            if (json == null) {
+                return null;
+            }
+            if (json.contains("\"success\" : true,")) {
+                int searchIndex = json.indexOf("\"id\" : \"Result\",");
+                searchIndex = json.indexOf("\"img\" : {", searchIndex);
+                searchIndex = json.indexOf("\"title\" : \"", searchIndex) + 11;
+                int endIndex = json.indexOf("\",", searchIndex);
+                String answer = json.substring(searchIndex, endIndex);
 
-                String result = JSONTemp.getValue(json, "plaintext", index);
-                if (result.contains("}")) {
-                    result = result.substring(0, result.indexOf("}"));
-                }
-                if (result.contains("]")) {
-                    result = result.substring(0, result.indexOf("]"));
-                }
-
-                result = result.replaceAll("\"", "").replaceAll("]", "").replaceAll("}", "");
-                return result;
+                answer = answer.replaceAll("[^A-Za-z0-9 .',&+()|-]", "");
+                return answer;
 
             } else {
                 //TODO: Not a question/wolfram couldn't answer
@@ -84,8 +79,6 @@ public class Computational {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
             return null;
         }
     }

@@ -18,6 +18,7 @@ public class SoundDetector implements Runnable {
     private AudioFormat format = new AudioFormat(SAMPLE_RATE, SAMPLE_SIZE, SAMPLE_CHANNELS, true, true);
     private AudioInputStream ais;
     private SoundDetectionThread soundDetector;
+    private boolean canRecord = true;
 
     private ArrayList<ActionListener> listeners= new ArrayList<>();
 
@@ -35,7 +36,7 @@ public class SoundDetector implements Runnable {
         while (detector.soundDetected()) {
             THRESHOLD += 0.05f;
         }
-        THRESHOLD += 0.05f;
+        THRESHOLD += 0.025f;
         System.out.println("Calibrated the threshold as " + THRESHOLD);
     }
 
@@ -59,18 +60,16 @@ public class SoundDetector implements Runnable {
             System.out.println("Started silenceDetector");
 
             while (running) {
-                try {
-                    if (soundDetector.soundDetected()) {
+                    if (soundDetector.soundDetected() && canRecord) {
                         System.out.println("Detected Audio, starting recording..");
                         startRecording();
                     }
                     // Sleeping for 10ms so as not to overwhelm the OS
-                    Thread.currentThread().sleep(5);
-                } catch (InterruptedException e) {
-                    System.out.println("Interrupted exception - this shouldn't have happened.");
-                    e.printStackTrace();
-                    System.exit(1);
-                }
+//                    Thread.currentThread().sleep(5);
+//                } catch (InterruptedException e) {
+//                    System.out.println("Interrupted exception - this shouldn't have happened.");
+//                    e.printStackTrace();
+//                    System.exit(1);
 
             }
 
@@ -144,6 +143,14 @@ public class SoundDetector implements Runnable {
         }
     }
 
+    void pauseForAnswer() {
+        canRecord = false;
+    }
+
+    void resumeAfterAnswer() {
+        canRecord = true;
+    }
+
     /**
      * Method should be called to disable the microphone's recording
      */
@@ -200,7 +207,7 @@ public class SoundDetector implements Runnable {
                     rms = (float) Math.sqrt(rms / samples.length);
                     lastAmplitude = rms;
                     try {
-                        sleep(1);
+                        sleep(5);
                     } catch (InterruptedException e) {
                         System.out.println("Interrupted exception - this shouldn't have happened.");
                         e.printStackTrace();

@@ -19,6 +19,7 @@ public class EchoGUI extends JFrame {
     private Thread detectorThread;
     boolean isPowered = false;
     boolean isPressed = false;
+    boolean listPressed = false;
     ScheduledExecutorService executorService;
     int flashCount = 0;
 
@@ -43,7 +44,7 @@ public class EchoGUI extends JFrame {
                         detectorThread.start();
                         
                         AudioOutput.playSound("resources/newStartSound.wav");
-                        changeColor("flash");
+                        changeColor("Cyan");
 
 
                         
@@ -85,21 +86,17 @@ public class EchoGUI extends JFrame {
 
                         //Holds previous value after being switched off and on
                         if (isPressed) {
-                            executorService.shutdown();
-                             flashCount = 0;
+                            flashCount = 0;
                             System.out.println("Microphone activated");
                             AudioOutput.playSound("resources/unmuted.wav");
                             isPressed = false;
                             detector.enableMic();
                             detectorThread = new Thread(detector);
                             detectorThread.start();
-                            changeColor("flash");
 
                         } else {
-                            executorService.shutdown();
                         flashCount = 0;
                             isPressed = true;
-                            changeColor("Blue");
                             AudioOutput.playSound("resources/muted.wav");
                             detector.disableMic();
                             try {
@@ -130,10 +127,17 @@ public class EchoGUI extends JFrame {
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
                     if (isPowered) {
-                        System.out.println("Echo is listening");
-                        changeColor("Cyan");
+                        if (listPressed) {
+                            System.out.println("Echo is listening");
+                            changeColor("Flash");
+                            listPressed = false;
 
-                        //this button should probably do something
+                            //this button should probably do something
+                        } else {
+
+                            changeColor("Cyan");
+                            listPressed = true;
+                        }
                     }
                 }
             });
@@ -167,7 +171,10 @@ public class EchoGUI extends JFrame {
 
     public void changeColor(String color) {
         // options for color are Blue, Cyan, and Off
-        if (color.equals("flash")) {
+        if (executorService != null) {
+            executorService.shutdown();
+        }
+        if (color.equals("Flash")) {
             executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleAtFixedRate(new Runnable() {
                 @Override

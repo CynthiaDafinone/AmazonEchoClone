@@ -1,4 +1,5 @@
 import java.io.*;
+import java.net.UnknownHostException;
 import java.util.UUID;
 
 
@@ -66,7 +67,6 @@ class SpeechToText {
             final String token = HTTPConnect.renewAccessToken();
             final byte[] speech = readData(filename);
             String JSONString = recognizeSpeech(token, speech);
-            System.out.println(JSONString);
 
             // The header contains the result with the highest confidence, we will therefore
             // use this result (it's the first we come across) and ignore others
@@ -78,7 +78,9 @@ class SpeechToText {
             } else {
                 return null;
             }
-        }   catch (IOException e) {
+        }  catch (UnknownHostException e) {
+            return "UnknownHostException";
+        } catch (IOException e) {
             // TODO: Play "Sorry, I don't have an answer for that question"
             e.printStackTrace();
             System.exit(1);
