@@ -16,6 +16,7 @@ public class EchoGUI extends JFrame {
     final MuteButton btnMUTE = new MuteButton("MUTE");
     final ListenButton btnLIST = new ListenButton("LIST");
     final private SoundDetector detector;
+    private Thread detectorThread;
     boolean isPowered = false;
     boolean isPressed = false;
     ScheduledExecutorService executorService;
@@ -38,18 +39,12 @@ public class EchoGUI extends JFrame {
                         System.out.println("TURNING ON");
                         isPowered = true;
 
+                        detectorThread = new Thread(detector);
+                        detectorThread.start();
                         
                         AudioOutput.playSound("resources/newStartSound.wav");
+                        changeColor("flash");
 
-                        
-                        executorService = Executors.newSingleThreadScheduledExecutor();
-                        executorService.scheduleAtFixedRate(new Runnable() {
-                            
-                            @Override
-                            public void run() {
-                                Flash();
-                            }
-                        }, 0, 1, TimeUnit.SECONDS);
 
                         
                                   
@@ -62,6 +57,13 @@ public class EchoGUI extends JFrame {
                         changeColor("Off");
                         AudioOutput.playSound("resources/newOffSound.wav");
 
+                        try {
+                            detector.disableMic();
+                            detectorThread.join();
+                        } catch (InterruptedException e) {
+                            // Should not be called
+                            System.exit(1);
+                        }
                     }
                 }
             });
@@ -88,18 +90,27 @@ public class EchoGUI extends JFrame {
                             System.out.println("Microphone activated");
                             AudioOutput.playSound("resources/unmuted.wav");
                             isPressed = false;
+                            detector.enableMic();
+                            detectorThread = new Thread(detector);
+                            detectorThread.start();
+                            changeColor("flash");
 
                         } else {
                             executorService.shutdown();
                         flashCount = 0;
-                            System.out.println("Microphone muted");
                             isPressed = true;
                             changeColor("Blue");
                             AudioOutput.playSound("resources/muted.wav");
-
-                            SoundDetector detector = new SoundDetector();
                             detector.disableMic();
-
+                            try {
+                                detectorThread.join();
+                            } catch (InterruptedException e) {
+                                System.out.println("InterruptedException - this should not have happened.");
+                                e.printStackTrace();
+                                System.exit(1);
+                            } finally {
+                                System.out.println("Disabled all microphone input.");
+                            }
                             //STOP AUDIO INPUT
                         }
                     }
@@ -156,10 +167,20 @@ public class EchoGUI extends JFrame {
 
     public void changeColor(String color) {
         // options for color are Blue, Cyan, and Off
-        frame.setContentPane(new JLabel(new ImageIcon("resources/echo" + color + ".png")));
-        frame.setLayout(null);
-        frame.pack();
-        addButtons();
+        if (color.equals("flash")) {
+            executorService = Executors.newSingleThreadScheduledExecutor();
+            executorService.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    Flash();
+                }
+            }, 0, 1, TimeUnit.SECONDS);
+        } else {
+            frame.setContentPane(new JLabel(new ImageIcon("resources/echo" + color + ".png")));
+            frame.setLayout(null);
+            frame.pack();
+            addButtons();
+        }
     }
 
     
