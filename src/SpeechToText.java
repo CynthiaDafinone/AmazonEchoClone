@@ -69,7 +69,10 @@ class SpeechToText {
         final String token = HTTPConnectCognitive.renewAccessToken();
         final byte[] speech = readData(filename);
         String JSONString = recognizeSpeech(token, speech);
+        System.out.println(JSONString);
 
+        // The header contains the result with the highest confidence, we will therefore
+        // use this result (it's the first we come across) and ignore others
         if (JSONString.contains("\"status\":\"success\"")) {
             int start = JSONString.indexOf("\"name\":\"") + 8;
             int end = JSONString.indexOf("\"", start);

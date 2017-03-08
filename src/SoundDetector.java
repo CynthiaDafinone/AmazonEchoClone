@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Created by User on 27/02/2017.
+ * Created by 650007903 on 27/02/2017.
  */
 public class SoundDetector implements Runnable {
     private static final int     TIMER           = 5;     /* secs */
@@ -21,18 +21,22 @@ public class SoundDetector implements Runnable {
 
     private ArrayList<ActionListener> listeners= new ArrayList<>();
 
-    private boolean micOn = true;
-    private boolean running = true;
+    private boolean running;
     private TargetDataLine line;
 
 
-    void calibrateMic(SoundDetectionThread detector) {
-        THRESHOLD = -0.75f;
+    /**
+     * Method to calibrate the microphone's threshold to just above the background RMS level
+     * @param detector the SoundDetectionThread used to check for incoming audio
+     */
+    private void calibrateMic(SoundDetectionThread detector) {
+        // This is the lowest level possible
+        THRESHOLD = -1f;
         while (detector.soundDetected()) {
-            System.out.println("THRESHOLD NOW: " + THRESHOLD);
             THRESHOLD += 0.05f;
         }
-        THRESHOLD += 0.13f;
+        THRESHOLD += 0.10f;
+        System.out.println("Calibrated the threshold as " + THRESHOLD);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class SoundDetector implements Runnable {
      * Run method of the thread, will listen for audio whilst in listening mode & record audio if it hears anything
      */
     public void run() {
+        running = true;
         try {
             final int bufferSize = format.getFrameSize() * SAMPLE_RATE;
 
@@ -54,9 +59,6 @@ public class SoundDetector implements Runnable {
             System.out.println("Started silenceDetector");
 
             while (running) {
-                if (micOn && !soundDetector.isAlive()) {
-                    soundDetector = new SoundDetectionThread(line, bufferSize);
-                }
                 try {
                     if (soundDetector.soundDetected()) {
                         System.out.println("Detected Audio, starting recording..");
@@ -74,6 +76,8 @@ public class SoundDetector implements Runnable {
         } catch (LineUnavailableException e) {
             e.printStackTrace();
             System.exit(1);
+        } finally {
+            line.close();
         }
     }
 
@@ -134,14 +138,15 @@ public class SoundDetector implements Runnable {
     }
 
     void enableMic() {
-        micOn = true;
+        if (!soundDetector.isAlive()) {
+            soundDetector = new SoundDetectionThread(line, ais.getFormat().getFrameSize() * SAMPLE_RATE);
+        }
     }
 
+    /**
+     * Method should be called to disable the microphone's recording
+     */
     void disableMic() {
-        micOn = false;
-    }
-
-    void shutdown() {
         running = false;
     }
 
@@ -155,6 +160,10 @@ public class SoundDetector implements Runnable {
             this.bufferSize = bufferSize;
         }
 
+        /**
+         * Method to check if the microphone's audio input is above a threshold level
+         * @return true if sound has been detected
+         */
         boolean soundDetected() {
             return lastAmplitude > THRESHOLD;
         }
@@ -164,7 +173,7 @@ public class SoundDetector implements Runnable {
             while (running) {
                 byte[] buf = new byte[bufferSize];
                 float[] samples = new float[bufferSize / 2];
-                while (running && micOn) {
+                while (running) {
                     int b = line.read(buf, 0, buf.length);
                     for (int i = 0, s = 0; i < b; ) {
                         int sample = 0;

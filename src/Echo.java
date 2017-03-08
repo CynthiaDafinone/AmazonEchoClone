@@ -14,11 +14,9 @@ public class Echo implements ActionListener {
     
     Echo() {
         SoundDetector detector = new SoundDetector();
-        Thread detectorThread = new Thread(detector);
         EchoGUI gui = new EchoGUI(detector);
         detector.registerRecordingListener(this);
-        detectorThread.start();
-    }   
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
