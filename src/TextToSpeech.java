@@ -18,7 +18,7 @@ public class TextToSpeech {
      * @param format the audio format preferred
      * @return the byte array containing audio information
      */
-    private static byte[] synthesizeSpeech( String token, String text
+    static byte[] synthesizeSpeech( String token, String text
             , String lang,  String gender
             , String format ) {
         final String method = "POST";
@@ -45,7 +45,7 @@ public class TextToSpeech {
      * @param buffer the audio byte array to use
      * @param name the filename in which to write to
      */
-    private static void writeData( byte[] buffer, String name ) {
+    static void writeData( byte[] buffer, String name ) {
         try {
             File file = new File( name );
             FileOutputStream fos  = new FileOutputStream( file );

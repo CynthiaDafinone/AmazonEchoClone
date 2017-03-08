@@ -1,3 +1,4 @@
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.Executors;
@@ -40,9 +41,8 @@ public class EchoGUI extends JFrame {
 
                         detectorThread = new Thread(detector);
                         detectorThread.start();
-
-                        AudioOutput.playSound(getClass().getResourceAsStream("newStartSound.wav"));
-
+                        
+                        AudioOutput.playSound("resources/newStartSound.wav");
                         changeColor("flash");
 
 
@@ -55,8 +55,7 @@ public class EchoGUI extends JFrame {
                         System.out.println("TURNING OFF");
                         isPowered = false;
                         changeColor("Off");
-                        AudioOutput.playSound(getClass().getResourceAsStream("newOffSound.wav"));
-
+                        AudioOutput.playSound("resources/newOffSound.wav");
 
                         try {
                             detector.disableMic();
@@ -89,7 +88,7 @@ public class EchoGUI extends JFrame {
                             executorService.shutdown();
                              flashCount = 0;
                             System.out.println("Microphone activated");
-                            AudioOutput.playSound(getClass().getResourceAsStream("unmuted.wav"));
+                            AudioOutput.playSound("resources/unmuted.wav");
                             isPressed = false;
                             detector.enableMic();
                             detectorThread = new Thread(detector);
@@ -101,7 +100,7 @@ public class EchoGUI extends JFrame {
                         flashCount = 0;
                             isPressed = true;
                             changeColor("Blue");
-                            AudioOutput.playSound(getClass().getResourceAsStream("muted.wav"));
+                            AudioOutput.playSound("resources/muted.wav");
                             detector.disableMic();
                             try {
                                 detectorThread.join();
@@ -202,6 +201,7 @@ public class EchoGUI extends JFrame {
             frame.pack();
             addButtons();
             flashCount++;
+            AudioOutput.playSound("resources/listSound.wav");
         }
     }
 

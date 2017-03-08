@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 /**
  * The test class for HTTPConnectWolfram. Contains one test:
  * 
- * 1. Tests that the httpConnect method works as intended **to finish**
+ * 1. Tests that the httpConnect method works as intended 
  */
 public class HttpConnectWolframTest {
     
