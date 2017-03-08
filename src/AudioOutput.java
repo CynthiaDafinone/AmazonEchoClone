@@ -7,15 +7,14 @@ class AudioOutput {
             Clip clip = AudioSystem.getClip();
             clip.open(ais);
             clip.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
+        } catch (IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
     static void playSound(InputStream is) {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(is);
+            BufferedInputStream bis = new BufferedInputStream(is);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
             playSound(ais);
         } catch (UnsupportedAudioFileException | IOException e) {
             System.out.println("There was an error outputting the audio.");

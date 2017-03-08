@@ -42,8 +42,8 @@ public class EchoGUI extends JFrame {
 
                         detectorThread = new Thread(detector);
                         detectorThread.start();
-                        
-                        AudioOutput.playSound("resources/newStartSound.wav");
+
+                        AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
                         changeColor("Cyan");
 
 
@@ -51,12 +51,14 @@ public class EchoGUI extends JFrame {
                                   
                     } //runs this if echo is turned on and turns it off
                     else {
-                        executorService.shutdown();
+                        if (executorService != null) {
+                            executorService.shutdown();
+                        }
                         flashCount = 0;
                         System.out.println("TURNING OFF");
                         isPowered = false;
                         changeColor("Off");
-                        AudioOutput.playSound("resources/newOffSound.wav");
+                        AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newOffSound.wav"));
 
                         try {
                             detector.disableMic();
@@ -88,7 +90,7 @@ public class EchoGUI extends JFrame {
                         if (isPressed) {
                             flashCount = 0;
                             System.out.println("Microphone activated");
-                            AudioOutput.playSound("resources/unmuted.wav");
+                            AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("unmuted.wav"));
                             isPressed = false;
                             detector.enableMic();
                             detectorThread = new Thread(detector);
@@ -97,7 +99,7 @@ public class EchoGUI extends JFrame {
                         } else {
                         flashCount = 0;
                             isPressed = true;
-                            AudioOutput.playSound("resources/muted.wav");
+                            AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("muted.wav"));
                             detector.disableMic();
                             try {
                                 detectorThread.join();
@@ -118,7 +120,7 @@ public class EchoGUI extends JFrame {
 
 
     /*
-  * Force Listen button
+     * Template for action button - functionality to be implemented in sprint 3
      */
     private class ListenButton extends JButton {
 
@@ -183,7 +185,8 @@ public class EchoGUI extends JFrame {
                 }
             }, 0, 1, TimeUnit.SECONDS);
         } else {
-            frame.setContentPane(new JLabel(new ImageIcon("resources/echo" + color + ".png")));
+            frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echo" + color + ".png"))));
+//            frame.setContentPane(new JLabel(new ImageIcon("resources/echo" + color + ".png")));
             frame.setLayout(null);
             frame.pack();
             addButtons();
@@ -195,15 +198,16 @@ public class EchoGUI extends JFrame {
 
     public void Flash() {
         if (flashCount % 2 == 0) {
-           
-            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash.png")));
+            frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echoCyanFlash.png"))));
+
+//            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash.png")));
             frame.setLayout(null);
             frame.pack();
             addButtons();
             flashCount++;
         } else {
-            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash2.png")));
-             
+            frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echoCyanFlash2.png"))));
+//            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash2.png")));
             frame.setLayout(null);
             frame.pack();
             addButtons();
