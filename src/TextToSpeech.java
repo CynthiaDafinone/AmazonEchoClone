@@ -24,7 +24,7 @@ public class TextToSpeech {
         final String method = "POST";
         final String url = "https://speech.platform.bing.com/synthesize";
         final byte[] body
-                = ( "<speak version='1.0' xml:lang='en-us'>"
+                = ( "<speak version='1.0' xml:lang='en-GB'>"
                 + "<voice xml:lang='" + lang   + "' "
                 + "xml:gender='"      + gender + "' "
                 + "name='Microsoft Server Speech Text to Speech Voice"
@@ -37,7 +37,7 @@ public class TextToSpeech {
                 , { "Authorization"            , "Bearer " + token             }
                 , { "X-Microsoft-OutputFormat" , format                        }
         };
-        return HTTPConnectCognitive.httpConnect( method, url, headers, body );
+        return HTTPConnect.httpConnect( method, url, headers, body );
     }
 
     /**
@@ -65,7 +65,7 @@ public class TextToSpeech {
      * @return the audio file in which the converted text is stored
      */
     static String convertStringToSpeech(String text) {
-        final String token  = HTTPConnectCognitive.renewAccessToken();
+        final String token  = HTTPConnect.renewAccessToken();
         final byte[] speech = synthesizeSpeech( token, text, LANG, GENDER, FORMAT );
         writeData(speech, OUTPUT );
         AudioOutput.playSound(OUTPUT);

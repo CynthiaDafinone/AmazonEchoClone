@@ -1,89 +1,46 @@
-import java.io.File;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import javax.sound.sampled.*;
+import java.io.*;
 
-/**
- * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
- */
-public class AudioOutput {
-
-    /**
-     * Method to set up an AudioInputStream from a specified file
-     * @param filename the filename
-     * @return  the AudioInputStream
-     */
-    private static AudioInputStream setupStream(String filename ) {
+class AudioOutput {
+    static void playSound (AudioInputStream ais) {
         try {
-            File file = new File(filename);
-            return AudioSystem.getAudioInputStream(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-            return null;
-        }
-    }
-
-
-    /**
-     * Method reads an AudioInputStream into a ByteArrayOutputStream
-     * @param stm the AudioInputStream
-     * @return the ByteArrayOutputStream
-     */
-    private static ByteArrayOutputStream readStream( AudioInputStream stm ) {
-        try {
-            AudioFormat           af  = stm.getFormat();
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-            int  bufferSize = (int) af.getSampleRate() * af.getFrameSize();
-            byte buffer[]   = new byte[ bufferSize ];
-
-            for (;;) {
-                int n = stm.read( buffer, 0, buffer.length );
-                if ( n > 0 ) {
-                    bos.write( buffer, 0, n );
-                } else {
-                    break;
-                }
-            }
-
-            return bos;
+            Clip clip = AudioSystem.getClip();
+            clip.open(ais);
+            clip.start();
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit( 1 );
-            return null;
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
-
-    /**
-     * Method plays an audio stream
-     * @param stm the AudioInputStream to play
-     * @param bos the ByteArrayOutputStream
-     */
-    private static void playStream( AudioInputStream stm, ByteArrayOutputStream bos ) {
+    static void playSound(InputStream is) {
         try {
-            AudioFormat    af   = stm.getFormat();
-            byte[]         ba   = bos.toByteArray();
-            DataLine.Info  info = new DataLine.Info( SourceDataLine.class, af );
-            SourceDataLine line = (SourceDataLine) AudioSystem.getLine( info );
-
-            line.open( af );
-            line.start();
-            line.write( ba, 0, ba.length );
-        } catch (LineUnavailableException e) {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(is);
+            playSound(ais);
+        } catch (UnsupportedAudioFileException | IOException e) {
+            System.out.println("There was an error outputting the audio.");
             e.printStackTrace();
             System.exit(1);
         }
     }
 
-    /**
-     * Method to play a sound from a file
-     * @param filename the file in which to play audio from
-     */
-    static void playSound(String filename) {
-        AudioInputStream stm = setupStream(filename);
-        playStream( stm, readStream( stm ) );
+    static void playSound(String path) {
+        try {
+            File file = new File(path);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(file);
+            playSound(ais);
+        } catch (FileNotFoundException e ){
+            System.out.println("The file given was not found.");
+            e.printStackTrace();
+            System.exit(1);
+        } catch (UnsupportedAudioFileException e) {
+            System.out.println("The filetype found was not supported.");
+            e.printStackTrace();
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("There was an IOException");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
-
-
 }

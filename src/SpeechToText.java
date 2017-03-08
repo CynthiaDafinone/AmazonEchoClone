@@ -1,7 +1,3 @@
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.*;
 import java.util.UUID;
 
@@ -35,7 +31,7 @@ class SpeechToText {
                 = { { "Content-Type"   , "audio/wav; samplerate=16000"  }
                 , { "Content-Length" , String.valueOf( body.length )  }
                 , { "Authorization"  , "Bearer " + token              }
-        };        byte[] response = HTTPConnectCognitive.httpConnect( method, url, headers, body );
+        };        byte[] response = HTTPConnect.httpConnect( method, url, headers, body );
         return new String( response );
     }
 
@@ -66,7 +62,7 @@ class SpeechToText {
      * @return the string returned from the server
      */
     static String getTextFromAudio(String filename) {
-        final String token = HTTPConnectCognitive.renewAccessToken();
+        final String token = HTTPConnect.renewAccessToken();
         final byte[] speech = readData(filename);
         String JSONString = recognizeSpeech(token, speech);
         System.out.println(JSONString);

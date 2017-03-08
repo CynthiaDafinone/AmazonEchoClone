@@ -35,7 +35,7 @@ public class SoundDetector implements Runnable {
         while (detector.soundDetected()) {
             THRESHOLD += 0.05f;
         }
-        THRESHOLD += 0.10f;
+        THRESHOLD += 0.05f;
         System.out.println("Calibrated the threshold as " + THRESHOLD);
     }
 
@@ -64,6 +64,7 @@ public class SoundDetector implements Runnable {
                         System.out.println("Detected Audio, starting recording..");
                         startRecording();
                     }
+                    // Sleeping for 10ms so as not to overwhelm the OS
                     Thread.currentThread().sleep(10);
                 } catch (InterruptedException e) {
                     System.out.println("Interrupted exception - this shouldn't have happened.");

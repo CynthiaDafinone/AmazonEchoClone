@@ -33,7 +33,7 @@ public class Computational {
       = { { "Content-Length", "0" }
         };
     final byte[] body = new byte[0];
-    byte[] response = HttpConnectWolfram.httpConnect( method, url, headers, body );
+    byte[] response = HTTPConnect.httpConnect( method, url, headers, body );
     String xml = new String( response );
     return xml;
   } 
