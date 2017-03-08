@@ -65,7 +65,7 @@ public class SoundDetector implements Runnable {
                         startRecording();
                     }
                     // Sleeping for 10ms so as not to overwhelm the OS
-                    Thread.currentThread().sleep(10);
+                    Thread.currentThread().sleep(5);
                 } catch (InterruptedException e) {
                     System.out.println("Interrupted exception - this shouldn't have happened.");
                     e.printStackTrace();
@@ -200,7 +200,7 @@ public class SoundDetector implements Runnable {
                     rms = (float) Math.sqrt(rms / samples.length);
                     lastAmplitude = rms;
                     try {
-                        sleep(11);
+                        sleep(1);
                     } catch (InterruptedException e) {
                         System.out.println("Interrupted exception - this shouldn't have happened.");
                         e.printStackTrace();
