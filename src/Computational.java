@@ -1,102 +1,59 @@
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.DataInputStream;
 import java.net.URLEncoder;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.lang.Object;
-import java.util.regex.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-        
+
 /*
  *
  */
 public class Computational {
-  final static String APPID   = "J66HRA-W47APJEV7R";
+    final static String APPID = "J66HRA-W47APJEV7R";
 
-  /*
-   * Solve.
-   */
-    static String solve( String input ) { 
-    final String method = "POST";
-    final String url    
-      = ( "http://api.wolframalpha.com/v2/query"
-        + "?" + "appid"  + "=" + APPID
-        + "&" + "input"  + "=" + urlEncode( input )
-        + "&" + "output" + "=" + "JSON"
-        );
-    final String[][] headers
-      = { { "Content-Length", "0" }
-        };
-    final byte[] body = new byte[0];
-    byte[] response = HTTPConnect.httpConnect( method, url, headers, body );
-    String xml = new String( response );
-    return xml;
-  } 
-
-  /*
-   * URL encode string.
-   */ 
-  static String urlEncode( String s ) {
-    try {
-      return URLEncoder.encode( s, "utf-8" );
-    } catch ( Exception ex ) {
-      System.out.println( ex ); System.exit( 1 ); return null;
+    static String solve(String q) throws IOException {
+        final String method = "POST";
+        final String url = ("http://api.wolframalpha.com/v1/spoken?appid=" + APPID + "&i=" + urlEncode(q));
+        String[][] headers = {{"Content-Length", "0"}};
+        final byte[] body = new byte[0];
+        byte[] response = HTTPConnect.httpConnect(method, url, headers, body);
+        String answer = new String(response);
+        if (answer.startsWith("The answer is ")) {
+            answer = answer.substring(14);
+        }
+        return answer;
     }
-  }
 
-  /*
-  * Takes cmd output and makes it more readable
-  */
-  public static void readJsonFile() throws FileNotFoundException {
-    File file = new File("output.txt"); 
-    FileOutputStream fos = new FileOutputStream(file);
-    PrintStream ps = new PrintStream(fos);
-    System.setOut(ps);   
-  }
-
-  /*
-   * Solve problem giving solution.
-   */
-  static String getAnswer(String question) { 
-    try {
-        String answer = new String ("");  
-        final String json = solve( question );
-        
-        //Pods->title=result->subpods->title
-
-        JSONParser parser = new JSONParser();
-        JSONObject main = (JSONObject) parser.parse(json);
-        JSONObject result = (JSONObject) main.get("queryresult");
-        if (!((boolean) result.get("success"))) {
+    /*
+     * URL encode string.
+     */
+    static String urlEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "utf-8");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            System.exit(1);
             return null;
         }
-        JSONArray pods = (JSONArray) result.get("pods");
-        Iterator iterator = pods.iterator();
-        
-        // Horrible json - parsed using json-simple
-        while(iterator.hasNext()) {
-            JSONObject obj = (JSONObject) iterator.next();
-            if (obj.get("title").equals("Result")) {
-                JSONArray subpods = (JSONArray) obj.get("subpods");
-                Iterator podIter = subpods.iterator();
-                while (podIter.hasNext()) {
-                    JSONObject item = (JSONObject) podIter.next();
-                    if (item.get("title").equals("")) {
-                        return (String) item.get("plaintext");
-                    }
-                }
-            }
-        }  
-    } catch (Exception e) {
-        System.out.println("Something went wrong parsing - computational");
-        System.exit(1);
-        return null;
     }
-    return null;
-  }
+
+    /*
+    * Takes cmd output and makes it more readable
+    */
+    public static void readJsonFile() throws FileNotFoundException {
+        File file = new File("output.txt");
+        FileOutputStream fos = new FileOutputStream(file);
+        PrintStream ps = new PrintStream(fos);
+        System.setOut(ps);
+    }
+
+    static String getAnswer(String question) {
+        try {
+            return solve(question);
+        } catch (IOException e) {
+            if (e.getMessage().contains("Server returned HTTP response code: 501 for URL:")) {
+                // TODO: Play "Sorry, I don't have an answer for that question"
+            }
+            e.printStackTrace();
+            System.exit(1);
+            return null;
+        }
+    }
 }

@@ -20,7 +20,7 @@ public class TextToSpeech {
      */
     static byte[] synthesizeSpeech( String token, String text
             , String lang,  String gender
-            , String format ) {
+            , String format ) throws IOException {
         final String method = "POST";
         final String url = "https://speech.platform.bing.com/synthesize";
         final byte[] body
@@ -65,10 +65,17 @@ public class TextToSpeech {
      * @return the audio file in which the converted text is stored
      */
     static String convertStringToSpeech(String text) {
-        final String token  = HTTPConnect.renewAccessToken();
-        final byte[] speech = synthesizeSpeech( token, text, LANG, GENDER, FORMAT );
-        writeData(speech, OUTPUT );
-        AudioOutput.playSound(OUTPUT);
-        return OUTPUT;
+        try {
+            final String token = HTTPConnect.renewAccessToken();
+            final byte[] speech = synthesizeSpeech(token, text, LANG, GENDER, FORMAT);
+            writeData(speech, OUTPUT);
+            AudioOutput.playSound(OUTPUT);
+            return OUTPUT;
+        } catch (IOException e) {
+            // TODO: Play "Sorry, I don't have an answer for that question"
+            e.printStackTrace();
+            System.exit(1);
+            return null;
+        }
     }
 }

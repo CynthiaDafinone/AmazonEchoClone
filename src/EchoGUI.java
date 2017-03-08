@@ -201,7 +201,6 @@ public class EchoGUI extends JFrame {
             frame.pack();
             addButtons();
             flashCount++;
-            AudioOutput.playSound("resources/listSound.wav");
         }
     }
 

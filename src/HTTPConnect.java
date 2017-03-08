@@ -23,7 +23,7 @@ class HTTPConnect {
      * Method to renew an access token to the cognitive services
      * @return  the access token
      */
-    static String renewAccessToken() {
+    static String renewAccessToken() throws IOException {
         final String method = "POST";
         final String url =
                 "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
@@ -44,7 +44,7 @@ class HTTPConnect {
      * @param body the body of the request
      * @return a byte array containing the response
      */
-    static byte[] httpConnect(String m, String u, String[][] h, byte[] body) {
+    static byte[] httpConnect(String m, String u, String[][] h, byte[] body) throws IOException {
         try {
             URL url = new URL(u);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

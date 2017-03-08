@@ -93,7 +93,7 @@ public class SoundDetector implements Runnable {
             byte buffer[] = new byte[bufferSize];
 
             int counter = TIMER;
-            while (counter > 0 || soundDetector.soundDetected()) {
+            while (counter > 0 && soundDetector.soundDetected()) {
                 counter--;
                 int n = ais.read(buffer, 0, buffer.length);
                 if (n > 0) {

@@ -14,7 +14,7 @@ class SpeechToText {
      * @param body the audio bytes
      * @return the JSON string returned from the server
      */
-    private static String recognizeSpeech( String token, byte[] body ) {
+    private static String recognizeSpeech( String token, byte[] body ) throws IOException {
         final String method = "POST";
         final String url
                 = ( "https://speech.platform.bing.com/recognize"
@@ -62,19 +62,26 @@ class SpeechToText {
      * @return the string returned from the server
      */
     static String getTextFromAudio(String filename) {
-        final String token = HTTPConnect.renewAccessToken();
-        final byte[] speech = readData(filename);
-        String JSONString = recognizeSpeech(token, speech);
-        System.out.println(JSONString);
+        try {
+            final String token = HTTPConnect.renewAccessToken();
+            final byte[] speech = readData(filename);
+            String JSONString = recognizeSpeech(token, speech);
+            System.out.println(JSONString);
 
-        // The header contains the result with the highest confidence, we will therefore
-        // use this result (it's the first we come across) and ignore others
-        if (JSONString.contains("\"status\":\"success\"")) {
-            int start = JSONString.indexOf("\"name\":\"") + 8;
-            int end = JSONString.indexOf("\"", start);
-            String result = JSONString.substring(start, end);
-            return result;
-        } else {
+            // The header contains the result with the highest confidence, we will therefore
+            // use this result (it's the first we come across) and ignore others
+            if (JSONString.contains("\"status\":\"success\"")) {
+                int start = JSONString.indexOf("\"name\":\"") + 8;
+                int end = JSONString.indexOf("\"", start);
+                String result = JSONString.substring(start, end);
+                return result;
+            } else {
+                return null;
+            }
+        }   catch (IOException e) {
+            // TODO: Play "Sorry, I don't have an answer for that question"
+            e.printStackTrace();
+            System.exit(1);
             return null;
         }
     }
