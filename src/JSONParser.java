@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ 
 package jsonparser;
 
 
@@ -17,7 +17,7 @@ import java.io.IOException;
  * A JSONParser takes a string and extracts characters and string values from it.
  * It is used by the JSONObject and JSONArray constructors to parse JSON strings.
  * 
- */
+ *
 public class JSONParser {
     
     //explore string builder options.
@@ -50,7 +50,7 @@ public class JSONParser {
      * backs up one character in the string, allowing you to check the previous
      * character before checking the next one.
      * 
-     */
+     *
     public void back() throws JSONException {
         if (this.usedPrevious || this.index <= 0){
             throw new JSONException("Can not step back twice");
@@ -65,7 +65,7 @@ public class JSONParser {
      * determines if there are still characters left in the string to be parsed
      * 
      * @return  true if chars left to be parsed
-     */
+     *
     
     public boolean more(){
         this.next(); //moves onto the next charachter in the buffer
@@ -88,11 +88,11 @@ public class JSONParser {
     /**
      * checks if at the end of file and if we haven't moved back a charachter
      * @return  stringEnd   true if reached end of file without stepping back
-     */
+     *
     public boolean end () throws IOException{
         /*boolean stringEnd;
         stringEnd = this.eof && !this.usePrevious;
-        return stringEnd;*/
+        return stringEnd;*
         int c = 0;
        // c = this.charachter;
         if (c == -1 && !this.usedPrevious) {
@@ -135,7 +135,7 @@ public class JSONParser {
      * Get the next charachter in the string ignoring whitespace
      * @return
      * @throws JSONException 
-     */
+     *
     public char nextClean() throws JSONException {
         char c = this.previous;
         while (!this.eof) {
@@ -166,8 +166,10 @@ public class JSONParser {
             char c;
             c = this.nextClean();
             System.out.print(c);
+
         }
     
     }
     
 }
+*/

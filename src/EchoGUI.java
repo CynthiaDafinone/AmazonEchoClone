@@ -19,6 +19,7 @@ public class EchoGUI extends JFrame {
     private Thread detectorThread;
     boolean isPowered = false;
     boolean isPressed = false;
+    boolean isPressed2 = false;
     ScheduledExecutorService executorService;
     int flashCount = 0;
 
@@ -27,7 +28,6 @@ public class EchoGUI extends JFrame {
     * Power button
      */
     private class PowerButton extends JButton {
-        
 
         PowerButton(String s) {
             setBorder(null);
@@ -41,13 +41,10 @@ public class EchoGUI extends JFrame {
 
                         detectorThread = new Thread(detector);
                         detectorThread.start();
-                        
+
                         AudioOutput.playSound("resources/newStartSound.wav");
-                        changeColor("flash");
+                        changeColor("Cyan");
 
-
-                        
-                                  
                     } //runs this if echo is turned on and turns it off
                     else {
                         executorService.shutdown();
@@ -86,7 +83,7 @@ public class EchoGUI extends JFrame {
                         //Holds previous value after being switched off and on
                         if (isPressed) {
                             executorService.shutdown();
-                             flashCount = 0;
+                            flashCount = 0;
                             System.out.println("Microphone activated");
                             AudioOutput.playSound("resources/unmuted.wav");
                             isPressed = false;
@@ -97,7 +94,7 @@ public class EchoGUI extends JFrame {
 
                         } else {
                             executorService.shutdown();
-                        flashCount = 0;
+                            flashCount = 0;
                             isPressed = true;
                             changeColor("Blue");
                             AudioOutput.playSound("resources/muted.wav");
@@ -130,10 +127,18 @@ public class EchoGUI extends JFrame {
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
                     if (isPowered) {
-                        System.out.println("Echo is listening");
-                        changeColor("Cyan");
+                        if (isPressed2 == false) {
+                            System.out.println("Echo is listening");
+                            changeColor("flash");
+                            isPressed2 = true;
 
-                        //this button should probably do something
+                        } else {
+                            executorService.shutdown();
+                            changeColor("Cyan");
+                            isPressed2 = false;
+
+                            //forces button into listen mode kind of like siri, will add further function to this button later
+                        }
                     }
                 }
             });
@@ -183,12 +188,9 @@ public class EchoGUI extends JFrame {
         }
     }
 
-    
-    
-
     public void Flash() {
         if (flashCount % 2 == 0) {
-           
+
             frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash.png")));
             frame.setLayout(null);
             frame.pack();
@@ -196,7 +198,7 @@ public class EchoGUI extends JFrame {
             flashCount++;
         } else {
             frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash2.png")));
-             
+
             frame.setLayout(null);
             frame.pack();
             addButtons();
