@@ -55,7 +55,6 @@ public class HttpConnectWolframTest {
        
         byte[] resp = hcw.httpConnect(testMethod, testUrl, testHeaders, testBody);
         assertNotNull("The byte array response can't be null", resp);
-        System.out.println(resp);
     }
     
 }
