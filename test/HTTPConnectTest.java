@@ -6,14 +6,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * The test class for HTTpConnectCognitive. Contains two tests:
+ * The test class for HTTPConnect. Contains two tests:
  * 
  * 1. Tests that the renewAccessToken method works as intended 
  * 2. Tests that the httpConnect method works as intended
  */
-public class HTTPConnectCognitiveTest {
+public class HTTPConnectTest {
     
-    public HTTPConnectCognitiveTest() {
+    public HTTPConnectTest() {
     }
     
     @BeforeClass
@@ -36,19 +36,19 @@ public class HTTPConnectCognitiveTest {
      * Test to check that the renewAccessToken method works as intended
      */
     @Test
-    public void testRenewAccessToken() {
-        HTTPConnectCognitive hcc = new HTTPConnectCognitive(); // Instance to test created
+    public void testRenewAccessToken() throws Exception {
+        HTTPConnect hc = new HTTPConnect(); // Instance to test created
         
-        String resp = hcc.renewAccessToken();
+        String resp = hc.renewAccessToken();
         assertNotNull("The renewed access token can't be null", resp);
     }
 
     /**
-     * Test to check that the httpConnect method works as intended
+     * Test of httpConnect method, of class HTTPConnect.
      */
     @Test
-    public void testHttpConnect() {
-        HTTPConnectCognitive hcc = new HTTPConnectCognitive(); // Instance to test created
+    public void testHttpConnect() throws Exception {
+        HTTPConnect hc = new HTTPConnect(); // Instance to test created
         
         // Variables defined to test the instance
         String KEY = "110c24ab25804509a223bac18251d6f2";
@@ -61,8 +61,8 @@ public class HTTPConnectCognitiveTest {
                 , { "Content-Length"           , String.valueOf( testBody.length ) }
         };
         
-        byte[] resp = hcc.httpConnect(testMethod, testUrl, testHeaders, testBody);
-        assertNotNull("The byte array response can't be null", resp); 
+        byte[] resp = hc.httpConnect(testMethod, testUrl, testHeaders, testBody);
+        assertNotNull("The byte array response can't be null", resp);
     }
     
 }

@@ -14,20 +14,22 @@ public class EchoGUI extends JFrame {
     JFrame frame = new JFrame();
     final PowerButton btnPOW = new PowerButton("POW");
     final MuteButton btnMUTE = new MuteButton("MUTE");
-    final ActionButton btnLIST = new ActionButton("LIST");
+    final ListenButton btnLIST = new ListenButton("LIST");
     final private SoundDetector detector;
     private Thread detectorThread;
     boolean isPowered = false;
     boolean isPressed = false;
-    boolean actionPressed = false;
+    boolean listPressed = false;
     ScheduledExecutorService executorService;
     int flashCount = 0;
 
 
-    /**
-     * Class for the PowerButton
+    /*
+    * Power button
      */
     private class PowerButton extends JButton {
+        
+
         PowerButton(String s) {
             setBorder(null);
             addMouseListener(new MouseAdapter() {
@@ -43,6 +45,10 @@ public class EchoGUI extends JFrame {
 
                         AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
                         changeColor("Cyan");
+
+
+                        
+                                  
                     } //runs this if echo is turned on and turns it off
                     else {
                         if (executorService != null) {
@@ -68,8 +74,8 @@ public class EchoGUI extends JFrame {
     }
 
 
-    /**
-     * Class for the MuteButton
+    /*
+    * Mute Button
      */
     private class MuteButton extends JButton {
 
@@ -116,23 +122,23 @@ public class EchoGUI extends JFrame {
     /*
      * Template for action button - functionality to be implemented in sprint 3
      */
-    private class ActionButton extends JButton {
+    private class ListenButton extends JButton {
 
-        ActionButton(String s) {
+        ListenButton(String s) {
             setBorder(null);
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
                     if (isPowered) {
-                        if (actionPressed) {
+                        if (listPressed) {
                             System.out.println("Echo is listening");
                             changeColor("Flash");
-                            actionPressed = false;
+                            listPressed = false;
 
                             //this button should probably do something
                         } else {
 
                             changeColor("Cyan");
-                            actionPressed = true;
+                            listPressed = true;
                         }
                     }
                 }
