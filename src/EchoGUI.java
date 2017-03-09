@@ -28,7 +28,6 @@ public class EchoGUI extends JFrame {
     * Power button
      */
     private class PowerButton extends JButton {
-        
 
         PowerButton(String s) {
             setBorder(null);
@@ -46,9 +45,6 @@ public class EchoGUI extends JFrame {
                         AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
                         changeColor("Cyan");
 
-
-                        
-                                  
                     } //runs this if echo is turned on and turns it off
                     else {
                         if (executorService != null) {
@@ -97,7 +93,7 @@ public class EchoGUI extends JFrame {
                             detectorThread.start();
 
                         } else {
-                        flashCount = 0;
+                            flashCount = 0;
                             isPressed = true;
                             AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("muted.wav"));
                             detector.disableMic();
@@ -134,7 +130,7 @@ public class EchoGUI extends JFrame {
                             changeColor("Flash");
                             listPressed = false;
 
-                            //this button should probably do something
+                            //further implementation of this button will resume in sprint 3
                         } else {
 
                             changeColor("Cyan");
@@ -146,11 +142,10 @@ public class EchoGUI extends JFrame {
         }
     }
 
-    public void reportError() {
-        //javascript style error message telling user server is down
-    }
 
-    //adds the three buttons onto the conent pane
+    /*
+    * adds the three buttons onto the content pane
+    */
     public void addButtons() {
         btnMUTE.setOpaque(false);
         btnMUTE.setContentAreaFilled(false);
@@ -171,8 +166,13 @@ public class EchoGUI extends JFrame {
         frame.add(btnLIST);
     }
 
+    /*
+    * This method determines the color of the background image when a button is clicked
+    * that changes wants the color to change
+    * @Param The color of echo to change to
+     */
     public void changeColor(String color) {
-        // options for color are Blue, Cyan, and Off
+        // options for color are Blue, Cyan, Flash, and Off
         if (executorService != null) {
             executorService.shutdown();
         }
@@ -193,9 +193,9 @@ public class EchoGUI extends JFrame {
         }
     }
 
-    
-    
-
+    /*
+    * a method that determines when each color should switch when the gui is told to flash from the listen button
+     */
     public void Flash() {
         if (flashCount % 2 == 0) {
             frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echoCyanFlash.png"))));
@@ -215,7 +215,10 @@ public class EchoGUI extends JFrame {
         }
     }
 
-    //constructs frame and sets other things up
+    /*
+    * constructs frame and sets other things up
+    * @param detector for the sound input
+    */
     public EchoGUI(SoundDetector detector) {
         this.detector = detector;
         frame.setTitle("The Amazon Echo");
