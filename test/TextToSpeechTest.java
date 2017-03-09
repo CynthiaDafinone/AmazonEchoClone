@@ -1,5 +1,7 @@
 // TO BE FINISHED / WORK IN PROGRESS
 
+import java.io.File;
+import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,34 +38,46 @@ public class TextToSpeechTest {
     }
 
     /**
-     * Test to check that the synthesizeSpeech method works as intended TO BE FINISHED
+     * Test to check that the synthesizeSpeech method works as intended
      */
     @Test
-    public void testSynthesizeSpeech() {
-        System.out.println("synthesizeSpeech");
-        String token = "";
-        String text = "";
-        String lang = "";
-        String gender = "";
-        String format = "";
-        byte[] expResult = null;
-        byte[] result = TextToSpeech.synthesizeSpeech(token, text, lang, gender, format);
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSynthesizeSpeech() throws IOException {
+        TextToSpeech tts = new TextToSpeech(); // Instance to test created
+        
+        // Variables defined to test the instance
+        String langTest   = "en-US";
+        String genderTest = "Female";
+        String formatTest = "riff-16khz-16bit-mono-pcm";
+        String tokenTest = HTTPConnect.renewAccessToken();
+        String textTest = "Test";
+        
+        byte[] resp = tts.synthesizeSpeech(tokenTest, textTest, langTest,
+                genderTest, formatTest);
+        assertNotNull("The byte array response can't be null", resp);
     }
 
     /**
-     * Test to check that the writeData method works as intended TO BE FINISHED
+     * Test to check that the writeData method works as intended 
      */
     @Test
-    public void testWriteData() {
-        System.out.println("writeData");
-        byte[] buffer = null;
-        String name = "";
-        TextToSpeech.writeData(buffer, name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testWriteData() throws IOException {
+        TextToSpeech tts2 = new TextToSpeech(); // Instance to test created
+        
+        // Variables defined to test the instance
+        String langTest2   = "en-US";
+        String genderTest2 = "Female";
+        String formatTest2 = "riff-16khz-16bit-mono-pcm";
+        String tokenTest2 = HTTPConnect.renewAccessToken();
+        String textTest2 = "Test";
+        String outputTest = "outTest.wav";
+      
+        byte[] speechTest = tts2.synthesizeSpeech(tokenTest2, textTest2, 
+                langTest2, genderTest2, formatTest2);
+        
+        tts2.writeData(speechTest, outputTest);
+        
+        File s = new File("C:/Users/Lewis/Desktop/University/Degree/Year 2/Modules/Term 2/ECM2415 Software Engineering/Software Engineering/outTest.wav");
+        assertTrue(s.isFile());  // Check output file created
     }
 
     /**
@@ -71,13 +85,13 @@ public class TextToSpeechTest {
      */
     @Test
     public void testConvertStringToSpeech() {
-        System.out.println("convertStringToSpeech");
-        String text = "";
-        String expResult = "";
-        String result = TextToSpeech.convertStringToSpeech(text);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        TextToSpeech tts3 = new TextToSpeech(); // Instance to test created
+        
+        String textTest3 = "What is apples plus bananas";
+                
+        tts3.convertStringToSpeech(textTest3);
+        File s2 = new File("C:/Users/Lewis/Desktop/University/Degree/Year 2/Modules/Term 2/ECM2415 Software Engineering/Software Engineering/out.wav");
+        assertTrue(s2.isFile());  // Check output file created
     }
     
 }
