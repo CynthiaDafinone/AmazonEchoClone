@@ -81,7 +81,7 @@ public class TextToSpeechTest {
     }
 
     /**
-     * Test to check that the convertStringToSpeech method works as intended TO BE FINISHED
+     * Test to check that the convertStringToSpeech method works as intended
      */
     @Test
     public void testConvertStringToSpeech() {
