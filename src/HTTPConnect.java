@@ -1,9 +1,7 @@
-import javax.net.ssl.SSLProtocolException;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.net.UnknownHostException;
@@ -24,7 +22,7 @@ class HTTPConnect {
      * Method to renew an access token to the cognitive services
      * @return  the access token
      */
-    static String renewAccessToken() throws IOException, UnknownHostException {
+    static String renewAccessToken() throws UnknownHostException, IOException {
         final String method = "POST";
         final String url =
                 "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";

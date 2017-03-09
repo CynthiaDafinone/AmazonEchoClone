@@ -2,6 +2,10 @@ import javax.sound.sampled.*;
 import java.io.*;
 
 class AudioOutput {
+    /**
+     * Method to play the sound from an AudioInputStream
+     * @param ais the stream to play from
+     */
     static void playSound (AudioInputStream ais) {
         try {
             Clip clip = AudioSystem.getClip();
@@ -11,6 +15,11 @@ class AudioOutput {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Method to play sound from an InputStream
+     * @param is the InputStream to play from
+     */
     static void playSound(InputStream is) {
         try {
             BufferedInputStream bis = new BufferedInputStream(is);
@@ -23,6 +32,10 @@ class AudioOutput {
         }
     }
 
+    /**
+     * Method to play sound from a filepath
+     * @param path the filepath to check for the audio in
+     */
     static void playSound(String path) {
         try {
             File file = new File(path);

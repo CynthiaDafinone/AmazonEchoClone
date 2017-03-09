@@ -3,7 +3,7 @@ import java.io.*;
 /**
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
-public class TextToSpeech {
+class TextToSpeech {
     private final static String LANG   = "en-US";
     private final static String GENDER = "Female";
     private final static String OUTPUT = "out.wav";
