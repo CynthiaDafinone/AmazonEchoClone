@@ -7,62 +7,69 @@ import java.io.*;
  *
  */
 public class Computational {
-  final static String APPID   = "J66HRA-W47APJEV7R";
+    // APPID for the WolframAlpha servers
+    final static String APPID = "J66HRA-W47APJEV7R";
 
-  /*
-   * Solve.
-   */
-    static String solve( String input ) throws IOException {
-    final String method = "POST";
-    final String url
-      = ( "http://api.wolframalpha.com/v2/query"
-        + "?" + "appid"  + "=" + APPID
-        + "&" + "input"  + "=" + urlEncode( input )
-        + "&" + "output" + "=" + "JSON"
+    /**
+     * Method to solve the given question using WolframAlpha
+     * @param question the question to be answered
+     * @return a string containing the result
+     * @throws IOException should there be an error with the connection to the server/answer
+     */
+    static String solve(String question) throws IOException {
+        final String method = "POST";
+        final String url
+                = ("http://api.wolframalpha.com/v2/query"
+                + "?" + "appid" + "=" + APPID
+                + "&" + "question" + "=" + urlEncode(question)
+                + "&" + "output" + "=" + "JSON"
         );
-    final String[][] headers
-      = { { "Content-Length", "0" }
+        final String[][] headers
+                = {{"Content-Length", "0"}
         };
-    final byte[] body = new byte[0];
-    try {
-        byte[] response = HTTPConnect.httpConnect(method, url, headers, body);
-        String xml = new String(response);
-        return xml;
-    } catch (IOException e) {
-        System.out.println("Connection to the server timed out - invalid question?");
-        return null;
+        final byte[] body = new byte[0];
+        try {
+            byte[] response = HTTPConnect.httpConnect(method, url, headers, body);
+            String xml = new String(response);
+            return xml;
+        } catch (IOException e) {
+            System.out.println("Connection to the server timed out - invalid question?");
+            return null;
+        }
     }
-  }
 
 
-  /*
-   * URL encode string.
-   */
-  static String urlEncode( String s ) {
-    try {
-      return URLEncoder.encode( s, "utf-8" );
-    } catch ( Exception ex ) {
-      System.out.println( ex ); System.exit( 1 ); return null;
+    /**
+     * Method to encode the given string in a web-compatible format
+     * @param s the string to be encoded
+     * @return a string in web-compatible format
+     */
+    static String urlEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "utf-8");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            System.exit(1);
+            return null;
+        }
     }
-  }
 
-  /*
-  * Takes cmd output and makes it more readable
-  */
-  public static void readJsonFile() throws FileNotFoundException {
-    File file = new File("output.txt");
-    FileOutputStream fos = new FileOutputStream(file);
-    PrintStream ps = new PrintStream(fos);
-    System.setOut(ps);
-  }
-
-
+    /**
+     * Method to get the answer to the given question
+     * @param question the question to be answered
+     * @return the answer to the question
+     */
     static String getAnswer(String question) {
         try {
+            // Gather a resulting JSON string from the Wolfram servers
             String json = solve(question);
             if (json == null) {
+                // If there's no string, return the answer as null (no connection/timeout)
                 return null;
             }
+
+            // For now we are just finding the answer using manual string operations, this may be replaced later
+            // once Cynthia finishes the JSON parser
             if (json.contains("\"success\" : true,")) {
                 int searchIndex = json.indexOf("\"id\" : \"Result\",");
                 searchIndex = json.indexOf("\"img\" : {", searchIndex);
@@ -74,10 +81,9 @@ public class Computational {
                 return answer;
 
             } else {
-                //TODO: Not a question/wolfram couldn't answer
+                // If WolframAlpha returned as a failure
                 return null;
             }
-
         } catch (IOException e) {
             return null;
         }

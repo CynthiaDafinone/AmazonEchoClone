@@ -47,51 +47,52 @@ public class SoundDetector implements Runnable {
     public void run() {
         running = true;
         try {
+
+            // Set up a new line to the microphone
             final int bufferSize = format.getFrameSize() * SAMPLE_RATE;
 
             line = AudioSystem.getTargetDataLine(format);
             line.open(format, bufferSize);
             line.start();
 
+            // Start a new Thread to continually monitor for sound
             ais = new AudioInputStream(line);
             soundDetector = new SoundDetectionThread(line, bufferSize);
             soundDetector.start();
             calibrateMic(soundDetector);
             System.out.println("Started silenceDetector");
 
+            // Continually check for any sound detection
             while (running) {
-                    if (soundDetector.soundDetected() && canRecord) {
-                        System.out.println("Detected Audio, starting recording..");
-                        startRecording();
-                    }
-                    // Sleeping for 10ms so as not to overwhelm the OS
-//                    Thread.currentThread().sleep(5);
-//                } catch (InterruptedException e) {
-//                    System.out.println("Interrupted exception - this shouldn't have happened.");
-//                    e.printStackTrace();
-//                    System.exit(1);
-
+                if (soundDetector.soundDetected() && canRecord) {
+                    System.out.println("Detected Audio, starting recording..");
+                    startRecording();
+                }
             }
-
         } catch (LineUnavailableException e) {
+            System.out.println("The TargetDataLine for the microphone was unavailable - are you sure it's plugged in?");
             e.printStackTrace();
             System.exit(1);
         } finally {
+            // Close the line each time, so it can be accessed again by a new Thread when needed
             line.close();
         }
     }
 
     /**
      * Method to record a given amount of audio (TIMER) and store it to a file (FILENAME) as a wave file.
+     * Will also stop recording before the timer if no sound has been detected.
      */
     private void startRecording() {
         try {
+            // Record the stream into a new file
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
             int bufferSize = SAMPLE_RATE * ais.getFormat().getFrameSize();
             byte buffer[] = new byte[bufferSize];
 
             int counter = TIMER;
+            // Record whilst there is a sound detected and to a maximum of TIMER seconds
             while (counter > 0 && soundDetector.soundDetected()) {
                 counter--;
                 int n = ais.read(buffer, 0, buffer.length);
@@ -102,12 +103,16 @@ public class SoundDetector implements Runnable {
                 }
             }
 
+            // Convert the recorded byte array and write it to a file
+            // A file was used rather than storing the byte array in main memory so we can include further functionality
+            // later on, such as replaying a clip.
             byte[] ba = bos.toByteArray();
             InputStream is = new ByteArrayInputStream(ba);
             AudioInputStream ais = new AudioInputStream(is, format, ba.length);
             File file = new File(FILENAME);
             AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
 
+            // Call all listeners and notify them that a new AudioFile has been recorded
             System.out.println("Recorded a new audio file, notifying listeners..");
             SoundRecordedEvent event = new SoundRecordedEvent(this, 1, "soundDetected");
             for (ActionListener listener : listeners) {
@@ -137,16 +142,25 @@ public class SoundDetector implements Runnable {
         return listeners.remove(listener);
     }
 
+    /**
+     * Method to re-enable the microphone after completely disabling it
+     */
     void enableMic() {
         if (!soundDetector.isAlive()) {
             soundDetector = new SoundDetectionThread(line, ais.getFormat().getFrameSize() * SAMPLE_RATE);
         }
     }
 
+    /**
+     * Method to be called before entering answer mode to disable any recording (prevents it from recording itself)
+     */
     void pauseForAnswer() {
         canRecord = false;
     }
 
+    /**
+     * Method to be called after completing an answer to re-allow for any audio recording
+     */
     void resumeAfterAnswer() {
         canRecord = true;
     }
@@ -163,6 +177,11 @@ public class SoundDetector implements Runnable {
         private int bufferSize;
         private float lastAmplitude;
 
+        /**
+         * Constructor to allow for the SoundDetectionThread to access the same audio input as the recording thread
+         * @param line The TargetDataLine to record from
+         * @param bufferSize The buffer size to read into
+         */
         SoundDetectionThread(TargetDataLine line, int bufferSize) {
             this.line = line;
             this.bufferSize = bufferSize;
@@ -176,6 +195,9 @@ public class SoundDetector implements Runnable {
             return lastAmplitude > THRESHOLD;
         }
 
+        /**
+         * Method to continually read from the TargetDataLine and detect the RMS value of the input
+         */
         @Override
         public void run() {
             while (running) {
@@ -207,6 +229,7 @@ public class SoundDetector implements Runnable {
                     rms = (float) Math.sqrt(rms / samples.length);
                     lastAmplitude = rms;
                     try {
+                        // Sleep temporarily to prevent the system overwhelming the OS
                         sleep(5);
                     } catch (InterruptedException e) {
                         System.out.println("Interrupted exception - this shouldn't have happened.");
