@@ -6,9 +6,9 @@ import java.io.*;
 /*
  *
  */
-public class Computational {
+class Computational {
     // APPID for the WolframAlpha servers
-    final static String APPID = "J66HRA-W47APJEV7R";
+    private final static String APPID = "J66HRA-W47APJEV7R";
 
     /**
      * Method to solve the given question using WolframAlpha
@@ -30,8 +30,7 @@ public class Computational {
         final byte[] body = new byte[0];
         try {
             byte[] response = HTTPConnect.httpConnect(method, url, headers, body);
-            String xml = new String(response);
-            return xml;
+            return new String(response);
         } catch (IOException e) {
             System.out.println("Connection to the server timed out - invalid question?");
             return null;
@@ -48,7 +47,7 @@ public class Computational {
         try {
             return URLEncoder.encode(s, "utf-8");
         } catch (Exception ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
             System.exit(1);
             return null;
         }

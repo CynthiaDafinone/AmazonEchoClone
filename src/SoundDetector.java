@@ -3,9 +3,6 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
-/**
- * Created by 650007903 on 27/02/2017.
- */
 public class SoundDetector implements Runnable {
     private static final int     TIMER           = 5;     /* secs */
     private static final String  FILENAME        = "temp.wav";
@@ -40,10 +37,10 @@ public class SoundDetector implements Runnable {
         System.out.println("Calibrated the threshold as " + THRESHOLD);
     }
 
-    @Override
     /**
      * Run method of the thread, will listen for audio whilst in listening mode & record audio if it hears anything
      */
+    @Override
     public void run() {
         running = true;
         try {

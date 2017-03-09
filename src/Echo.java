@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
  * In future will call GUI builder and handle some events
  */
 public class Echo implements ActionListener {
-    final String FILENAME = "temp.wav";
-    final EchoGUI gui;
-    final SoundDetector detector;
+    private final String FILENAME = "temp.wav";
+    private final EchoGUI gui;
+    private final SoundDetector detector;
 
     public static void main(String[] args) {
         Echo e = new Echo();        
@@ -17,7 +17,7 @@ public class Echo implements ActionListener {
     /**
      * Method to create an Echo, instantiating the SoundDetector and GUI
      */
-    Echo() {
+    private Echo() {
         detector = new SoundDetector();
         gui = new EchoGUI(detector);
         detector.registerRecordingListener(this);
