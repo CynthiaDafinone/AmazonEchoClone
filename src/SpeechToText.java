@@ -15,7 +15,7 @@ class SpeechToText {
      * @param body the audio bytes
      * @return the JSON string returned from the server
      */
-    private static String recognizeSpeech( String token, byte[] body ) throws IOException {
+    static String recognizeSpeech( String token, byte[] body ) throws IOException {
         final String method = "POST";
         final String url
                 = ( "https://speech.platform.bing.com/recognize"
@@ -41,7 +41,7 @@ class SpeechToText {
      * @param name the filename in which to load data from
      * @return the byte array containing audio information
      */
-    private static byte[] readData( String name ) {
+    static byte[] readData( String name ) {
         try {
             File            file = new File( name );
             FileInputStream fis  = new FileInputStream( file );
