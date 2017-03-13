@@ -35,6 +35,7 @@ public class Echo implements ActionListener {
             System.out.println("Got a string as: " + str);
             // Checking that it is not returned as null
             if (str != null) {
+                str = str.toLowerCase();
                 // If there was an error connecting to Microsoft
                 if (str.equals("UnknownHostException")) {
                     AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
@@ -42,6 +43,16 @@ public class Echo implements ActionListener {
                 } else if (str.contains("timer")) {
                     EchoTimer.startTimer(str);
                     return;
+                } else if (str.contains("stopwatch") || str.contains("stop watch")) {
+                    if (str.contains("start")) {
+                        EchoStopwatch.startStopwatch();
+                        return;
+                    }
+                    // Space must be after stop to avoid 'stopwatch' triggering this
+                    else if (str.contains("stop ")) {
+                        EchoStopwatch.stopStopwatch();
+                        return;
+                    }
                 }
 
                 String result = Computational.getAnswer(str);
