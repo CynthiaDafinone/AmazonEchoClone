@@ -125,6 +125,7 @@ public class EchoGUI extends JFrame {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent me) {
+                    EchoTimer.stopPlaying();
                     if (isPowered) {
                         if (listPressed) {
                             System.out.println("Echo is listening");

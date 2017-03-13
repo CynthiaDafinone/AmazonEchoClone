@@ -55,4 +55,22 @@ class AudioOutput {
             System.exit(1);
         }
     }
+
+    static void playLooping(InputStream is) {
+        try {
+            BufferedInputStream bis = new BufferedInputStream(is);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
+            Clip clip = AudioSystem.getClip();
+            clip.open(ais);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            while(EchoTimer.shouldPlay()) {
+                Thread.sleep(10);
+            }
+            clip.stop();
+        } catch (UnsupportedAudioFileException | LineUnavailableException | InterruptedException | IOException e) {
+            System.out.println("There was an error outputting the audio.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 }

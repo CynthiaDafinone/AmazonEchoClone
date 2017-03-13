@@ -39,7 +39,11 @@ public class Echo implements ActionListener {
                 if (str.equals("UnknownHostException")) {
                     AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
                     return;
+                } else if (str.contains("timer")) {
+                    EchoTimer.startTimer(str);
+                    return;
                 }
+
                 String result = Computational.getAnswer(str);
                 System.out.println("Got an answer as: " + result);
                 // If there was an error connecting to Wolfram
