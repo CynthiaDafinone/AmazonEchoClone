@@ -76,7 +76,7 @@ public class TextToSpeechTest {
         
         tts2.writeData(speechTest, outputTest);
         
-        File s = new File("C:/Users/Lewis/Desktop/University/Degree/Year 2/Modules/Term 2/ECM2415 Software Engineering/Software Engineering/outTest.wav");
+        File s = new File("C:/Users/Lewis/Desktop/University/Degree/Year 2/Modules/Term 2/ECM2415 Software Engineering/Software-Engineering/outTest.wav");
         assertTrue(s.isFile());  // Check output file created
     }
 
@@ -90,7 +90,7 @@ public class TextToSpeechTest {
         String textTest3 = "What is apples plus bananas";
                 
         tts3.convertStringToSpeech(textTest3);
-        File s2 = new File("C:/Users/Lewis/Desktop/University/Degree/Year 2/Modules/Term 2/ECM2415 Software Engineering/Software Engineering/out.wav");
+        File s2 = new File("C:/Users/Lewis/Desktop/University/Degree/Year 2/Modules/Term 2/ECM2415 Software Engineering/Software-Engineering/out.wav");
         assertTrue(s2.isFile());  // Check output file created
     }
     
