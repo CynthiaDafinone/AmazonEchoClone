@@ -2,45 +2,76 @@
 import java.io.*;
 
 <span class="nc" id="L4">class AudioOutput {</span>
+    /**
+     * Method to play the sound from an AudioInputStream
+     * @param ais the stream to play from
+     */
     static void playSound (AudioInputStream ais) {
         try {
-<span class="fc" id="L7">            Clip clip = AudioSystem.getClip();</span>
-<span class="fc" id="L8">            clip.open(ais);</span>
-<span class="fc" id="L9">            clip.start();</span>
-<span class="nc" id="L10">        } catch (IOException | LineUnavailableException e) {</span>
-<span class="nc" id="L11">            e.printStackTrace();</span>
-<span class="fc" id="L12">        }</span>
-<span class="fc" id="L13">    }</span>
+<span class="nc" id="L11">            Clip clip = AudioSystem.getClip();</span>
+<span class="nc" id="L12">            clip.open(ais);</span>
+<span class="nc" id="L13">            clip.start();</span>
+<span class="nc" id="L14">        } catch (IOException | LineUnavailableException e) {</span>
+<span class="nc" id="L15">            e.printStackTrace();</span>
+<span class="nc" id="L16">        }</span>
+<span class="nc" id="L17">    }</span>
+
+    /**
+     * Method to play sound from an InputStream
+     * @param is the InputStream to play from
+     */
     static void playSound(InputStream is) {
         try {
-<span class="nc" id="L16">            BufferedInputStream bis = new BufferedInputStream(is);</span>
-<span class="nc" id="L17">            AudioInputStream ais = AudioSystem.getAudioInputStream(bis);</span>
-<span class="nc" id="L18">            playSound(ais);</span>
-<span class="nc" id="L19">        } catch (UnsupportedAudioFileException | IOException e) {</span>
-<span class="nc" id="L20">            System.out.println(&quot;There was an error outputting the audio.&quot;);</span>
-<span class="nc" id="L21">            e.printStackTrace();</span>
-<span class="nc" id="L22">            System.exit(1);</span>
-<span class="nc" id="L23">        }</span>
-<span class="nc" id="L24">    }</span>
+<span class="nc" id="L25">            BufferedInputStream bis = new BufferedInputStream(is);</span>
+<span class="nc" id="L26">            AudioInputStream ais = AudioSystem.getAudioInputStream(bis);</span>
+<span class="nc" id="L27">            playSound(ais);</span>
+<span class="nc" id="L28">        } catch (UnsupportedAudioFileException | IOException e) {</span>
+<span class="nc" id="L29">            System.out.println(&quot;There was an error outputting the audio.&quot;);</span>
+<span class="nc" id="L30">            e.printStackTrace();</span>
+<span class="nc" id="L31">            System.exit(1);</span>
+<span class="nc" id="L32">        }</span>
+<span class="nc" id="L33">    }</span>
 
+    /**
+     * Method to play sound from a filepath
+     * @param path the filepath to check for the audio in
+     */
     static void playSound(String path) {
         try {
-<span class="fc" id="L28">            File file = new File(path);</span>
-<span class="fc" id="L29">            AudioInputStream ais = AudioSystem.getAudioInputStream(file);</span>
-<span class="fc" id="L30">            playSound(ais);</span>
-<span class="nc" id="L31">        } catch (FileNotFoundException e ){</span>
-<span class="nc" id="L32">            System.out.println(&quot;The file given was not found.&quot;);</span>
-<span class="nc" id="L33">            e.printStackTrace();</span>
-<span class="nc" id="L34">            System.exit(1);</span>
-<span class="nc" id="L35">        } catch (UnsupportedAudioFileException e) {</span>
-<span class="nc" id="L36">            System.out.println(&quot;The filetype found was not supported.&quot;);</span>
-<span class="nc" id="L37">            e.printStackTrace();</span>
-<span class="nc" id="L38">            System.exit(1);</span>
-<span class="nc" id="L39">        } catch (IOException e) {</span>
-<span class="nc" id="L40">            System.out.println(&quot;There was an IOException&quot;);</span>
-<span class="nc" id="L41">            e.printStackTrace();</span>
-<span class="nc" id="L42">            System.exit(1);</span>
-<span class="pc" id="L43">        }</span>
-<span class="fc" id="L44">    }</span>
+<span class="nc" id="L41">            File file = new File(path);</span>
+<span class="nc" id="L42">            AudioInputStream ais = AudioSystem.getAudioInputStream(file);</span>
+<span class="nc" id="L43">            playSound(ais);</span>
+<span class="nc" id="L44">        } catch (FileNotFoundException e ){</span>
+<span class="nc" id="L45">            System.out.println(&quot;The file given was not found.&quot;);</span>
+<span class="nc" id="L46">            e.printStackTrace();</span>
+<span class="nc" id="L47">            System.exit(1);</span>
+<span class="nc" id="L48">        } catch (UnsupportedAudioFileException e) {</span>
+<span class="nc" id="L49">            System.out.println(&quot;The filetype found was not supported.&quot;);</span>
+<span class="nc" id="L50">            e.printStackTrace();</span>
+<span class="nc" id="L51">            System.exit(1);</span>
+<span class="nc" id="L52">        } catch (IOException e) {</span>
+<span class="nc" id="L53">            System.out.println(&quot;There was an IOException&quot;);</span>
+<span class="nc" id="L54">            e.printStackTrace();</span>
+<span class="nc" id="L55">            System.exit(1);</span>
+<span class="nc" id="L56">        }</span>
+<span class="nc" id="L57">    }</span>
+
+    static void playLooping(InputStream is) {
+        try {
+<span class="nc" id="L61">            BufferedInputStream bis = new BufferedInputStream(is);</span>
+<span class="nc" id="L62">            AudioInputStream ais = AudioSystem.getAudioInputStream(bis);</span>
+<span class="nc" id="L63">            Clip clip = AudioSystem.getClip();</span>
+<span class="nc" id="L64">            clip.open(ais);</span>
+<span class="nc" id="L65">            clip.loop(Clip.LOOP_CONTINUOUSLY);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            while(EchoTimer.shouldPlay()) {</span>
+<span class="nc" id="L67">                Thread.sleep(10);</span>
+            }
+<span class="nc" id="L69">            clip.stop();</span>
+<span class="nc" id="L70">        } catch (UnsupportedAudioFileException | LineUnavailableException | InterruptedException | IOException e) {</span>
+<span class="nc" id="L71">            System.out.println(&quot;There was an error outputting the audio.&quot;);</span>
+<span class="nc" id="L72">            e.printStackTrace();</span>
+<span class="nc" id="L73">            System.exit(1);</span>
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

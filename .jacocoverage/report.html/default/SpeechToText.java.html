@@ -15,7 +15,7 @@ import java.util.UUID;
      * @param body the audio bytes
      * @return the JSON string returned from the server
      */
-    private static String recognizeSpeech( String token, byte[] body ) throws IOException {
+    static String recognizeSpeech( String token, byte[] body ) throws IOException {
 <span class="nc" id="L19">        final String method = &quot;POST&quot;;</span>
 <span class="nc" id="L20">        final String url</span>
                 = ( &quot;https://speech.platform.bing.com/recognize&quot;
@@ -41,7 +41,7 @@ import java.util.UUID;
      * @param name the filename in which to load data from
      * @return the byte array containing audio information
      */
-    private static byte[] readData( String name ) {
+    static byte[] readData( String name ) {
         try {
 <span class="nc" id="L46">            File            file = new File( name );</span>
 <span class="nc" id="L47">            FileInputStream fis  = new FileInputStream( file );</span>

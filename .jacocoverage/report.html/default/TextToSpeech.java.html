@@ -3,7 +3,7 @@
 /**
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
-<span class="fc" id="L6">public class TextToSpeech {</span>
+<span class="nc" id="L6">class TextToSpeech {</span>
     private final static String LANG   = &quot;en-US&quot;;
     private final static String GENDER = &quot;Female&quot;;
     private final static String OUTPUT = &quot;out.wav&quot;;
@@ -21,23 +21,23 @@
     static byte[] synthesizeSpeech( String token, String text
             , String lang,  String gender
             , String format ) throws IOException {
-<span class="fc" id="L24">        final String method = &quot;POST&quot;;</span>
-<span class="fc" id="L25">        final String url = &quot;https://speech.platform.bing.com/synthesize&quot;;</span>
-<span class="fc" id="L26">        final byte[] body</span>
+<span class="nc" id="L24">        final String method = &quot;POST&quot;;</span>
+<span class="nc" id="L25">        final String url = &quot;https://speech.platform.bing.com/synthesize&quot;;</span>
+<span class="nc" id="L26">        final byte[] body</span>
                 = ( &quot;&lt;speak version='1.0' xml:lang='en-GB'&gt;&quot;
                 + &quot;&lt;voice xml:lang='&quot; + lang   + &quot;' &quot;
                 + &quot;xml:gender='&quot;      + gender + &quot;' &quot;
                 + &quot;name='Microsoft Server Speech Text to Speech Voice&quot;
                 + &quot; (en-US, ZiraRUS)'&gt;&quot;
                 + text
-<span class="fc" id="L33">                + &quot;&lt;/voice&gt;&lt;/speak&gt;&quot; ).getBytes();</span>
-<span class="fc" id="L34">        final String[][] headers</span>
+<span class="nc" id="L33">                + &quot;&lt;/voice&gt;&lt;/speak&gt;&quot; ).getBytes();</span>
+<span class="nc" id="L34">        final String[][] headers</span>
                 = { { &quot;Content-Type&quot;             , &quot;application/ssml+xml&quot;        }
-<span class="fc" id="L36">                , { &quot;Content-Length&quot;           , String.valueOf( body.length ) }</span>
+<span class="nc" id="L36">                , { &quot;Content-Length&quot;           , String.valueOf( body.length ) }</span>
                 , { &quot;Authorization&quot;            , &quot;Bearer &quot; + token             }
                 , { &quot;X-Microsoft-OutputFormat&quot; , format                        }
         };
-<span class="fc" id="L40">        return HTTPConnect.httpConnect( method, url, headers, body );</span>
+<span class="nc" id="L40">        return HTTPConnect.httpConnect( method, url, headers, body );</span>
     }
 
     /**
@@ -47,17 +47,17 @@
      */
     static void writeData( byte[] buffer, String name ) {
         try {
-<span class="fc" id="L50">            File file = new File( name );</span>
-<span class="fc" id="L51">            FileOutputStream fos  = new FileOutputStream( file );</span>
-<span class="fc" id="L52">            DataOutputStream dos  = new DataOutputStream( fos );</span>
-<span class="fc" id="L53">            dos.write( buffer );</span>
-<span class="fc" id="L54">            dos.flush();</span>
-<span class="fc" id="L55">            dos.close();</span>
+<span class="nc" id="L50">            File file = new File( name );</span>
+<span class="nc" id="L51">            FileOutputStream fos  = new FileOutputStream( file );</span>
+<span class="nc" id="L52">            DataOutputStream dos  = new DataOutputStream( fos );</span>
+<span class="nc" id="L53">            dos.write( buffer );</span>
+<span class="nc" id="L54">            dos.flush();</span>
+<span class="nc" id="L55">            dos.close();</span>
 <span class="nc" id="L56">        } catch (IOException e) {</span>
 <span class="nc" id="L57">            e.printStackTrace();</span>
 <span class="nc" id="L58">            System.exit(1);</span>
-<span class="fc" id="L59">        }</span>
-<span class="fc" id="L60">    }</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
 
     /**
      * Method to convert a given string to an audio file
@@ -66,11 +66,11 @@
      */
     static String convertStringToSpeech(String text) {
         try {
-<span class="fc" id="L69">            final String token = HTTPConnect.renewAccessToken();</span>
-<span class="fc" id="L70">            final byte[] speech = synthesizeSpeech(token, text, LANG, GENDER, FORMAT);</span>
-<span class="fc" id="L71">            writeData(speech, OUTPUT);</span>
-<span class="fc" id="L72">            AudioOutput.playSound(OUTPUT);</span>
-<span class="fc" id="L73">            return OUTPUT;</span>
+<span class="nc" id="L69">            final String token = HTTPConnect.renewAccessToken();</span>
+<span class="nc" id="L70">            final byte[] speech = synthesizeSpeech(token, text, LANG, GENDER, FORMAT);</span>
+<span class="nc" id="L71">            writeData(speech, OUTPUT);</span>
+<span class="nc" id="L72">            AudioOutput.playSound(OUTPUT);</span>
+<span class="nc" id="L73">            return OUTPUT;</span>
 <span class="nc" id="L74">        } catch (IOException e) {</span>
             // TODO: Play &quot;Sorry, I don't have an answer for that question&quot;
 <span class="nc" id="L76">            e.printStackTrace();</span>
