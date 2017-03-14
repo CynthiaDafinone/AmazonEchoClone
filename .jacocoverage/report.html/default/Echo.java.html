@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Echo.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Software-Engineering&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Echo.java</span></div><h1>Echo.java</h1><pre class="source lang-java linenums">import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+/**
+ * Main class for the Echo
+ * In future will call GUI builder and handle some events
+ */
+public class Echo implements ActionListener {
+<span class="nc" id="L9">    final String FILENAME = &quot;temp.wav&quot;;</span>
+    final EchoGUI gui;
+    final SoundDetector detector;
+
+    public static void main(String[] args) {
+<span class="nc" id="L14">        Echo e = new Echo();        </span>
+<span class="nc" id="L15">    }</span>
+    
+<span class="nc" id="L17">    Echo() {</span>
+<span class="nc" id="L18">        detector = new SoundDetector();</span>
+<span class="nc" id="L19">        gui = new EchoGUI(detector);</span>
+<span class="nc" id="L20">        detector.registerRecordingListener(this);</span>
+<span class="nc" id="L21">    }</span>
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (e.getActionCommand().equals(&quot;soundDetected&quot;)) {</span>
+            // SoundRecordedEvent
+<span class="nc" id="L27">            String str = SpeechToText.getTextFromAudio(FILENAME);</span>
+<span class="nc" id="L28">            System.out.println(&quot;Got a string as: &quot; + str);</span>
+            // Checking that it is not returned as null
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            if (str != null) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">                if (str.equals(&quot;UnknownHostException&quot;)) {</span>
+<span class="nc" id="L32">                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream(&quot;serverConnectionError.wav&quot;));</span>
+<span class="nc" id="L33">                    return;</span>
+                }
+<span class="nc" id="L35">                String result = Computational.getAnswer(str);</span>
+<span class="nc" id="L36">                System.out.println(&quot;Got an answer as: &quot; + result);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">                if (result == null) {</span>
+<span class="nc" id="L38">                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream(&quot;serverConnectionError.wav&quot;));</span>
+<span class="nc" id="L39">                    return;</span>
+                }
+<span class="nc" id="L41">                gui.changeColor(&quot;Blue&quot;);</span>
+<span class="nc" id="L42">                detector.pauseForAnswer();</span>
+<span class="nc" id="L43">                TextToSpeech.convertStringToSpeech(result);</span>
+<span class="nc" id="L44">                detector.resumeAfterAnswer();</span>
+
+
+                // Next sprint we shall add Clip listeners to ensure this colour change is after the speech has finished
+<span class="nc" id="L48">                gui.changeColor(&quot;Cyan&quot;);</span>
+
+            }
+        }
+<span class="nc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
