@@ -37,9 +37,11 @@ public class EchoGUI extends JFrame {
 
                         detectorThread = new Thread(detector);
                         detectorThread.start();
-
-                        AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
+                       AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
+                       AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("hello.wav"));
+                      
                         changeColor("Cyan");
+                    
 
 
                         
@@ -53,6 +55,7 @@ public class EchoGUI extends JFrame {
                         System.out.println("TURNING OFF");
                         isPowered = false;
                         changeColor("Off");
+                        AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("goodbye.wav"));
                         AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newOffSound.wav"));
 
                         try {
@@ -129,6 +132,7 @@ public class EchoGUI extends JFrame {
                     if (isPowered) {
                         if (listPressed) {
                             System.out.println("Echo is listening");
+                            AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newListSound.wav"));
                             changeColor("Flash");
                             listPressed = false;
 
@@ -144,12 +148,6 @@ public class EchoGUI extends JFrame {
         }
     }
 
-    /**
-     * Temporary method to report any errors
-     */
-    public void reportError() {
-        //javascript style error message telling user server is down
-    }
 
     //adds the three buttons onto the conent pane
     void addButtons() {

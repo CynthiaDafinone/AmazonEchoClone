@@ -29,6 +29,8 @@ public class Echo implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        gui.changeColor("Blue");
+        
         if (e.getActionCommand().equals("soundDetected")) {
             // SoundRecordedEvent
             String str = SpeechToText.getTextFromAudio(FILENAME);
@@ -64,7 +66,7 @@ public class Echo implements ActionListener {
                 }
 
                 // Change into answer mode, say the answer
-                gui.changeColor("Blue");
+                
                 detector.pauseForAnswer();
                 TextToSpeech.convertStringToSpeech(result);
                 detector.resumeAfterAnswer();
