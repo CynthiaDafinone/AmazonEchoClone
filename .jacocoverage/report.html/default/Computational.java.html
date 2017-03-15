@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Computational.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Software-Engineering&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Computational.java</span></div><h1>Computational.java</h1><pre class="source lang-java linenums">import java.io.File;
+import java.net.URLEncoder;
+import java.io.*;
+
+
+/*
+ *
+ */
+<span class="nc" id="L9">class Computational {</span>
+    // APPID for the WolframAlpha servers
+    private final static String APPID = &quot;J66HRA-W47APJEV7R&quot;;
+
+    /**
+     * Method to solve the given question using WolframAlpha
+     * @param question the question to be answered
+     * @return a string containing the result
+     * @throws IOException should there be an error with the connection to the server/answer
+     */
+    static String solve(String question) throws IOException {
+<span class="nc" id="L20">        final String method = &quot;POST&quot;;</span>
+<span class="nc" id="L21">        final String url</span>
+                = (&quot;http://api.wolframalpha.com/v2/query&quot;
+                + &quot;?&quot; + &quot;appid&quot; + &quot;=&quot; + APPID
+<span class="nc" id="L24">                + &quot;&amp;&quot; + &quot;question&quot; + &quot;=&quot; + urlEncode(question)</span>
+                + &quot;&amp;&quot; + &quot;output&quot; + &quot;=&quot; + &quot;JSON&quot;
+        );
+<span class="nc" id="L27">        final String[][] headers</span>
+                = {{&quot;Content-Length&quot;, &quot;0&quot;}
+        };
+<span class="nc" id="L30">        final byte[] body = new byte[0];</span>
+        try {
+<span class="nc" id="L32">            byte[] response = HTTPConnect.httpConnect(method, url, headers, body);</span>
+<span class="nc" id="L33">            return new String(response);</span>
+<span class="nc" id="L34">        } catch (IOException e) {</span>
+<span class="nc" id="L35">            System.out.println(&quot;Connection to the server timed out - invalid question?&quot;);</span>
+<span class="nc" id="L36">            return null;</span>
+        }
+    }
+
+
+    /**
+     * Method to encode the given string in a web-compatible format
+     * @param s the string to be encoded
+     * @return a string in web-compatible format
+     */
+    static String urlEncode(String s) {
+        try {
+<span class="nc" id="L48">            return URLEncoder.encode(s, &quot;utf-8&quot;);</span>
+<span class="nc" id="L49">        } catch (Exception ex) {</span>
+<span class="nc" id="L50">            ex.printStackTrace();</span>
+<span class="nc" id="L51">            System.exit(1);</span>
+<span class="nc" id="L52">            return null;</span>
+        }
+    }
+
+    /**
+     * Method to get the answer to the given question
+     * @param question the question to be answered
+     * @return the answer to the question
+     */
+    static String getAnswer(String question) {
+        try {
+            // Gather a resulting JSON string from the Wolfram servers
+<span class="nc" id="L64">            String json = solve(question);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (json == null) {</span>
+                // If there's no string, return the answer as null (no connection/timeout)
+<span class="nc" id="L67">                return null;</span>
+            }
+
+            // For now we are just finding the answer using manual string operations, this may be replaced later
+            // once Cynthia finishes the JSON parser
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (json.contains(&quot;\&quot;success\&quot; : true,&quot;)) {</span>
+<span class="nc" id="L73">                int searchIndex = json.indexOf(&quot;\&quot;id\&quot; : \&quot;Result\&quot;,&quot;);</span>
+<span class="nc" id="L74">                searchIndex = json.indexOf(&quot;\&quot;img\&quot; : {&quot;, searchIndex);</span>
+<span class="nc" id="L75">                searchIndex = json.indexOf(&quot;\&quot;title\&quot; : \&quot;&quot;, searchIndex) + 11;</span>
+<span class="nc" id="L76">                int endIndex = json.indexOf(&quot;\&quot;,&quot;, searchIndex);</span>
+<span class="nc" id="L77">                String answer = json.substring(searchIndex, endIndex);</span>
+
+<span class="nc" id="L79">                answer = answer.replaceAll(&quot;[^A-Za-z0-9 .',&amp;+()|-]&quot;, &quot;&quot;);</span>
+<span class="nc" id="L80">                return answer;</span>
+
+            } else {
+                // If WolframAlpha returned as a failure
+<span class="nc" id="L84">                return null;</span>
+            }
+<span class="nc" id="L86">        } catch (IOException e) {</span>
+<span class="nc" id="L87">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

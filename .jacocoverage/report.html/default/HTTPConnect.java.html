@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HTTPConnect.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Software-Engineering&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">HTTPConnect.java</span></div><h1>HTTPConnect.java</h1><pre class="source lang-java linenums">import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.net.UnknownHostException;
+
+/**
+ * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
+ */
+<span class="nc" id="L12">class HTTPConnect {</span>
+    private final static int TIMEOUT  = 5000; // Timeout in ms
+    private final static int BUFFSIZE = 4096; // Buffer response size
+
+    private final static String KEY = &quot;110c24ab25804509a223bac18251d6f2&quot;;
+    // An extra access key to use, should we need it
+    // private final static String KEY = &quot;ea072146f15446ed89d1c9f2498c0d87&quot;;
+
+
+    /**
+     * Method to renew an access token to the cognitive services
+     * @return  the access token
+     */
+    static String renewAccessToken() throws UnknownHostException, IOException {
+<span class="nc" id="L26">        final String method = &quot;POST&quot;;</span>
+<span class="nc" id="L27">        final String url =</span>
+                &quot;https://api.cognitive.microsoft.com/sts/v1.0/issueToken&quot;;
+<span class="nc" id="L29">        final byte[] body = {};</span>
+<span class="nc" id="L30">        final String[][] headers</span>
+                = { { &quot;Ocp-Apim-Subscription-Key&quot;, KEY}
+<span class="nc" id="L32">                , { &quot;Content-Length&quot;           , String.valueOf( body.length ) }</span>
+        };
+<span class="nc" id="L34">        byte[] response = HTTPConnect.httpConnect( method, url, headers, body );</span>
+<span class="nc" id="L35">        return new String( response );</span>
+    }
+
+    /**
+     * Method creates a HTTP connection, sends and receives data
+     * @param m the method of sending the request
+     * @param u the URL to send the request to
+     * @param h the headers to attach to the request
+     * @param body the body of the request
+     * @return a byte array containing the response
+     */
+    static byte[] httpConnect(String m, String u, String[][] h, byte[] body) throws IOException, UnknownHostException {
+<span class="nc" id="L47">        URL url = new URL(u);</span>
+<span class="nc" id="L48">        HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span>
+<span class="nc" id="L49">        conn.setRequestMethod(m);</span>
+<span class="nc" id="L50">        conn.setDoInput(true);</span>
+<span class="nc" id="L51">        conn.setDoOutput(true);</span>
+<span class="nc" id="L52">        conn.setConnectTimeout(TIMEOUT);</span>
+<span class="nc" id="L53">        conn.setReadTimeout(TIMEOUT);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        for (String[] aH : h) {</span>
+<span class="nc" id="L55">            conn.setRequestProperty(aH[0], aH[1]);</span>
+        }
+<span class="nc" id="L57">        conn.connect();</span>
+
+
+        // Send the outgoing data
+<span class="nc" id="L61">        DataOutputStream dos = new DataOutputStream(conn.getOutputStream());</span>
+<span class="nc" id="L62">        dos.write(body);</span>
+<span class="nc" id="L63">        dos.flush();</span>
+<span class="nc" id="L64">        dos.close();</span>
+
+
+        // Receive the incoming data
+<span class="nc" id="L68">        DataInputStream dis = new DataInputStream(conn.getInputStream());</span>
+<span class="nc" id="L69">        ByteArrayOutputStream bos = new ByteArrayOutputStream();</span>
+<span class="nc" id="L70">        byte[] buffer = new byte[BUFFSIZE];</span>
+        while (true) {
+<span class="nc" id="L72">            int n = dis.read(buffer);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (n &gt; 0) {</span>
+<span class="nc" id="L74">                bos.write(buffer, 0, n);</span>
+            } else {
+                break;
+            }
+<span class="nc" id="L78">        }</span>
+<span class="nc" id="L79">        byte[] response = bos.toByteArray();</span>
+
+<span class="nc" id="L81">        dis.close();</span>
+<span class="nc" id="L82">        conn.disconnect();</span>
+<span class="nc" id="L83">        return response;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
