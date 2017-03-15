@@ -31,7 +31,7 @@ public class SoundDetector implements Runnable {
         // This is the lowest level possible
         THRESHOLD = -1f;
         while (detector.soundDetected()) {
-            THRESHOLD += 0.05f;
+            THRESHOLD += 1.05f;
         }
         THRESHOLD += 0.075f;
         System.out.println("Calibrated the threshold as " + THRESHOLD);
