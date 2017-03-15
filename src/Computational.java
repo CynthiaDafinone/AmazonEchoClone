@@ -21,7 +21,7 @@ class Computational {
         final String url
                 = ("http://api.wolframalpha.com/v2/query"
                 + "?" + "appid" + "=" + APPID
-                + "&" + "question" + "=" + urlEncode(question)
+                + "&" + "input" + "=" + urlEncode(question)
                 + "&" + "output" + "=" + "JSON"
         );
         final String[][] headers
