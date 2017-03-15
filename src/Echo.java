@@ -29,7 +29,8 @@ public class Echo implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        gui.changeColor("Blue");
+        
+     //   gui.changeColor("Flash");
         
         if (e.getActionCommand().equals("soundDetected")) {
             // SoundRecordedEvent
@@ -39,6 +40,7 @@ public class Echo implements ActionListener {
             if (str != null) {
                 str = str.toLowerCase();
                 // If there was an error connecting to Microsoft
+                
                 if (str.equals("UnknownHostException")) {
                     AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
                     return;
@@ -59,21 +61,29 @@ public class Echo implements ActionListener {
 
                 String result = Computational.getAnswer(str);
                 System.out.println("Got an answer as: " + result);
+                
                 // If there was an error connecting to Wolfram
                 if (result == null) {
+                    detector.pauseForAnswer();
                     AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
+                    detector.resumeAfterAnswer();
                     return;
                 }
 
-                // Change into answer mode, say the answer
-                
+                // Change into answer mode, say the answer 
                 detector.pauseForAnswer();
                 TextToSpeech.convertStringToSpeech(result);
                 detector.resumeAfterAnswer();
 
 
-                // Next sprint we shall add Clip listeners to ensure this colour change is after the speech has finished
+                //need line listeners to make sure it doesn't record itself and it changes colors accurately
                 gui.changeColor("Cyan");
+            }
+            
+            else{
+                AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("inputWasNull.wav"));
+                gui.changeColor("Cyan");
+                
             }
         }
     }

@@ -1,16 +1,29 @@
+
 import javax.sound.sampled.*;
 import java.io.*;
 
 class AudioOutput {
+    
+//    static SoundDetector detector = new SoundDetector();
+//    static EchoGUI gui = new EchoGUI(detector);
+
     /**
      * Method to play the sound from an AudioInputStream
+     *
      * @param ais the stream to play from
      */
-    static void playSound (AudioInputStream ais) {
+    static void playSound(AudioInputStream ais) {
         try {
             Clip clip = AudioSystem.getClip();
             clip.open(ais);
             clip.start();
+//            while(clip.getMicrosecondLength() != clip.getMicrosecondPosition()){
+//                 detector.pauseForAnswer();
+//                 gui.changeColor("Flash");
+//            }
+//            detector.resumeAfterAnswer();
+//            gui.changeColor("Cyan");
+            
         } catch (IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
@@ -18,6 +31,7 @@ class AudioOutput {
 
     /**
      * Method to play sound from an InputStream
+     *
      * @param is the InputStream to play from
      */
     static void playSound(InputStream is) {
@@ -34,6 +48,7 @@ class AudioOutput {
 
     /**
      * Method to play sound from a filepath
+     *
      * @param path the filepath to check for the audio in
      */
     static void playSound(String path) {
@@ -41,7 +56,7 @@ class AudioOutput {
             File file = new File(path);
             AudioInputStream ais = AudioSystem.getAudioInputStream(file);
             playSound(ais);
-        } catch (FileNotFoundException e ){
+        } catch (FileNotFoundException e) {
             System.out.println("The file given was not found.");
             e.printStackTrace();
             System.exit(1);
@@ -55,7 +70,7 @@ class AudioOutput {
             System.exit(1);
         }
     }
-
+    
     static void playLooping(InputStream is) {
         try {
             BufferedInputStream bis = new BufferedInputStream(is);
@@ -63,7 +78,7 @@ class AudioOutput {
             Clip clip = AudioSystem.getClip();
             clip.open(ais);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
-            while(EchoTimer.shouldPlay()) {
+            while (EchoTimer.shouldPlay()) {
                 Thread.sleep(10);
             }
             clip.stop();
