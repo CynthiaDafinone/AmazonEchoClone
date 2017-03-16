@@ -47,6 +47,9 @@ public class Echo implements ActionListener {
                 } else if (str.contains("timer")) {
                     EchoTimer.startTimer(str);
                     return;
+                } else if(str.contains("news")){
+                    News.playNews();
+                    return;
                 } else if (str.contains("stopwatch") || str.contains("stop watch")) {
                     if (str.contains("start")) {
                         EchoStopwatch.startStopwatch();
