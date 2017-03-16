@@ -47,7 +47,7 @@ public class News {
 
                     AudioOutput.playSound(TextToSpeech.convertStringToSpeech(headline));
                     //Make sure each news story doesn't play over another
-                    Thread.sleep(66*headline.length());
+                    Thread.sleep(85*headline.length());
                     
                     if(i==3){
                         return true;
