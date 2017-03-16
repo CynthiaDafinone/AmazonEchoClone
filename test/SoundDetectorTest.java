@@ -1,4 +1,5 @@
-//import be.tarsos.dsp.AudioEvent;
+// TO BE FINISHED / WORK IN PROGRESS
+
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import javax.sound.sampled.AudioInputStream;
