@@ -52,7 +52,6 @@ public class News {
                     if(i==3){
                         return true;
                     }
-                //return true;
                 }
             return true;
             }

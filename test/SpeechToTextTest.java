@@ -41,11 +41,11 @@ public class SpeechToTextTest {
     @Test
     public void testRecognizeSpeech() throws Exception {  // NOT WORKING!!
         final String tokenTest = HTTPConnect.renewAccessToken();
-        String nameTest = "WhenIsChristmas.wav";
+        String nameTest = "christmas.wav";
         byte[] bodyTest = SpeechToText.readData(nameTest);
         System.out.println(bodyTest);
-       // String result = SpeechToText.recognizeSpeech(tokenTest, bodyTest);
-        //System.out.print(result);
+        String result = SpeechToText.recognizeSpeech(tokenTest, bodyTest);
+        System.out.print(result);
     }
 
      /**
