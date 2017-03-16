@@ -29,53 +29,63 @@ public class Echo implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-<span class="nc" id="L32">        gui.changeColor(&quot;Blue&quot;);</span>
         
-<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (e.getActionCommand().equals(&quot;soundDetected&quot;)) {</span>
+     //   gui.changeColor(&quot;Flash&quot;);
+        
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (e.getActionCommand().equals(&quot;soundDetected&quot;)) {</span>
             // SoundRecordedEvent
-<span class="nc" id="L36">            String str = SpeechToText.getTextFromAudio(FILENAME);</span>
-<span class="nc" id="L37">            System.out.println(&quot;Got a string as: &quot; + str);</span>
+<span class="nc" id="L37">            String str = SpeechToText.getTextFromAudio(FILENAME);</span>
+<span class="nc" id="L38">            System.out.println(&quot;Got a string as: &quot; + str);</span>
             // Checking that it is not returned as null
-<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (str != null) {</span>
-<span class="nc" id="L40">                str = str.toLowerCase();</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (str != null) {</span>
+<span class="nc" id="L41">                str = str.toLowerCase();</span>
                 // If there was an error connecting to Microsoft
-<span class="nc bnc" id="L42" title="All 2 branches missed.">                if (str.equals(&quot;UnknownHostException&quot;)) {</span>
-<span class="nc" id="L43">                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream(&quot;serverConnectionError.wav&quot;));</span>
-<span class="nc" id="L44">                    return;</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">                } else if (str.contains(&quot;timer&quot;)) {</span>
-<span class="nc" id="L46">                    EchoTimer.startTimer(str);</span>
-<span class="nc" id="L47">                    return;</span>
-<span class="nc bnc" id="L48" title="All 4 branches missed.">                } else if (str.contains(&quot;stopwatch&quot;) || str.contains(&quot;stop watch&quot;)) {</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">                    if (str.contains(&quot;start&quot;)) {</span>
-<span class="nc" id="L50">                        EchoStopwatch.startStopwatch();</span>
-<span class="nc" id="L51">                        return;</span>
+                
+<span class="nc bnc" id="L44" title="All 2 branches missed.">                if (str.equals(&quot;UnknownHostException&quot;)) {</span>
+<span class="nc" id="L45">                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream(&quot;serverConnectionError.wav&quot;));</span>
+<span class="nc" id="L46">                    return;</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                } else if (str.contains(&quot;timer&quot;)) {</span>
+<span class="nc" id="L48">                    EchoTimer.startTimer(str);</span>
+<span class="nc" id="L49">                    return;</span>
+<span class="nc bnc" id="L50" title="All 4 branches missed.">                } else if (str.contains(&quot;stopwatch&quot;) || str.contains(&quot;stop watch&quot;)) {</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                    if (str.contains(&quot;start&quot;)) {</span>
+<span class="nc" id="L52">                        EchoStopwatch.startStopwatch();</span>
+<span class="nc" id="L53">                        return;</span>
                     }
                     // Space must be after stop to avoid 'stopwatch' triggering this
-<span class="nc bnc" id="L54" title="All 2 branches missed.">                    else if (str.contains(&quot;stop &quot;)) {</span>
-<span class="nc" id="L55">                        EchoStopwatch.stopStopwatch();</span>
-<span class="nc" id="L56">                        return;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">                    else if (str.contains(&quot;stop &quot;)) {</span>
+<span class="nc" id="L57">                        EchoStopwatch.stopStopwatch();</span>
+<span class="nc" id="L58">                        return;</span>
                     }
                 }
 
-<span class="nc" id="L60">                String result = Computational.getAnswer(str);</span>
-<span class="nc" id="L61">                System.out.println(&quot;Got an answer as: &quot; + result);</span>
+<span class="nc" id="L62">                String result = Computational.getAnswer(str);</span>
+<span class="nc" id="L63">                System.out.println(&quot;Got an answer as: &quot; + result);</span>
+                
                 // If there was an error connecting to Wolfram
-<span class="nc bnc" id="L63" title="All 2 branches missed.">                if (result == null) {</span>
-<span class="nc" id="L64">                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream(&quot;serverConnectionError.wav&quot;));</span>
-<span class="nc" id="L65">                    return;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                if (result == null) {</span>
+<span class="nc" id="L67">                    detector.pauseForAnswer();</span>
+<span class="nc" id="L68">                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream(&quot;serverConnectionError.wav&quot;));</span>
+<span class="nc" id="L69">                    detector.resumeAfterAnswer();</span>
+<span class="nc" id="L70">                    return;</span>
                 }
 
-                // Change into answer mode, say the answer
+                // Change into answer mode, say the answer 
+<span class="nc" id="L74">                detector.pauseForAnswer();</span>
+<span class="nc" id="L75">                TextToSpeech.convertStringToSpeech(result);</span>
+<span class="nc" id="L76">                detector.resumeAfterAnswer();</span>
+
+
+                //need line listeners to make sure it doesn't record itself and it changes colors accurately
+<span class="nc" id="L80">                gui.changeColor(&quot;Cyan&quot;);</span>
+<span class="nc" id="L81">            }</span>
+            
+            else{
+<span class="nc" id="L84">                AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream(&quot;inputWasNull.wav&quot;));</span>
+<span class="nc" id="L85">                gui.changeColor(&quot;Cyan&quot;);</span>
                 
-<span class="nc" id="L70">                detector.pauseForAnswer();</span>
-<span class="nc" id="L71">                TextToSpeech.convertStringToSpeech(result);</span>
-<span class="nc" id="L72">                detector.resumeAfterAnswer();</span>
-
-
-                // Next sprint we shall add Clip listeners to ensure this colour change is after the speech has finished
-<span class="nc" id="L76">                gui.changeColor(&quot;Cyan&quot;);</span>
             }
         }
-<span class="nc" id="L79">    }</span>
+<span class="nc" id="L89">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
