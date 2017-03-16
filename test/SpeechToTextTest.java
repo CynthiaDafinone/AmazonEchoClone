@@ -39,11 +39,10 @@ public class SpeechToTextTest {
      * Test to check that the recognizeSpeech method works as intended
      */
     @Test
-    public void testRecognizeSpeech() throws Exception {  // NOT WORKING!!
+    public void testRecognizeSpeech() throws Exception {  
         final String tokenTest = HTTPConnect.renewAccessToken();
         String nameTest = "christmas.wav";
         byte[] bodyTest = SpeechToText.readData(nameTest);
-        System.out.println(bodyTest);
         String result = SpeechToText.recognizeSpeech(tokenTest, bodyTest);
         System.out.print(result);
     }
@@ -53,10 +52,10 @@ public class SpeechToTextTest {
      */
     @Test
     public void testReadData() {
-        String nameTest = "WhenIsChristmas.wav";
+        String nameTest = "christmas.wav";
         
         byte[] output = SpeechToText.readData(nameTest);
-        
+
         assertNotNull(output);
         
 
