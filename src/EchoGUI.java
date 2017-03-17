@@ -128,16 +128,16 @@ public class EchoGUI extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent me) {
                     EchoTimer.stopPlaying();
+                    AudioOutput.stopAudio();
                     if (isPowered) {
                         if (listPressed) {
-                            System.out.println("Echo is listening");
+                            System.out.println("Action button pressed");
                             AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newListSound.wav"));
                             changeColor("Flash");
                             listPressed = false;
 
                             //this button should probably do something
                         } else {
-
                             changeColor("Cyan");
                             listPressed = true;
                         }
