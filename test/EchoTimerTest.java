@@ -57,7 +57,7 @@ public class EchoTimerTest {
         EchoTimer et1 = new EchoTimer();
         
         boolean shouldPlayBool = et1.shouldPlay;
-        assertNotNull("shouldPlay shouldn't be null", shouldPlayBool);
+        assertTrue("shouldPlay should be true", shouldPlayBool);
     }
 
     /**
