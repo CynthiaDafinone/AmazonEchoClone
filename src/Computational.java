@@ -76,6 +76,10 @@ class Computational {
                 int endIndex = json.indexOf("\",", searchIndex);
                 String answer = json.substring(searchIndex, endIndex);
 
+                // Removing special characters
+                answer = answer.replaceAll("\\\\n", " ");
+                answer = answer.replaceAll("\\\\r", " ");
+                answer = answer.replaceAll("\\\\t", " ");                
                 answer = answer.replaceAll("[^A-Za-z0-9 .',&+()|-]", "");
                 return answer;
 
