@@ -80,7 +80,7 @@ class Computational {
                 answer = answer.replaceAll("\\\\n", " ");
                 answer = answer.replaceAll("\\\\r", " ");
                 answer = answer.replaceAll("\\\\t", " ");                
-                answer = answer.replaceAll("[^A-Za-z0-9 .',&+()|-]", "");
+                answer = answer.replaceAll("[^A-Za-z0-9 .',&:+()|-]", "");
                 return answer;
 
             } else {

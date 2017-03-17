@@ -1,3 +1,8 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
+
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -5,7 +10,7 @@ import java.awt.event.ActionListener;
  * Main class for the Echo
  * In future will call GUI builder and handle some events
  */
-public class Echo implements ActionListener {
+public class Echo implements ActionListener, LineListener {
     private final String FILENAME = "temp.wav";
     private final EchoGUI gui;
     private final SoundDetector detector;
@@ -21,6 +26,7 @@ public class Echo implements ActionListener {
         detector = new SoundDetector();
         gui = new EchoGUI(detector);
         detector.registerRecordingListener(this);
+        AudioOutput.addLineListener(this);
     }
 
     /**
@@ -40,54 +46,64 @@ public class Echo implements ActionListener {
             if (str != null) {
                 str = str.toLowerCase();
                 // If there was an error connecting to Microsoft
-                
-                if (str.equals("UnknownHostException")) {
-                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
-                    return;
-                } else if (str.contains("timer")) {
-                    EchoTimer.startTimer(str);
-                    return;
-                } else if(str.contains("news")){
-                    News.playNews();
-                    return;
-                } else if (str.contains("stopwatch") || str.contains("stop watch")) {
-                    if (str.contains("start")) {
-                        EchoStopwatch.startStopwatch();
+                if (str.contains("alexa")){
+                    if (str.equals("UnknownHostException")) {
+                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
                         return;
-                    }
-                    // Space must be after stop to avoid 'stopwatch' triggering this
-                    else if (str.contains("stop ")) {
-                        EchoStopwatch.stopStopwatch();
+                    } else if (str.contains("timer")) {
+                        EchoTimer.startTimer(str);
                         return;
+                    } else if(str.contains("news")){
+                        News.playNews();
+                        return;
+                    } else if (str.contains("stopwatch") || str.contains("stop watch")) {
+                        if (str.contains("start")) {
+                            EchoStopwatch.startStopwatch();
+                            return;
+                        }
+                        // Space must be after stop to avoid 'stopwatch' triggering this
+                        else if (str.contains("stop ")) {
+                            EchoStopwatch.stopStopwatch();
+                            return;
+                        }
                     }
                 }
-
+                
+                str = str.replaceFirst("alexa", "");
                 String result = Computational.getAnswer(str);
                 System.out.println("Got an answer as: " + result);
                 
                 // If there was an error connecting to Wolfram
                 if (result == null) {
-                    detector.pauseForAnswer();
-                    AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
-                    detector.resumeAfterAnswer();
+                    AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
                     return;
                 }
 
                 // Change into answer mode, say the answer 
-                detector.pauseForAnswer();
                 TextToSpeech.convertStringToSpeech(result);
-                detector.resumeAfterAnswer();
-
-
-                //need line listeners to make sure it doesn't record itself and it changes colors accurately
-                gui.changeColor("Cyan");
             }
             
             else{
-                AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("inputWasNull.wav"));
+                AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("inputWasNull.wav"));
                 gui.changeColor("Cyan");
                 
             }
+        }
+    }
+
+    @Override
+    public void update(LineEvent event) {
+        if (!gui.isPowered()) {
+            return;
+        }
+        if (event.getType() == LineEvent.Type.START) {
+            detector.pauseForAnswer();
+            gui.changeColor("Blue");
+        }
+        if (event.getType() == LineEvent.Type.STOP) {
+            gui.changeColor("Cyan");
+            detector.resumeAfterAnswer();
+//            ((Clip)event.getSource()).close();
         }
     }
 }

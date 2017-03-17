@@ -1,8 +1,21 @@
 
 import javax.sound.sampled.*;
 import java.io.*;
+import java.util.ArrayList;
 
 class AudioOutput {
+    static Clip clip;
+    static Clip clipNoListener;
+    static {
+        try {
+            clip = AudioSystem.getClip();
+            clipNoListener = AudioSystem.getClip();
+        } catch (LineUnavailableException e) {
+            System.out.println("There was an error getting the output audio line!");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
     
 //    static SoundDetector detector = new SoundDetector();
 //    static EchoGUI gui = new EchoGUI(detector);
@@ -14,19 +27,64 @@ class AudioOutput {
      */
     static void playSound(AudioInputStream ais) {
         try {
-            Clip clip = AudioSystem.getClip();
+            // Close any already opened clip
+            clip.close();
             clip.open(ais);
             clip.start();
+
 //            while(clip.getMicrosecondLength() != clip.getMicrosecondPosition()){
 //                 detector.pauseForAnswer();
 //                 gui.changeColor("Flash");
 //            }
 //            detector.resumeAfterAnswer();
 //            gui.changeColor("Cyan");
-            
+
         } catch (IOException | LineUnavailableException e) {
+            System.out.println("There was an error getting the output audio line!");
             e.printStackTrace();
+            System.exit(1);
         }
+    }
+
+    /**
+     * Method used to play sound without notifying any LineListeners
+     * @param ais the AudioInputStream to play
+     */
+    static void playSoundWithoutListeners(AudioInputStream ais) {
+        try {
+            // Close any already opened clip
+            clipNoListener.close();
+            clipNoListener.open(ais);
+            clipNoListener.start();
+        } catch (IOException | LineUnavailableException e) {
+            System.out.println("There was an error getting the output audio line!");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Method to add LineListeners to be aware of any changes to AudioOutput
+     * @param listener the listener to add
+     */
+    static void addLineListener(LineListener listener) {
+        clip.addLineListener(listener);
+    }
+
+    /**
+     * Method to remove and LineListeners
+     * @param listener the listener to remove
+     */
+    static void removeLineListener(LineListener listener) {
+        clip.removeLineListener(listener);
+    }
+
+    /**
+     * Method used to instantly stop any audio output
+     */
+    static void stopAudio() {
+        clip.close();
+        clipNoListener.close();
     }
 
     /**
@@ -39,6 +97,22 @@ class AudioOutput {
             BufferedInputStream bis = new BufferedInputStream(is);
             AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
             playSound(ais);
+        } catch (UnsupportedAudioFileException | IOException e) {
+            System.out.println("There was an error outputting the audio.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Method plays sound without notifying any LineListeners
+     * @param is the input stream to play
+     */
+    static void playSoundWithoutListeners(InputStream is) {
+        try {
+            BufferedInputStream bis = new BufferedInputStream(is);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
+            playSoundWithoutListeners(ais);
         } catch (UnsupportedAudioFileException | IOException e) {
             System.out.println("There was an error outputting the audio.");
             e.printStackTrace();

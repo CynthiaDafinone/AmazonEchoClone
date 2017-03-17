@@ -37,9 +37,8 @@ public class EchoGUI extends JFrame {
 
                         detectorThread = new Thread(detector);
                         detectorThread.start();
-                       AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
-                       AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("hello.wav"));
-                      
+                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
+
                         changeColor("Cyan");
                     
 
@@ -54,9 +53,9 @@ public class EchoGUI extends JFrame {
                         flashCount = 0;
                         System.out.println("TURNING OFF");
                         isPowered = false;
+                        AudioOutput.stopAudio();
                         changeColor("Off");
-                        AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("goodbye.wav"));
-                        AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newOffSound.wav"));
+                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newOffSound.wav"));
 
                         try {
                             detector.disableMic();
@@ -89,7 +88,7 @@ public class EchoGUI extends JFrame {
                         if (isPressed) {
                             flashCount = 0;
                             System.out.println("Microphone activated");
-                            AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("unmuted.wav"));
+                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("unmuted.wav"));
                             isPressed = false;
                             detector.enableMic();
                             detectorThread = new Thread(detector);
@@ -98,7 +97,7 @@ public class EchoGUI extends JFrame {
                         } else {
                         flashCount = 0;
                             isPressed = true;
-                            AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("muted.wav"));
+                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("muted.wav"));
                             detector.disableMic();
                             try {
                                 detectorThread.join();
@@ -129,16 +128,16 @@ public class EchoGUI extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent me) {
                     EchoTimer.stopPlaying();
+                    AudioOutput.stopAudio();
                     if (isPowered) {
                         if (listPressed) {
-                            System.out.println("Echo is listening");
-                            AudioOutput.playSound(getClass().getClassLoader().getResourceAsStream("newListSound.wav"));
+                            System.out.println("Action button pressed");
+                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newListSound.wav"));
                             changeColor("Flash");
                             listPressed = false;
 
                             //this button should probably do something
                         } else {
-
                             changeColor("Cyan");
                             listPressed = true;
                         }
@@ -234,5 +233,9 @@ public class EchoGUI extends JFrame {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
+    }
+
+    boolean isPowered() {
+        return isPowered;
     }
 }
