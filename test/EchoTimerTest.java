@@ -40,13 +40,13 @@ public class EchoTimerTest {
      */
     @Test
     public void testStartTimer() {
-        System.out.println("startTimer");
-        String str = "";
-        boolean expResult = false;
-        boolean result = EchoTimer.startTimer(str);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("startTimer");
+//        String str = "";
+//        boolean expResult = false;
+//        boolean result = EchoTimer.startTimer(str);
+//       assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -54,12 +54,10 @@ public class EchoTimerTest {
      */
     @Test
     public void testShouldPlay() {
-        System.out.println("shouldPlay");
-        boolean expResult = false;
-        boolean result = EchoTimer.shouldPlay();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        EchoTimer et1 = new EchoTimer();
+        
+        boolean shouldPlayBool = et1.shouldPlay;
+        assertNotNull("shouldPlay shouldn't be null", shouldPlayBool);
     }
 
     /**
@@ -67,10 +65,15 @@ public class EchoTimerTest {
      */
     @Test
     public void testStopPlaying() {
-        System.out.println("stopPlaying");
-        EchoTimer.stopPlaying();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        EchoTimer et = new EchoTimer();
+        
+        boolean shouldPlayBool1 = et.shouldPlay;
+        assertTrue("shouldPlay should have value true", shouldPlayBool1);
+
+        et.stopPlaying();
+        
+        boolean shouldPlayBool2 = et.shouldPlay;
+        assertFalse("shouldPlay should have value false", shouldPlayBool2);
     }
     
 }

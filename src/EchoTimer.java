@@ -2,8 +2,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class EchoTimer {
-    private volatile static boolean shouldPlay = true;
-    private static boolean isPlaying = false;
+    volatile static boolean shouldPlay = true;
+    static boolean isPlaying = false;
 
     static boolean startTimer(String str) {
         if (str == null || !str.contains("minutes") && !str.contains("hours") && !str.contains("seconds")) {
