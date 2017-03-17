@@ -46,28 +46,30 @@ public class Echo implements ActionListener, LineListener {
             if (str != null) {
                 str = str.toLowerCase();
                 // If there was an error connecting to Microsoft
-                
-                if (str.equals("UnknownHostException")) {
-                    AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
-                    return;
-                } else if (str.contains("timer")) {
-                    EchoTimer.startTimer(str);
-                    return;
-                } else if(str.contains("news")){
-                    News.playNews();
-                    return;
-                } else if (str.contains("stopwatch") || str.contains("stop watch")) {
-                    if (str.contains("start")) {
-                        EchoStopwatch.startStopwatch();
+                if (str.contains("alexa")){
+                    if (str.equals("UnknownHostException")) {
+                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
                         return;
-                    }
-                    // Space must be after stop to avoid 'stopwatch' triggering this
-                    else if (str.contains("stop ")) {
-                        EchoStopwatch.stopStopwatch();
+                    } else if (str.contains("timer")) {
+                        EchoTimer.startTimer(str);
                         return;
+                    } else if(str.contains("news")){
+                        News.playNews();
+                        return;
+                    } else if (str.contains("stopwatch") || str.contains("stop watch")) {
+                        if (str.contains("start")) {
+                            EchoStopwatch.startStopwatch();
+                            return;
+                        }
+                        // Space must be after stop to avoid 'stopwatch' triggering this
+                        else if (str.contains("stop ")) {
+                            EchoStopwatch.stopStopwatch();
+                            return;
+                        }
                     }
                 }
-
+                
+                str = str.replaceFirst("alexa", "");
                 String result = Computational.getAnswer(str);
                 System.out.println("Got an answer as: " + result);
                 
