@@ -4,7 +4,7 @@ import java.util.Date;
 
 
 public class EchoStopwatch {
-    private static long pastTime = -1;
+    static long pastTime = -1;
 
     static void startStopwatch() {
         pastTime = System.currentTimeMillis();
