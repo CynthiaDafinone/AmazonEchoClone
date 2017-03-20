@@ -1,11 +1,17 @@
+// SHOULD BE FINISHED ?? - one method could be added ?? 
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import java.awt.event.ActionEvent;
-
 import static org.junit.Assert.*;
 
+/**
+ * The test class for Echo. Contains two tests:
+ * 
+ * 1. Tests that the Echo constructor works as intended
+ * 2. Tests that the actionPerformed method works as intended
+ */
 public class EchoTest {
     static Echo echo;
 
@@ -13,14 +19,21 @@ public class EchoTest {
     public static void setUp() {
         echo = new Echo();
     }
-
+    
+    /**
+     * Test to check that the Echo constructor works as intended
+     */
     @Test
     public void testEcho() {
+        // New echo instance shouldn't have null class variables
         assertNotNull(echo.detector);
         assertNotNull(echo.FILENAME);
         assertNotNull(echo.gui);
     }
-
+    
+    /**
+     * Test to check that the actionPerformed method works as intended
+     */
     @Test
     public void testActionPerformed() {
         ActionEvent event = new ActionEvent(this, 1, "soundDetected");
