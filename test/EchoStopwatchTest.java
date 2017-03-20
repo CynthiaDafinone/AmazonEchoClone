@@ -1,4 +1,4 @@
-// TO BE FINISHED / WORK IN PROGRESS
+// SHOULD BE FINISHED
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -39,7 +39,7 @@ public class EchoStopwatchTest {
      */
     @Test
     public void testStartStopwatch() {
-        EchoStopwatch esw = new EchoStopwatch();
+        EchoStopwatch esw = new EchoStopwatch(); // Instance to test created
         
         long before = esw.pastTime;
         esw.startStopwatch();
@@ -53,11 +53,17 @@ public class EchoStopwatchTest {
      */
     @Test
     public void testStopStopwatch() {
-        EchoStopwatch esw1 = new EchoStopwatch();
-      //  System.out.println(esw1.pastTime);
-       // boolean bool1 = esw1.stopStopwatch();
-        //assertFalse("bool1 should be false as pastTime == -1", bool1);
-       // System.out.println(bool1);
+        EchoStopwatch esw1 = new EchoStopwatch(); // Instance to test created
+        
+        // test stopping the stopwatch before it has been started
+        esw1.pastTime = -1;        
+        boolean bool1 = esw1.stopStopwatch();
+        assertFalse("bool1 should be false as pastTime == -1", bool1);
+        
+        // test stopping the stopwatch after it has been started
+        esw1.startStopwatch();
+        boolean bool2 = esw1.stopStopwatch();
+        assertTrue("bool2 should be true as pasteTime != -1", bool2);
     }
     
 }

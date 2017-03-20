@@ -66,14 +66,7 @@ public class News {
         } catch (IOException ex){
             return false;
         }
-        return true;
-        
+        return true;   
     }
         
 }
-
-
-
-       
-    
-        
