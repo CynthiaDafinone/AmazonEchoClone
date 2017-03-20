@@ -63,44 +63,25 @@ class Computational {
         try {
             // Gather a resulting JSON string from the Wolfram servers
             String xml = solve(question);
-
             if (xml == null) {
                 // If there's no string, return the answer as null (no connection/timeout)
                 return null;
             }
-
             if (xml.contains("success=\'true\'")) {
                 // Find the second index of <pod title= as this contains the information
                 int searchIndex = xml.indexOf("<pod title=");
                 searchIndex = xml.indexOf("<pod title=", searchIndex + 12);
                 searchIndex = xml.indexOf("<plaintext>", searchIndex) + 11;
-
                 int endIndex = xml.indexOf("</plaintext>", searchIndex);
-
                 String answer = xml.substring(searchIndex, endIndex);
 
 
-
-            // For now we are just finding the answer using manual string operations, this may be replaced later
-            // once Cynthia finishes the JSON parser
-//            if (xml.contains("\"success\" : true,")) {
-//                int searchIndex = xml.indexOf("pod title=");
-//                searchIndex = xml.indexOf()
-//                int searchIndex = xml.indexOf("\"id\" : \"Result\",");
-//                searchIndex = xml.indexOf("\"img\" : {", searchIndex);
-//                searchIndex = xml.indexOf("\"title\" : \"", searchIndex) + 11;
-//                int endIndex = xml.indexOf("\",", searchIndex);
-//                String answer = xml.substring(searchIndex, endIndex);
-//
                 // Removing special characters
                 answer = answer.replaceAll("\\\\n", " ");
                 answer = answer.replaceAll("\\\\r", " ");
                 answer = answer.replaceAll("\\\\t", " ");
                 answer = answer.replaceAll("[^A-Za-z0-9 .',&:+()^%$£*|=-]", "");
                 return answer;
-
-
-
             } else {
                 // If WolframAlpha returned as a failure
                 return null;

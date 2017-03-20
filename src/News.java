@@ -59,14 +59,9 @@ public class News {
                 }
             
             }
-        } catch (MalformedURLException ex) {
-            return false;
-        } catch (InterruptedException ex){
-            return false;
-        } catch (IOException ex){
+        } catch (InterruptedException | IOException ex) {
             return false;
         }
         return true;   
     }
-        
 }

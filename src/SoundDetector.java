@@ -44,7 +44,6 @@ public class SoundDetector implements Runnable {
     public void run() {
         running = true;
         try {
-
             // Set up a new line to the microphone
             final int bufferSize = format.getFrameSize() * SAMPLE_RATE;
 

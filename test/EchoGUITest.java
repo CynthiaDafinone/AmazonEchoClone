@@ -19,7 +19,6 @@ import static org.junit.Assert.*;
  * @author Cynthia
  */
 public class EchoGUITest {
-
     private static EchoGUI frame;
     private final SoundDetector sounddetector;
     private final  EchoGUI.PowerButton btnPOW;
@@ -30,85 +29,85 @@ public class EchoGUITest {
     private boolean isPressed;
     private boolean listPressed;
     private int flashCount;
-    
-    
-    
+
+
+
     //use reflection to access inner button classses
-    
-    
-    
-    
+
+
+
+
     public EchoGUITest() {
-        
+
         //create guiframe mock object
         sounddetector = new SoundDetector();
         frame = new EchoGUI(sounddetector);
-        
+
         //mock power button
         btnPOW = this.frame.new PowerButton();
         btnMUTE = this.frame.new MuteButton();
         btnLIST = this.frame.new ListenButton();
         frame.addButtons();
-        
-        
-        
-        
+
+
+
+
     }
-    
+
     @BeforeClass
     public static void setUpClass() throws AWTException {
         EchoGUITest guitest = new EchoGUITest();
         robot = new Robot();
         EchoGUITest.frame.repaint();
-       
-       
+
+
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
 
     /**
      * Test of addButtons method, of class EchoGUI.
-     * 
+     *
      */
     public void click(){
         robot.mousePress(InputEvent.BUTTON1_MASK);
     }
-    
-    @Test 
+
+    @Test
     public void testPowerButton(){
-         /*Checks if power button is off, 
+         /*Checks if power button is off,
         if its off it switches on the echo*/
-         
-         
+
+
     }
-    
+
     @Test
     public void testMuteButton(){
-        
+
     }
-    
-    @Test 
+
+    @Test
     public void testListenButton(){
     }
-            
+
     @Test
     public void testAddButtons() {
         System.out.println("addButtons");
-       
+
         EchoGUI instance = this.frame;
         //instance.addButtons();
-        
-        
+
+
         Rectangle muteBounds = btnMUTE.getBounds();
         Rectangle test1Bounds = new Rectangle(301, 28, 30, 15);
         assertEquals(muteBounds,test1Bounds);
-        
+
         Rectangle powBounds = btnPOW.getBounds();
         Rectangle test2Bounds = new Rectangle(350, 244, 30, 30);
         assertEquals(powBounds,test2Bounds);
-        
+
         Rectangle listBounds = btnLIST.getBounds();
         Rectangle test3Bounds = new Rectangle(401, 28, 30, 15);
         assertEquals(listBounds,test3Bounds);
@@ -147,7 +146,7 @@ public class EchoGUITest {
         /*gui is open button has been clicked*/
         assertTrue(instance.isPowered());
     }
-    
+
 }
 
 

@@ -237,4 +237,8 @@ public class EchoGUI extends JFrame {
     boolean isPowered() {
         return isPowered;
     }
+
+    void setPowered(boolean value) {
+        isPowered = value;
+    }
 }
