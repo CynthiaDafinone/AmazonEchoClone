@@ -72,9 +72,10 @@ class TextToSpeech {
             AudioOutput.playSound(OUTPUT);
             return OUTPUT;
         } catch (IOException e) {
-            // TODO: Play "Sorry, I don't have an answer for that question"
+            AudioOutput.playSound(Echo.class.getResourceAsStream("cant_answer.wav"));
+            System.out.println(e.getMessage());
             e.printStackTrace();
-            System.exit(1);
+            System.out.println("Continuing as normal..");
             return null;
         }
     }

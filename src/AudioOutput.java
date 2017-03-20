@@ -16,9 +16,6 @@ class AudioOutput {
             System.exit(1);
         }
     }
-    
-//    static SoundDetector detector = new SoundDetector();
-//    static EchoGUI gui = new EchoGUI(detector);
 
     /**
      * Method to play the sound from an AudioInputStream
@@ -31,14 +28,6 @@ class AudioOutput {
             clip.close();
             clip.open(ais);
             clip.start();
-
-//            while(clip.getMicrosecondLength() != clip.getMicrosecondPosition()){
-//                 detector.pauseForAnswer();
-//                 gui.changeColor("Flash");
-//            }
-//            detector.resumeAfterAnswer();
-//            gui.changeColor("Cyan");
-
         } catch (IOException | LineUnavailableException e) {
             System.out.println("There was an error getting the output audio line!");
             e.printStackTrace();
@@ -69,6 +58,7 @@ class AudioOutput {
      */
     static void addLineListener(LineListener listener) {
         clip.addLineListener(listener);
+        clipNoListener.addLineListener(listener);
     }
 
     /**
@@ -77,6 +67,7 @@ class AudioOutput {
      */
     static void removeLineListener(LineListener listener) {
         clip.removeLineListener(listener);
+        clipNoListener.addLineListener(listener);
     }
 
     /**

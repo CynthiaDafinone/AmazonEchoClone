@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
 class HTTPConnect {
-    private final static int TIMEOUT  = 5000; // Timeout in ms
+    private final static int TIMEOUT  = 10000; // Timeout in ms
     private final static int BUFFSIZE = 4096; // Buffer response size
 
     private final static String KEY = "110c24ab25804509a223bac18251d6f2";

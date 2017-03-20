@@ -47,6 +47,13 @@ public class EchoGUI extends JFrame {
                                   
                     } //runs this if echo is turned on and turns it off
                     else {
+//                        try {
+                            detector.disableMic();
+//                            detectorThread.join();
+//                        } catch (InterruptedException e) {
+//                            // Should not be called
+//                            System.exit(1);
+//                        }
                         if (executorService != null) {
                             executorService.shutdown();
                         }
@@ -56,14 +63,6 @@ public class EchoGUI extends JFrame {
                         AudioOutput.stopAudio();
                         changeColor("Off");
                         AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newOffSound.wav"));
-
-                        try {
-                            detector.disableMic();
-                            detectorThread.join();
-                        } catch (InterruptedException e) {
-                            // Should not be called
-                            System.exit(1);
-                        }
                     }
                 }
             });

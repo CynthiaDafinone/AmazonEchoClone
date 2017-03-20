@@ -16,7 +16,7 @@ public class Echo implements ActionListener, LineListener {
     private final SoundDetector detector;
 
     public static void main(String[] args) {
-        Echo e = new Echo();        
+        Echo e = new Echo();
     }
 
     /**
@@ -35,10 +35,7 @@ public class Echo implements ActionListener, LineListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-     //   gui.changeColor("Flash");
-        
-        if (e.getActionCommand().equals("soundDetected")) {
+        if (e.getActionCommand().equals("soundDetected") && gui.isPowered()) {
             // SoundRecordedEvent
             String str = SpeechToText.getTextFromAudio(FILENAME);
             System.out.println("Got a string as: " + str);
@@ -96,14 +93,24 @@ public class Echo implements ActionListener, LineListener {
         if (!gui.isPowered()) {
             return;
         }
+        boolean shouldChangeColour = false;
+        if (event.getSource() == AudioOutput.clip) {
+            shouldChangeColour = true;
+        }
+
         if (event.getType() == LineEvent.Type.START) {
             detector.pauseForAnswer();
-            gui.changeColor("Blue");
+            System.out.println("Paused audio recording");
+            if (shouldChangeColour) {
+                gui.changeColor("Blue");
+            }
         }
         if (event.getType() == LineEvent.Type.STOP) {
-            gui.changeColor("Cyan");
+            if (shouldChangeColour) {
+                gui.changeColor("Cyan");
+            }
             detector.resumeAfterAnswer();
-//            ((Clip)event.getSource()).close();
+            System.out.println("Resumed recording");
         }
     }
 }
