@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * The test class for EchoTimer. Contains two tests:
+ * The test class for EchoStopwatch. Contains two tests:
  * 
  * 1. Tests that the startStopwatch method works as intended
  * 2. Tests that the stopStopwatch method works as intended

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// SHOULD BE FINISHED
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,8 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author Lewis
+ * The test class for SoundRecordedEvent. Contains one test:
+ * 
+ * 1. Tests that the SoundRecordedEvent constructor works as intended
  */
 public class SoundRecordedEventTest {
     
@@ -36,9 +33,12 @@ public class SoundRecordedEventTest {
     public void tearDown() {
     }
 
+    /**
+     * Test to check that the SoundRecordedEvent constructor works as intended
+     */
     @Test
     public void testSomeMethod() {
-        SoundDetector sd = new SoundDetector();
+        SoundDetector sd = new SoundDetector(); // SoundDetector instance to test created
         
         SoundRecordedEvent event1 = new SoundRecordedEvent(sd, 1, "soundDetected");
         assertNotNull("event1 should not be null", event1);

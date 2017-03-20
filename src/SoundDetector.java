@@ -27,7 +27,7 @@ public class SoundDetector implements Runnable {
      * Method to calibrate the microphone's threshold to just above the background RMS level
      * @param detector the SoundDetectionThread used to check for incoming audio
      */
-    private void calibrateMic(SoundDetectionThread detector) {
+    void calibrateMic(SoundDetectionThread detector) {
         // This is the lowest level possible
         THRESHOLD = -1f;
         while (detector.soundDetected()) {
@@ -79,7 +79,7 @@ public class SoundDetector implements Runnable {
      * Method to record a given amount of audio (TIMER) and store it to a file (FILENAME) as a wave file.
      * Will also stop recording before the timer if no sound has been detected.
      */
-    private void startRecording() {
+    void startRecording() {
         try {
             // Record the stream into a new file
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -168,7 +168,7 @@ public class SoundDetector implements Runnable {
         running = false;
     }
 
-    private class SoundDetectionThread extends Thread {
+    class SoundDetectionThread extends Thread {
         private TargetDataLine line;
         private int bufferSize;
         private float lastAmplitude;
