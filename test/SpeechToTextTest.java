@@ -76,5 +76,4 @@ public class SpeechToTextTest {
         String result = SpeechToText.getTextFromAudio(filenameTest);    
         assertEquals("The resulting string is not what was expected", expResult, result);   
     }
-    
 }

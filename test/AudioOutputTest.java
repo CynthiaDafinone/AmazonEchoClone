@@ -12,9 +12,7 @@ import java.io.*;
 import java.net.URL;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * 
  */
 
 /**
@@ -44,46 +42,145 @@ public class AudioOutputTest {
     @Test
     public void testPlaySound() throws UnsupportedAudioFileException, IOException,
             LineUnavailableException{
-       
-        
             
-        }
-    @Test
-    public void testPlaySoundWithoutListeners(){
-        
-    }
-    @Test
-    public void testAddLineListener() throws LineUnavailableException{
-        
-        }
-    
-    @Test
-    public void testRemoveLineListener(){
-        
-        }
-    
-    @Test
-    public void testStopAudio(){
-        
+            AudioOutput ao = new AudioOutput();
+            //playSound test with AudioInputStream
+            URL url = this.getClass().getClassLoader()
+                    .getResource("audio_output_test.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+                        
+            ao.playSound(audioIn);
+            
+            //playSound test with InputStream
+            InputStream inStream=this.getClass().getClassLoader()
+                    .getResourceAsStream("audio_output_test.wav");
+            ao.playSound(inStream);
+            
+            //playSound test with String path
+
         }
     
-    @Test
-    public void testPlaySound2(){
-        //
+    @Test(expected=UnsupportedAudioFileException.class)
+    public void testPlaySound2() throws UnsupportedAudioFileException, IOException,
+            LineUnavailableException{
+            
+            AudioOutput ao = new AudioOutput();
+        
+            URL url = this.getClass().getClassLoader()
+                    .getResource("");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            
+            ao.playSound(audioIn);
     }
     
-    @Test
-    public void testPlaySoundWithoutListeners2(){
+    @Test(expected=NullPointerException.class)
+    public void testPlaySound3() throws UnsupportedAudioFileException, IOException,
+            LineUnavailableException{
+            
+            AudioOutput ao = new AudioOutput();
+        
+            URL url = this.getClass().getClassLoader()
+                    .getResource("not_a_file.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            
+            ao.playSound(audioIn);
+    }
+    
+    @Test //(expected=UnsupportedAudioFileException.class)
+    public void testPlaySound4() throws UnsupportedAudioFileException, IOException,
+            LineUnavailableException{
+            
+            AudioOutput ao = new AudioOutput();
+            
+            InputStream inStream=this.getClass().getClassLoader()
+                    .getResourceAsStream("audio_output_test.wav");
+            ao.playSound(inStream);
         
     }
     
     @Test
-    public void testPlaySound3(){
-       AudioOutput.playSound("audio_output_test.wav");
+    public void testPlaySoundWithoutListeners() throws UnsupportedAudioFileException, 
+            IOException, LineUnavailableException{
+        
+            AudioOutput ao = new AudioOutput();
+        
+            URL url = this.getClass().getClassLoader()
+                    .getResource("audio_output_test.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+          
+            ao.playSoundWithoutListeners(audioIn);
+            
+            //playSound test with InputStream
+            InputStream inStream=this.getClass().getClassLoader()
+                    .getResourceAsStream("audio_output_test.wav");
+            ao.playSoundWithoutListeners(inStream);
     }
     
-    @Test
-    public void testPlayLooping(){
+    @Test(expected=UnsupportedAudioFileException.class)
+    public void testPlaySoundWithoutListeners2() throws UnsupportedAudioFileException, 
+            IOException, LineUnavailableException{
+        
+            AudioOutput ao = new AudioOutput();
+        
+            URL url = this.getClass().getClassLoader().getResource("audio_output_test.mp3");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            
+            ao.playSoundWithoutListeners(audioIn);
         
     }
+    
+//    @Test(expected=LineUnavailableException.class)
+//    public void testPlaySoundWithoutListeners3() throws UnsupportedAudioFileException, 
+//            IOException, LineUnavailableException{
+//        
+//            AudioOutput ao = new AudioOutput();
+//        
+//            URL url = this.getClass().getClassLoader().getResource("");
+//            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+//            
+//            ao.playSoundWithoutListeners(audioIn);
+//        
+//    }
+    
+//    @Test
+//    public void testAddLineListener() throws LineUnavailableException{
+//        
+//        }
+    
+//    @Test
+//    public void testRemoveLineListener(){
+//        
+//        }
+//    
+//    @Test
+//    public void testStopAudio() throws LineUnavailableException{
+//        
+//        }
+//    
+//    @Test
+//    public void testPlaySound2() throws UnsupportedAudioFileException, IOException{
+//        
+//    }
+//    
+//    @Test
+//    public void testPlaySoundWithoutListeners2() throws UnsupportedAudioFileException,
+//            IOException{
+//        
+//    }
+//    
+//    @Test
+//    public void testPlaySound4() throws FileNotFoundException, UnsupportedAudioFileException,
+//            IOException{
+//        
+//   
+//            path = getClass().getClassLoader().getResource("audio_output_test.wav");
+//            AudioOutput.playSound(path);
+//    }
+//       
+//    }
+//    
+//    @Test
+//    public void testPlayLooping(){
+//        
+//    }
 }
