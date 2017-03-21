@@ -1,8 +1,6 @@
 // TO BE FINISHED / WORK IN PROGRESS
 
 import java.awt.event.ActionListener;
-import java.io.ByteArrayOutputStream;
-import javax.sound.sampled.AudioInputStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,19 +8,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.io.*;
-import java.awt.*;
-
 /**
- * The test class for SoundDetector. Contains seven tests:
+ * The test class for SoundDetector, & SoundDetectionThread its nested class . 
+ * Contains 12 tests:
  * 
- * 1. Tests that the setupDection method works as intended **to finish**
- * 2. Tests that the readStream method works as intended 
- * 3. Tests that the questionMode method works as intended
- * 4. Tests that the listenMode method works as intended 
- * 5. Tests that the recordSound method works as intended
- * 6. Tests that the addActionListener method works as intended **to finish**
- * 7. Tests that the process method works as intended **to finish**
+ * 1. Tests that the calibrateMic method works as intended
+ * 2. Tests that the B method works as intended
+ * 3. Tests that the C method works as intended
+ * 4. Tests that the A method works as intended
+ * 5. Tests that the B method works as intended
+ * 6. Tests that the C method works as intended
+ * 7. Tests that the A method works as intended
+ * 8. Tests that the B method works as intended
+ * 9. Tests that the C method works as intended
+ * 10. Tests that the A method works as intended
+ * 11. Tests that the B method works as intended
+ * 12. Tests that the C method works as intended
  */
 public class SoundDetectorTest {
     
@@ -45,88 +46,119 @@ public class SoundDetectorTest {
     public void tearDown() {
     }
 
-   /**
-     * Test to check that the setUpDetection method works as intended
+    /**
+     * Test of calibrateMic method, of class SoundDetector.
      */
     @Test
-    public void testSetUpDetection() {
-       // To be returned to 
+    public void testCalibrateMic() {
+        System.out.println("calibrateMic");
+        SoundDetector.SoundDetectionThread detector = null;
+        SoundDetector instance = new SoundDetector();
+        instance.calibrateMic(detector);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test to check that the readStream method works as intended
+     * Test of run method, of class SoundDetector.
      */
-//    @Test
-//    public void testReadStream() throws IOException{
-//        SoundDetector sd = new SoundDetector();  // Instance to test created
-//        sd.setUpDetection();
-//        ByteArrayOutputStream baos = sd.readStream(sd.ais);
-        
-//        assertNotNull("Byte Array Output Stream can't be null", baos);
-        
-//        sd.ais.close(); //Clean up audio input stream
-//    }
+    @Test
+    public void testRun() {
+        System.out.println("run");
+        SoundDetector instance = new SoundDetector();
+        instance.run();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
     /**
-     * Test to check that the questionMode method works as intended
+     * Test of startRecording method, of class SoundDetector.
      */
-//    @Test
-//    public void testQuestionMode() {
-//        SoundDetector sd = new SoundDetector();  // Instance to test created
-//        sd.questionMode();
-//        assertFalse("Value of bool questionMode should now be false",
-//                    sd.questionMode);
-//    }
+    @Test
+    public void testStartRecording() {
+        System.out.println("startRecording");
+        SoundDetector instance = new SoundDetector();
+        instance.startRecording();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
     /**
-     * Test to check that the listenMode method works as intended
+     * Test of registerRecordingListener method, of class SoundDetector.
      */
-//    @Test
-//    public void testListenMode() {
-//        SoundDetector sd = new SoundDetector();  // Instance to test created
-//        sd.listenMode();
-//        assertTrue("Value of bool questionMode should now be true",
-//                   sd.questionMode);
-//    }
+    @Test
+    public void testRegisterRecordingListener() {
+        System.out.println("registerRecordingListener");
+        ActionListener listener = null;
+        SoundDetector instance = new SoundDetector();
+        boolean expResult = false;
+        boolean result = instance.registerRecordingListener(listener);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
     /**
-     * Test to check that the recordSound method works as intended
+     * Test of unregisterRecordingListener method, of class SoundDetector.
      */
-//    @Test
-//    public void testRecordSound() throws IOException {
-//        SoundDetector sd = new SoundDetector();  // Instance to test created
-//        sd.setUpDetection();
-//        ByteArrayOutputStream baos2 = sd.readStream(sd.ais);
-//        SoundDetector.recordSound("testName", baos2);
-        
-//        (sd.ais).close(); //Clean up audio input stream
-       
-//        File s = new File("C:/Users/Lewis/Desktop/University/Degree/Year 2/Modules/Term 2/ECM2415 Software Engineering/Software Engineering/testName");
-//        assertTrue(s.isFile());  // Check output file created
-//    }
+    @Test
+    public void testUnregisterRecordingListener() {
+        System.out.println("unregisterRecordingListener");
+        ActionListener listener = null;
+        SoundDetector instance = new SoundDetector();
+        boolean expResult = false;
+        boolean result = instance.unregisterRecordingListener(listener);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
     /**
-     * Test to check that the addActionListener method works as intended
+     * Test of enableMic method, of class SoundDetector.
      */
-//    @Test
-//    public void testAddActionListener() {
-       //SoundDetector sd = new SoundDetector();  // Instance to test created
-       //ActionListener mockListener;
-       //int b = sd.listeners.size();
-       //System.out.println(b);             // To be returned to
-                                    //Need help creating mock ActionListener
-       //sd.addActionListener(mockListener);
-       //int a = sd.listeners.size();
-       //System.out.println(a);  
-//    }
+    @Test
+    public void testEnableMic() {
+        System.out.println("enableMic");
+        SoundDetector instance = new SoundDetector();
+        instance.enableMic();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
     /**
-     * Test to check that the process method works as intended
+     * Test of pauseForAnswer method, of class SoundDetector.
      */
-//    @Test
-//    public void testProcess() {
-            // To be returned to
-            // Need help creating events to call and test the method
-//    }
+    @Test
+    public void testPauseForAnswer() {
+        System.out.println("pauseForAnswer");
+        SoundDetector instance = new SoundDetector();
+        instance.pauseForAnswer();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of resumeAfterAnswer method, of class SoundDetector.
+     */
+    @Test
+    public void testResumeAfterAnswer() {
+        System.out.println("resumeAfterAnswer");
+        SoundDetector instance = new SoundDetector();
+        instance.resumeAfterAnswer();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of disableMic method, of class SoundDetector.
+     */
+    @Test
+    public void testDisableMic() {
+        System.out.println("disableMic");
+        SoundDetector instance = new SoundDetector();
+        instance.disableMic();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }
