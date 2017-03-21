@@ -42,6 +42,10 @@ public class EchoTimer {
         }, time);
         return true;
     }
+    
+    static boolean isPlaying(){
+        return isPlaying;
+    }
 
     static boolean shouldPlay() {
         return shouldPlay;

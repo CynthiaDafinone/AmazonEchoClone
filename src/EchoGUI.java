@@ -17,7 +17,7 @@ public class EchoGUI extends JFrame {
     private boolean isPowered = false;
     private boolean isPressed = false;
     private boolean listPressed = false;
-    private  ScheduledExecutorService executorService;
+    private ScheduledExecutorService executorService;
     private int flashCount = 0;
 
 
@@ -25,6 +25,7 @@ public class EchoGUI extends JFrame {
     * Power button
      */
     private class PowerButton extends JButton {
+
         PowerButton() {
             setBorder(null);
             addMouseListener(new MouseAdapter() {
@@ -40,15 +41,11 @@ public class EchoGUI extends JFrame {
                         AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
 
                         changeColor("Cyan");
-                    
 
-
-                        
-                                  
                     } //runs this if echo is turned on and turns it off
                     else {
 //                        try {
-                            detector.disableMic();
+                        detector.disableMic();
 //                            detectorThread.join();
 //                        } catch (InterruptedException e) {
 //                            // Should not be called
@@ -94,7 +91,7 @@ public class EchoGUI extends JFrame {
                             detectorThread.start();
 
                         } else {
-                        flashCount = 0;
+                            flashCount = 0;
                             isPressed = true;
                             AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("muted.wav"));
                             detector.disableMic();
@@ -115,7 +112,6 @@ public class EchoGUI extends JFrame {
         }
     }
 
-
     /**
      * Template for action button - functionality to be implemented in sprint 3
      */
@@ -126,9 +122,12 @@ public class EchoGUI extends JFrame {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent me) {
-                    EchoTimer.stopPlaying();
-                    AudioOutput.stopAudio();
+
                     if (isPowered) {
+                        if(EchoTimer.isPlaying){
+                        EchoTimer.stopPlaying();
+                        AudioOutput.stopAudio();
+                        }
                         if (listPressed) {
                             System.out.println("Action button pressed");
                             AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newListSound.wav"));
@@ -145,7 +144,6 @@ public class EchoGUI extends JFrame {
             });
         }
     }
-
 
     //adds the three buttons onto the conent pane
     void addButtons() {
@@ -193,7 +191,6 @@ public class EchoGUI extends JFrame {
             addButtons();
         }
     }
-
 
     /**
      * Method to have the lights atop the echo to flash
