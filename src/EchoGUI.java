@@ -6,6 +6,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class to create a simulation of the Amazon Echo 
+ */
+
 public class EchoGUI extends JFrame {
 
     private JFrame frame = new JFrame();

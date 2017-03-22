@@ -2,7 +2,9 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * Methods written below allow the user to start and stop a stopwatch upon request
+ */
 public class EchoStopwatch {
     static long pastTime = -1;
 
