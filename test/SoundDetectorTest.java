@@ -47,16 +47,11 @@ public class SoundDetectorTest {
     }
 
     /**
-     * Test of calibrateMic method, of class SoundDetector.
+     * Test to check that the calibrateMic method works as intended
      */
     @Test
     public void testCalibrateMic() {
-        System.out.println("calibrateMic");
-        SoundDetector.SoundDetectionThread detector = null;
-        SoundDetector instance = new SoundDetector();
-        instance.calibrateMic(detector);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -64,23 +59,17 @@ public class SoundDetectorTest {
      */
     @Test
     public void testRun() {
-        System.out.println("run");
-        SoundDetector instance = new SoundDetector();
-        instance.run();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
      * Test of startRecording method, of class SoundDetector.
      */
-    @Test
+    @Test(expected=NullPointerException.class)
     public void testStartRecording() {
-        System.out.println("startRecording");
-        SoundDetector instance = new SoundDetector();
-        instance.startRecording();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SoundDetector sd = new SoundDetector();
+        
+        sd.startRecording();
     }
 
     /**
@@ -88,14 +77,13 @@ public class SoundDetectorTest {
      */
     @Test
     public void testRegisterRecordingListener() {
-        System.out.println("registerRecordingListener");
-        ActionListener listener = null;
-        SoundDetector instance = new SoundDetector();
-        boolean expResult = false;
-        boolean result = instance.registerRecordingListener(listener);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SoundDetector sd1 = new SoundDetector();
+        ActionListener listener1;
+        
+        int before = (sd1.listeners).size();
+      //  System.out.print(before);
+       // sd1.registerRecordingListener();
+        
     }
 
     /**
@@ -103,26 +91,17 @@ public class SoundDetectorTest {
      */
     @Test
     public void testUnregisterRecordingListener() {
-        System.out.println("unregisterRecordingListener");
-        ActionListener listener = null;
-        SoundDetector instance = new SoundDetector();
-        boolean expResult = false;
-        boolean result = instance.unregisterRecordingListener(listener);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
      * Test of enableMic method, of class SoundDetector.
      */
-    @Test
+    @Test(expected=NullPointerException.class)
     public void testEnableMic() {
-        System.out.println("enableMic");
-        SoundDetector instance = new SoundDetector();
-        instance.enableMic();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SoundDetector sd = new SoundDetector();
+        
+        sd.enableMic();
     }
 
     /**
@@ -130,11 +109,12 @@ public class SoundDetectorTest {
      */
     @Test
     public void testPauseForAnswer() {
-        System.out.println("pauseForAnswer");
-        SoundDetector instance = new SoundDetector();
-        instance.pauseForAnswer();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SoundDetector sd = new SoundDetector();
+        
+        sd.pauseForAnswer();
+        
+        boolean bool1 = sd.canRecord;
+        assertFalse("canRecord should now be set to false" , bool1);
     }
 
     /**
@@ -142,11 +122,12 @@ public class SoundDetectorTest {
      */
     @Test
     public void testResumeAfterAnswer() {
-        System.out.println("resumeAfterAnswer");
-        SoundDetector instance = new SoundDetector();
-        instance.resumeAfterAnswer();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SoundDetector sd = new SoundDetector();
+        
+        sd.resumeAfterAnswer();
+        
+        boolean bool1 = sd.canRecord;
+        assertTrue("canRecord should now be set to true" , bool1);
     }
 
     /**
@@ -154,11 +135,12 @@ public class SoundDetectorTest {
      */
     @Test
     public void testDisableMic() {
-        System.out.println("disableMic");
-        SoundDetector instance = new SoundDetector();
-        instance.disableMic();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SoundDetector sd = new SoundDetector();
+        
+        sd.disableMic();
+        
+        boolean bool1 = sd.running;
+        assertFalse("running should now be set to false" , bool1);
     }
     
 }

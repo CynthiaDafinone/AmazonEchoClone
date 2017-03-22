@@ -15,11 +15,11 @@ public class SoundDetector implements Runnable {
     private AudioFormat format = new AudioFormat(SAMPLE_RATE, SAMPLE_SIZE, SAMPLE_CHANNELS, true, true);
     private AudioInputStream ais;
     private SoundDetectionThread soundDetector;
-    private boolean canRecord = true;
+    boolean canRecord = true;
 
-    private ArrayList<ActionListener> listeners= new ArrayList<>();
+    ArrayList<ActionListener> listeners= new ArrayList<>();
 
-    private boolean running;
+    boolean running;
     private TargetDataLine line;
 
 
