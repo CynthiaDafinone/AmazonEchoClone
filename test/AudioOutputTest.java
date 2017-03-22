@@ -165,12 +165,18 @@ public class AudioOutputTest {
         ao.stopAudio();
     }
 
-//    @Test
-//    public void testPlayLooping(){
-//        AudioOutput ao = new AudioOutput();
-//        
-//        //No idea how to stop this when test is run
-//        ao.playLooping(getClass().getResourceAsStream("audio_output_test.wav"));
-//        System.exit(0);
-//    }
+    @Test
+    public void testPlayLooping() throws InterruptedException{
+        AudioOutput ao = new AudioOutput();
+        
+        //No idea how to stop this when test is run
+        new Thread() {
+            @Override
+            public void run() {
+                ao.playLooping(getClass().getResourceAsStream("audio_output_test.wav"));
+            }
+        }.start();
+        Thread.sleep(1000);
+        ao.stopAudio();
+    }
 }
