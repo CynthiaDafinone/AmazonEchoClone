@@ -21,21 +21,21 @@ public class ComputationalTest {
     public ComputationalTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+//    @BeforeClass
+//    public static void setUpClass() {
+//    }
+//    
+//    @AfterClass
+//    public static void tearDownClass() {
+//    }
+//    
+//    @Before
+//    public void setUp() {
+//    }
+//    
+//    @After
+//    public void tearDown() {
+//    }
     
     /**
      * Test to check that the solve method works as intended

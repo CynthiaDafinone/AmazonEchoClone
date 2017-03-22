@@ -33,7 +33,7 @@ public class SoundDetector implements Runnable {
         while (detector.soundDetected()) {
             THRESHOLD += 1.05f;
         }
-        THRESHOLD += 0.050f;
+        THRESHOLD += 0.011f;
         System.out.println("Calibrated the threshold as " + THRESHOLD);
     }
 

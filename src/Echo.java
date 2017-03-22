@@ -15,6 +15,10 @@ public class Echo implements ActionListener, LineListener {
     final EchoGUI gui;
     final SoundDetector detector;
 
+    /**
+     * Main method to initiate the echo simulation
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Echo e = new Echo();
     }
@@ -43,12 +47,15 @@ public class Echo implements ActionListener, LineListener {
             if (str != null) {
                 str = str.toLowerCase();
                 // If there was an error connecting to Microsoft
+                if (str.equals("UnknownHostException")) {
+                    AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
+                    return;
+                }
                 if (str.contains("alexa")){
-                    if (str.equals("UnknownHostException")) {
-                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
-                        return;
-                    } else if (str.contains("timer")) {
-                        EchoTimer.startTimer(str);
+                    if (str.contains("timer")) {
+                        if (!EchoTimer.startTimer(str)) {
+                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("cant_answer.wav"));
+                        }
                         return;
                     } else if(str.contains("news")){
                         News.playNews();
@@ -100,7 +107,7 @@ public class Echo implements ActionListener, LineListener {
 
         if (event.getType() == LineEvent.Type.START) {
             detector.pauseForAnswer();
-            System.out.println("Paused audio recording");
+            System.out.println("Paused audio detection");
             if (shouldChangeColour) {
                 gui.changeColor("Blue");
             }
@@ -110,7 +117,7 @@ public class Echo implements ActionListener, LineListener {
                 gui.changeColor("Cyan");
             }
             detector.resumeAfterAnswer();
-            System.out.println("Resumed recording");
+            System.out.println("Resumed audio detection");
         }
     }
 }

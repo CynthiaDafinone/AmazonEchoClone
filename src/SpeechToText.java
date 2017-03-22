@@ -80,10 +80,9 @@ class SpeechToText {
             }
         }  catch (UnknownHostException e) {
             return "UnknownHostException";
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO: Play "Sorry, I don't have an answer for that question"
             e.printStackTrace();
-            System.exit(1);
             return null;
         }
     }

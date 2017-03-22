@@ -2,14 +2,23 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * Methods written below allow the user to start and stop a stopwatch upon request
+ */
 public class EchoStopwatch {
     static long pastTime = -1;
 
+    /**
+     * Method starts a stopwatch
+     */
     static void startStopwatch() {
         pastTime = System.currentTimeMillis();
     }
 
+    /**
+     * Method stops the stopwatch
+     * @return true if successfully stopped
+     */
     static boolean stopStopwatch() {
         if (pastTime == -1) {
             System.out.println("STOPWATCH :: There was no timer started, exiting!");
@@ -17,11 +26,6 @@ public class EchoStopwatch {
         }
         long currentTime = System.currentTimeMillis();
         long timeDifference = currentTime - pastTime;
-
-        System.out.println(pastTime);
-        System.out.println(currentTime);
-        System.out.println(timeDifference);
-
 
         long days = timeDifference / 86400000;
         long hours = timeDifference / 3600000;

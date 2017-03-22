@@ -6,7 +6,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-/*
+/**
+ * Method written below will play the news for the user upon request
  * Powered by News API
  */
 
@@ -23,9 +24,12 @@ public class News {
             URL url = new URL("https://newsapi.org/v1/articles?source=bbc-news"
                     + "&sortBy=top&apiKey=756f4949b8ba49558a3e3e8b3d420e63");
             
+            //Set up connection between URL and application
             URLConnection con = url.openConnection();
             InputStream is = con.getInputStream();
             
+            
+            //Set up buffered reader in order to interpret the JSON file
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String news = "";
             
@@ -35,6 +39,7 @@ public class News {
             }
             
             else{
+                //If the News API is down, a prerecorded message will play
                 AudioOutput.playSound("noNews.wav");
             }
             
