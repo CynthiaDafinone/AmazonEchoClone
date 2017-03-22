@@ -68,6 +68,7 @@ class Computational {
                 return null;
             }
             if (xml.contains("success=\'true\'")) {
+                System.out.println(xml);
                 // Find the second index of <pod title= as this contains the information
                 int searchIndex = xml.indexOf("<pod title=");
                 searchIndex = xml.indexOf("<pod title=", searchIndex + 12);
@@ -86,7 +87,9 @@ class Computational {
                 // If WolframAlpha returned as a failure
                 return null;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println("There was an error parsing the computational XML");
+            e.printStackTrace();
             return null;
         }
     }

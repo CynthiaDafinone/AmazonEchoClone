@@ -100,7 +100,7 @@ public class Echo implements ActionListener, LineListener {
 
         if (event.getType() == LineEvent.Type.START) {
             detector.pauseForAnswer();
-            System.out.println("Paused audio recording");
+            System.out.println("Paused audio detection");
             if (shouldChangeColour) {
                 gui.changeColor("Blue");
             }
@@ -110,7 +110,7 @@ public class Echo implements ActionListener, LineListener {
                 gui.changeColor("Cyan");
             }
             detector.resumeAfterAnswer();
-            System.out.println("Resumed recording");
+            System.out.println("Resumed audio detection");
         }
     }
 }
