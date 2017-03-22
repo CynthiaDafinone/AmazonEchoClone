@@ -1,5 +1,3 @@
-// SHOULD BE FINISHED
-
 import java.io.File;
 import java.io.IOException;
 import org.junit.After;
@@ -19,22 +17,6 @@ import static org.junit.Assert.*;
 public class TextToSpeechTest {
     
     public TextToSpeechTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
@@ -95,5 +77,4 @@ public class TextToSpeechTest {
         File s2 = new File("out.wav");
         assertTrue(s2.isFile());  // Check output file created
     }
-    
 }
