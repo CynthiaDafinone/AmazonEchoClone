@@ -1,5 +1,3 @@
-// SHOULD BE FINISHED
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,22 +14,6 @@ public class NewsTest {
     
     public NewsTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test to check that the playNews method works as intended
@@ -42,6 +24,5 @@ public class NewsTest {
 
         boolean bool1 = news1.playNews();
         assertTrue("If news API working should return true", bool1);
-    }
-    
+    } 
 }

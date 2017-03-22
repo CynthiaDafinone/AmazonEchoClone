@@ -7,10 +7,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * Method written below will play the news for the user upon request
+ * Class will play the news for the user upon request
  * Powered by News API
  */
-
 public class News {
     static int i=0;    
     
