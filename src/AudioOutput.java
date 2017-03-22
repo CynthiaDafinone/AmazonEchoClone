@@ -137,7 +137,7 @@ class AudioOutput {
     }
 
     /**
-     * Method plays the resource continually.  Linked to EchoTimer for wether it should play or not
+     * Method plays the resource continually.  Linked to EchoTimer for whether it should play or not
      * @param is the resource stream to play
      */
     static void playTimerLooping(InputStream is) {
