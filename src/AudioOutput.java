@@ -135,7 +135,11 @@ class AudioOutput {
             System.exit(1);
         }
     }
-    
+
+    /**
+     * Method plays the resource continually.  Linked to EchoTimer for wether it should play or not
+     * @param is the resource stream to play
+     */
     static void playTimerLooping(InputStream is) {
         try {
             BufferedInputStream bis = new BufferedInputStream(is);
