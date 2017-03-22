@@ -1,5 +1,3 @@
-// SHOULD BE FINISHED
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -57,6 +55,5 @@ public class EchoTest {
 
         echo.FILENAME = getClass().getResource("stop_stopwatch_test.wav").getPath();
         echo.actionPerformed(event);
-
     }
 }
