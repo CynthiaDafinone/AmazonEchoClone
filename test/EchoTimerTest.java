@@ -1,5 +1,3 @@
-// SHOULD BE FINISHED
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,22 +15,6 @@ import static org.junit.Assert.*;
 public class EchoTimerTest {
     
     public EchoTimerTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
@@ -82,6 +64,5 @@ public class EchoTimerTest {
         
         boolean shouldPlayBool2 = et.shouldPlay;
         assertFalse("shouldPlay should have value false", shouldPlayBool2);
-    }
-    
+    }   
 }
