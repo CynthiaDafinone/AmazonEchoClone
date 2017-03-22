@@ -1,5 +1,3 @@
-// SHOULD BE FINISHED
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,22 +14,6 @@ public class SoundRecordedEventTest {
     
     public SoundRecordedEventTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test to check that the SoundRecordedEvent constructor works as intended
@@ -43,5 +25,4 @@ public class SoundRecordedEventTest {
         SoundRecordedEvent event1 = new SoundRecordedEvent(sd, 1, "soundDetected");
         assertNotNull("event1 should not be null", event1);
     }
-    
 }
