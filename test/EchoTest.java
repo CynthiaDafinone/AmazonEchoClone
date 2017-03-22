@@ -1,5 +1,6 @@
 // SHOULD BE FINISHED ?? - one method could be added ?? 
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,6 +19,11 @@ public class EchoTest {
     @BeforeClass
     public static void setUp() {
         echo = new Echo();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        echo = null;
     }
     
     /**
