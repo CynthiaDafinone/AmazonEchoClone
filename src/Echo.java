@@ -15,6 +15,10 @@ public class Echo implements ActionListener, LineListener {
     final EchoGUI gui;
     final SoundDetector detector;
 
+    /**
+     * Main method to initiate the echo simulation
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         Echo e = new Echo();
     }
