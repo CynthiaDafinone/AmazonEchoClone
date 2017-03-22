@@ -16,22 +16,6 @@ public class HTTPConnectTest {
     public HTTPConnectTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test to check that the renewAccessToken method works as intended
      */
@@ -44,7 +28,7 @@ public class HTTPConnectTest {
     }
 
     /**
-     * Test of httpConnect method, of class HTTPConnect.
+     * Test to check that the httpConnect method works as intended
      */
     @Test
     public void testHttpConnect() throws Exception {
@@ -63,6 +47,5 @@ public class HTTPConnectTest {
         
         byte[] resp = hc.httpConnect(testMethod, testUrl, testHeaders, testBody);
         assertNotNull("The byte array response can't be null", resp);
-    }
-    
+    } 
 }
