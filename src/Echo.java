@@ -43,12 +43,15 @@ public class Echo implements ActionListener, LineListener {
             if (str != null) {
                 str = str.toLowerCase();
                 // If there was an error connecting to Microsoft
+                if (str.equals("UnknownHostException")) {
+                    AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
+                    return;
+                }
                 if (str.contains("alexa")){
-                    if (str.equals("UnknownHostException")) {
-                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
-                        return;
-                    } else if (str.contains("timer")) {
-                        EchoTimer.startTimer(str);
+                    if (str.contains("timer")) {
+                        if (!EchoTimer.startTimer(str)) {
+                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("cant_answer.wav"));
+                        }
                         return;
                     } else if(str.contains("news")){
                         News.playNews();

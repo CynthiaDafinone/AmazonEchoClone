@@ -46,11 +46,6 @@ public class EchoGUI extends JFrame {
                     else {
 //                        try {
                         detector.disableMic();
-//                            detectorThread.join();
-//                        } catch (InterruptedException e) {
-//                            // Should not be called
-//                            System.exit(1);
-//                        }
                         if (executorService != null) {
                             executorService.shutdown();
                         }
@@ -128,6 +123,7 @@ public class EchoGUI extends JFrame {
                         EchoTimer.stopPlaying();
                         AudioOutput.stopAudio();
                         }
+                        EchoStopwatch.stopStopwatch();
                         if (listPressed) {
                             System.out.println("Action button pressed");
                             AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newListSound.wav"));

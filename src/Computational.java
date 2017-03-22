@@ -68,7 +68,11 @@ class Computational {
                 return null;
             }
             if (xml.contains("success=\'true\'")) {
-                System.out.println(xml);
+                // To prevent StringIndexOutOfBoundsException that sometimes occurs due to Wolfram's strange responses
+                if (xml.contains("numpods=\'0\'")) {
+                    System.out.println("Wolfram returned success but gave no results...");
+                    return null;
+                }
                 // Find the second index of <pod title= as this contains the information
                 int searchIndex = xml.indexOf("<pod title=");
                 searchIndex = xml.indexOf("<pod title=", searchIndex + 12);

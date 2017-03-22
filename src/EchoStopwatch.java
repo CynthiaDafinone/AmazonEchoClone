@@ -18,11 +18,6 @@ public class EchoStopwatch {
         long currentTime = System.currentTimeMillis();
         long timeDifference = currentTime - pastTime;
 
-        System.out.println(pastTime);
-        System.out.println(currentTime);
-        System.out.println(timeDifference);
-
-
         long days = timeDifference / 86400000;
         long hours = timeDifference / 3600000;
         long minutes = timeDifference / 60000;

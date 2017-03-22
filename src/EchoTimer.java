@@ -5,6 +5,11 @@ public class EchoTimer {
     volatile static boolean shouldPlay = true;
     static boolean isPlaying = false;
 
+    /**
+     * Method starts a timer based on the string
+     * @param str the string containing seconds, minutes and hours to add to the timer
+     * @return true if successfull
+     */
     static boolean startTimer(String str) {
         if (str == null || !str.contains("minutes") && !str.contains("hours") && !str.contains("seconds")) {
             return false;
@@ -29,28 +34,36 @@ public class EchoTimer {
                 return false;
             }
         }
-        Timer t = new Timer();
-        System.out.println("TIMER SET FOR: " + time + " MILLISECONDS");
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                isPlaying = true;
-                shouldPlay = true;
-                AudioOutput.playLooping(getClass().getResourceAsStream("alarm.wav"));
-                isPlaying = false;
-            }
-        }, time);
-        return true;
-    }
-    
-    static boolean isPlaying(){
-        return isPlaying;
+        // Checking the time will be a valid time
+        if (time > 0) {
+            Timer t = new Timer();
+            System.out.println("TIMER SET FOR: " + time + " MILLISECONDS");
+            t.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isPlaying = true;
+                    shouldPlay = true;
+                    AudioOutput.playTimerLooping(getClass().getResourceAsStream("alarm.wav"));
+                    isPlaying = false;
+                }
+            }, time);
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    /**
+     * Method returns true if the timer should continually loop
+     * @return true if it should play
+     */
     static boolean shouldPlay() {
         return shouldPlay;
     }
 
+    /**
+     * Method stops the timer from playing
+     */
     static void stopPlaying() {
         shouldPlay = false;
     }

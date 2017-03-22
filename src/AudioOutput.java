@@ -136,7 +136,7 @@ class AudioOutput {
         }
     }
     
-    static void playLooping(InputStream is) {
+    static void playTimerLooping(InputStream is) {
         try {
             BufferedInputStream bis = new BufferedInputStream(is);
             AudioInputStream ais = AudioSystem.getAudioInputStream(bis);

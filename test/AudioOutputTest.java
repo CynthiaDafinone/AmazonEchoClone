@@ -5,8 +5,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import java.io.File;
+
 import javax.sound.sampled.*;
 import java.io.*;
 import java.net.URL;
@@ -173,7 +172,7 @@ public class AudioOutputTest {
         new Thread() {
             @Override
             public void run() {
-                ao.playLooping(getClass().getResourceAsStream("audio_output_test.wav"));
+                ao.playTimerLooping(getClass().getResourceAsStream("audio_output_test.wav"));
             }
         }.start();
         Thread.sleep(1000);
