@@ -47,22 +47,6 @@ public class SoundDetectorTest {
     }
 
     /**
-     * Test to check that the calibrateMic method works as intended
-     */
-    @Test
-    public void testCalibrateMic() {
-        
-    }
-
-    /**
-     * Test of run method, of class SoundDetector.
-     */
-    @Test
-    public void testRun() {
-        
-    }
-
-    /**
      * Test of startRecording method, of class SoundDetector.
      */
     @Test(expected=NullPointerException.class)
@@ -71,29 +55,6 @@ public class SoundDetectorTest {
         
         sd.startRecording();
     }
-
-    /**
-     * Test of registerRecordingListener method, of class SoundDetector.
-     */
-    @Test
-    public void testRegisterRecordingListener() {
-        SoundDetector sd1 = new SoundDetector();
-        ActionListener listener1;
-        
-        int before = (sd1.listeners).size();
-      //  System.out.print(before);
-       // sd1.registerRecordingListener();
-        
-    }
-
-    /**
-     * Test of unregisterRecordingListener method, of class SoundDetector.
-     */
-    @Test
-    public void testUnregisterRecordingListener() {
-        
-    }
-
     /**
      * Test of enableMic method, of class SoundDetector.
      */
