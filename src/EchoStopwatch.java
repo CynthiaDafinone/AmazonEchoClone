@@ -6,10 +6,17 @@ import java.util.Date;
 public class EchoStopwatch {
     static long pastTime = -1;
 
+    /**
+     * Method starts a stopwatch
+     */
     static void startStopwatch() {
         pastTime = System.currentTimeMillis();
     }
 
+    /**
+     * Method stops the stopwatch
+     * @return true if successfully stopped
+     */
     static boolean stopStopwatch() {
         if (pastTime == -1) {
             System.out.println("STOPWATCH :: There was no timer started, exiting!");
