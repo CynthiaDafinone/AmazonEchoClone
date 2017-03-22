@@ -1,5 +1,3 @@
-// SHOULD BE FINISHED
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,22 +14,6 @@ import static org.junit.Assert.*;
 public class EchoStopwatchTest {
     
     public EchoStopwatchTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
