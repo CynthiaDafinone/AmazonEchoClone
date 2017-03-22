@@ -12,17 +12,17 @@ import java.util.concurrent.TimeUnit;
 
 public class EchoGUI extends JFrame {
 
-    private JFrame frame = new JFrame();
-    private final PowerButton btnPOW = new PowerButton();
-    private final MuteButton btnMUTE = new MuteButton();
-    private final ListenButton btnLIST = new ListenButton();
-    private final SoundDetector detector;
-    private Thread detectorThread;
-    private boolean isPowered = false;
-    private boolean isPressed = false;
-    private boolean listPressed = false;
-    private ScheduledExecutorService executorService;
-    private int flashCount = 0;
+    JFrame frame = new JFrame();
+    final PowerButton btnPOW = new PowerButton();
+    final MuteButton btnMUTE = new MuteButton();
+    final ListenButton btnLIST = new ListenButton();
+    final SoundDetector detector;
+    Thread detectorThread;
+    boolean isPowered = false;
+    boolean isPressed = false;
+    boolean listPressed = false;
+    ScheduledExecutorService executorService;
+    int flashCount = 0;
 
 
     /*
