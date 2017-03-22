@@ -1,5 +1,3 @@
-// TO BE FINISHED / WORK IN PROGRESS
-
 import java.awt.event.ActionListener;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -9,81 +7,58 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * The test class for SoundDetector, & SoundDetectionThread its nested class . 
- * Contains 12 tests:
- * 
- * 1. Tests that the calibrateMic method works as intended
- * 2. Tests that the B method works as intended
- * 3. Tests that the C method works as intended
- * 4. Tests that the A method works as intended
- * 5. Tests that the B method works as intended
- * 6. Tests that the C method works as intended
- * 7. Tests that the A method works as intended
- * 8. Tests that the B method works as intended
- * 9. Tests that the C method works as intended
- * 10. Tests that the A method works as intended
- * 11. Tests that the B method works as intended
- * 12. Tests that the C method works as intended
+ * The test class for SoundDetector. Contains 9 tests:
+ *
+ * 1. Tests that the startRecording method works as intended !
+ * 2. Tests that the enableMic method works as intended !
+ * 3. Tests that the pauseForAnswer method works as intended
+ * 4. Tests that the resumeAfterAnswer method works as intended
+ * 5. Tests that the disableMic method works as intended
  */
 public class SoundDetectorTest {
     
     public SoundDetectorTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
-     * Test of startRecording method, of class SoundDetector.
-     */
+    * Test to check that the startRecording method works as intended
+    */
     @Test(expected=NullPointerException.class)
     public void testStartRecording() {
-        SoundDetector sd = new SoundDetector();
+        SoundDetector sd = new SoundDetector(); // Instance to test created
         
         sd.startRecording();
     }
+    
     /**
-     * Test of enableMic method, of class SoundDetector.
-     */
+    * Test to check that the enableMic method works as intended
+    */
     @Test(expected=NullPointerException.class)
     public void testEnableMic() {
-        SoundDetector sd = new SoundDetector();
+        SoundDetector sd = new SoundDetector(); // Instance to test created
         
         sd.enableMic();
     }
 
     /**
-     * Test of pauseForAnswer method, of class SoundDetector.
-     */
+    * Test to check that the pauseForAnswer method works as intended
+    */
     @Test
     public void testPauseForAnswer() {
-        SoundDetector sd = new SoundDetector();
+        SoundDetector sd = new SoundDetector(); // Instance to test created
         
-        sd.pauseForAnswer();
+        sd.pauseForAnswer(); 
         
         boolean bool1 = sd.canRecord;
         assertFalse("canRecord should now be set to false" , bool1);
     }
 
     /**
-     * Test of resumeAfterAnswer method, of class SoundDetector.
-     */
+    * Test to check that the resumeAfterAnswer method works as intended
+    */
     @Test
     public void testResumeAfterAnswer() {
-        SoundDetector sd = new SoundDetector();
+        SoundDetector sd = new SoundDetector(); // Instance to test created
         
         sd.resumeAfterAnswer();
         
@@ -92,16 +67,15 @@ public class SoundDetectorTest {
     }
 
     /**
-     * Test of disableMic method, of class SoundDetector.
-     */
+    * Test to check that the disableMic method works as intended
+    */
     @Test
     public void testDisableMic() {
-        SoundDetector sd = new SoundDetector();
+        SoundDetector sd = new SoundDetector(); // Instance to test created
         
         sd.disableMic();
         
         boolean bool1 = sd.running;
         assertFalse("running should now be set to false" , bool1);
-    }
-    
+    }   
 }
