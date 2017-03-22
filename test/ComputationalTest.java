@@ -1,5 +1,3 @@
-// SHOULD BE FINISHED
-
 import java.io.*;
 import java.net.URLEncoder;
 import org.junit.After;
@@ -20,23 +18,7 @@ public class ComputationalTest {
     
     public ComputationalTest() {
     }
-    
-//    @BeforeClass
-//    public static void setUpClass() {
-//    }
-//    
-//    @AfterClass
-//    public static void tearDownClass() {
-//    }
-//    
-//    @Before
-//    public void setUp() {
-//    }
-//    
-//    @After
-//    public void tearDown() {
-//    }
-    
+  
     /**
      * Test to check that the solve method works as intended
      */
