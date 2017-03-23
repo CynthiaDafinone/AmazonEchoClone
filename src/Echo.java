@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Main class for the Echo
- * Class will create an empty Echo constructor which
+ * Class will create the Echo and subsequent instances.
  */
 public class Echo implements ActionListener, LineListener {
     String FILENAME = "temp.wav";
