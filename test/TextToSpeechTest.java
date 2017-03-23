@@ -1,9 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -21,6 +17,7 @@ public class TextToSpeechTest {
 
     /**
      * Test to check that the synthesizeSpeech method works as intended
+     * @throws java.io.IOException
      */
     @Test
     public void testSynthesizeSpeech() throws IOException {
@@ -40,6 +37,7 @@ public class TextToSpeechTest {
 
     /**
      * Test to check that the writeData method works as intended 
+     * @throws java.io.IOException
      */
     @Test
     public void testWriteData() throws IOException {

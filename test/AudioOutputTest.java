@@ -1,7 +1,3 @@
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import javax.sound.sampled.*;
 import java.io.*;
@@ -22,6 +18,9 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the playSound method works as intended
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
+     * @throws javax.sound.sampled.LineUnavailableException
      */   
     @Test
     public void testPlaySound() throws UnsupportedAudioFileException, IOException,
@@ -45,6 +44,9 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the playSound method works as intended
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
+     * @throws javax.sound.sampled.LineUnavailableException
      */
     @Test(expected=UnsupportedAudioFileException.class)
     public void testPlaySound2() throws UnsupportedAudioFileException, IOException,
@@ -61,6 +63,9 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the playSound method works as intended
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
+     * @throws javax.sound.sampled.LineUnavailableException
      */
     @Test(expected=NullPointerException.class)
     public void testPlaySound3() throws UnsupportedAudioFileException, IOException,
@@ -77,6 +82,9 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the playSound method works as intended
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
+     * @throws javax.sound.sampled.LineUnavailableException
      */
     @Test //(expected=UnsupportedAudioFileException.class)
     public void testPlaySound4() throws UnsupportedAudioFileException, IOException,
@@ -93,6 +101,9 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the playSoundWithoutListeners method works as intended
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
+     * @throws javax.sound.sampled.LineUnavailableException
      */
     @Test
     public void testPlaySoundWithoutListeners() throws UnsupportedAudioFileException, 
@@ -115,6 +126,9 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the playSoundWithoutListeners method works as intended
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
+     * @throws javax.sound.sampled.LineUnavailableException
      */
     @Test(expected=UnsupportedAudioFileException.class)
     public void testPlaySoundWithoutListeners2() throws UnsupportedAudioFileException, 
@@ -131,6 +145,9 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the stopAudio method works as intended
+     * @throws javax.sound.sampled.LineUnavailableException
+     * @throws javax.sound.sampled.UnsupportedAudioFileException
+     * @throws java.io.IOException
      */
     @Test
     public void testStopAudio() throws LineUnavailableException, UnsupportedAudioFileException,
@@ -150,6 +167,7 @@ public class AudioOutputTest {
     
     /**
      * Test to check that the playLooping method works as intended
+     * @throws java.lang.InterruptedException
      */
     @Test
     public void testPlayLooping() throws InterruptedException{
