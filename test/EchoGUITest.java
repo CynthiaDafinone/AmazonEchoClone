@@ -146,10 +146,12 @@ public class EchoGUITest {
         press(testgui.btnLIST);
         boolean pressed = testgui.btnLIST.isEnabled();
         assertTrue(pressed);
+        c = testgui.getColour();
+        //assertEquals(c, "Flash");
 
         release(testgui.btnLIST);
         c = testgui.getColour();
-        assertEquals(c, "Flash");
+        assertEquals(c, "Off");
 
         press(testgui.btnLIST);
 
