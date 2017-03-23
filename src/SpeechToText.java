@@ -10,6 +10,7 @@ class SpeechToText {
 
     /**
      * Method to convert speech audio bytes to text
+     *
      * @param token the access token to use for Microsoft Cognitive services
      * @param body the audio bytes
      * @return the JSON string returned from the server
@@ -37,6 +38,7 @@ class SpeechToText {
 
     /**
      * Method to read audio data from a file into a byte array
+     * 
      * @param name the filename in which to load data from
      * @return the byte array containing audio information
      */
@@ -58,6 +60,7 @@ class SpeechToText {
 
     /**
      * Method to get a String mentioned within an audio file
+     * 
      * @param filename the file in which to obtain data from
      * @return the string returned from the server
      */
