@@ -21,6 +21,7 @@ public class EchoGUI extends JFrame {
     boolean isPressed = false;
     boolean listPressed = false;
     ScheduledExecutorService executorService;
+    private String currentColour;
     int flashCount = 0;
 
 
@@ -169,6 +170,7 @@ public class EchoGUI extends JFrame {
      * @param color the color to change it to - (Blue/Cyan/Off/Flash)
      */
     void changeColor(String color) {
+        currentColour = color;
         if (executorService != null) {
             executorService.shutdown();
         }
@@ -240,5 +242,9 @@ public class EchoGUI extends JFrame {
      */
     void setPowered(boolean value) {
         isPowered = value;
+    }
+
+    String getColour() {
+        return currentColour;
     }
 }
