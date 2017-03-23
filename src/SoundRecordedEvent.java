@@ -1,5 +1,4 @@
 import java.awt.event.ActionEvent;
-import java.util.EventObject;
 
 /**
  * Wrapper class for the SoundRecordedEvent. Although not technically needed the skeleton is left should any

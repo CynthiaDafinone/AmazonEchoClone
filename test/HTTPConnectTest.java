@@ -1,7 +1,3 @@
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,6 +14,7 @@ public class HTTPConnectTest {
     
     /**
      * Test to check that the renewAccessToken method works as intended
+     * @throws java.lang.Exception
      */
     @Test
     public void testRenewAccessToken() throws Exception {
@@ -29,6 +26,7 @@ public class HTTPConnectTest {
 
     /**
      * Test to check that the httpConnect method works as intended
+     * @throws java.lang.Exception
      */
     @Test
     public void testHttpConnect() throws Exception {

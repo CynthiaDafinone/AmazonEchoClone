@@ -1,10 +1,13 @@
+
 import java.net.URLEncoder;
 import java.io.*;
 
-/*
- * Class used for any interaction with WolframAlpha.  Has static methods responsible for any interaction.
+/**
+ * Class used for any interaction with WolframAlpha. Has static methods
+ * responsible for any interaction.
  */
 class Computational {
+
     // APPID for the WolframAlpha servers
     private final static String APPID = "J66HRA-W47APJEV7R";
 
@@ -13,19 +16,18 @@ class Computational {
      *
      * @param question the question to be answered
      * @return a string containing the result
-     * @throws IOException should there be an error with the connection to the server/answer
+     * @throws IOException should there be an error with the connection to the
+     * server/answer
      */
     static String solve(String question) throws IOException {
         final String method = "POST";
         final String url
                 = ("http://api.wolframalpha.com/v2/query"
                 + "?" + "appid" + "=" + APPID
-                + "&" + "input" + "=" + urlEncode(question)
-//                + "&" + "output" + "=" + "JSON"
-        );
+                + "&" + "input" + "=" + urlEncode(question));
         final String[][] headers
                 = {{"Content-Length", "0"}
-        };
+                };
         final byte[] body = new byte[0];
         try {
             byte[] response = HTTPConnect.httpConnect(method, url, headers, body);
@@ -78,7 +80,6 @@ class Computational {
                 searchIndex = xml.indexOf("<plaintext>", searchIndex) + 11;
                 int endIndex = xml.indexOf("</plaintext>", searchIndex);
                 String answer = xml.substring(searchIndex, endIndex);
-
 
                 // Removing special characters
                 answer = answer.replaceAll("\\\\n", " ");

@@ -1,7 +1,3 @@
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,6 +15,7 @@ public class SpeechToTextTest {
 
     /**
     * Test to check that the recognizeSpeech method works as intended
+     * @throws java.lang.Exception
     */
     @Test
     public void testRecognizeSpeech() throws Exception {  
