@@ -11,6 +11,7 @@ class TextToSpeech {
 
     /**
      * Method to convert string to an audio byte array of the spoken text
+     * 
      * @param token an access token for the Microsoft Cognitive servers
      * @param text the text to translate
      * @param lang the language to translate the text in
@@ -42,6 +43,7 @@ class TextToSpeech {
 
     /**
      * Method to write an audio byte array to a wav file specified
+     * 
      * @param buffer the audio byte array to use
      * @param name the filename in which to write to
      */
@@ -61,6 +63,7 @@ class TextToSpeech {
 
     /**
      * Method to convert a given string to an audio file
+     *
      * @param text the string to convert
      * @return the audio file in which the converted text is stored
      */
