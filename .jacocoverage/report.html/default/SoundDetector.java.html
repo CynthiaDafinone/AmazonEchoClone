@@ -17,7 +17,7 @@ import java.util.ArrayList;
     private SoundDetectionThread soundDetector;
 <span class="nc" id="L18">    boolean canRecord = true;</span>
 
-<span class="nc" id="L20">    ArrayList&lt;ActionListener&gt; listeners= new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L20">    private ArrayList&lt;ActionListener&gt; listeners= new ArrayList&lt;&gt;();</span>
 
     boolean running;
     private TargetDataLine line;
@@ -25,55 +25,57 @@ import java.util.ArrayList;
 
     /**
      * Method to calibrate the microphone's threshold to just above the background RMS level
+     * 
      * @param detector the SoundDetectionThread used to check for incoming audio
      */
-    void calibrateMic(SoundDetectionThread detector) {
+    private void calibrateMic(SoundDetectionThread detector) {
         // This is the lowest level possible
-<span class="nc" id="L32">        THRESHOLD = -1f;</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        while (detector.soundDetected()) {</span>
-<span class="nc" id="L34">            THRESHOLD += 1.05f;</span>
+<span class="nc" id="L33">        THRESHOLD = -1f;</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        while (detector.soundDetected()) {</span>
+<span class="nc" id="L35">            THRESHOLD += 1.05f;</span>
         }
-<span class="nc" id="L36">        THRESHOLD += 0.011f;</span>
-<span class="nc" id="L37">        System.out.println(&quot;Calibrated the threshold as &quot; + THRESHOLD);</span>
-<span class="nc" id="L38">    }</span>
+        // Adding a small amount above the background level as the activation level
+<span class="nc" id="L38">        THRESHOLD += 0.011f;</span>
+<span class="nc" id="L39">        System.out.println(&quot;Calibrated the threshold as &quot; + THRESHOLD);</span>
+<span class="nc" id="L40">    }</span>
 
     /**
      * Run method of the thread, will listen for audio whilst in listening mode &amp; record audio if it hears anything
      */
     @Override
     public void run() {
-<span class="nc" id="L45">        running = true;</span>
+<span class="nc" id="L47">        running = true;</span>
         try {
             // Set up a new line to the microphone
-<span class="nc" id="L48">            final int bufferSize = format.getFrameSize() * SAMPLE_RATE;</span>
+<span class="nc" id="L50">            final int bufferSize = format.getFrameSize() * SAMPLE_RATE;</span>
 
-<span class="nc" id="L50">            line = AudioSystem.getTargetDataLine(format);</span>
-<span class="nc" id="L51">            line.open(format, bufferSize);</span>
-<span class="nc" id="L52">            line.start();</span>
+<span class="nc" id="L52">            line = AudioSystem.getTargetDataLine(format);</span>
+<span class="nc" id="L53">            line.open(format, bufferSize);</span>
+<span class="nc" id="L54">            line.start();</span>
 
             // Start a new Thread to continually monitor for sound
-<span class="nc" id="L55">            ais = new AudioInputStream(line);</span>
-<span class="nc" id="L56">            soundDetector = new SoundDetectionThread(line, bufferSize);</span>
-<span class="nc" id="L57">            soundDetector.start();</span>
-<span class="nc" id="L58">            calibrateMic(soundDetector);</span>
-<span class="nc" id="L59">            System.out.println(&quot;Started silenceDetector&quot;);</span>
+<span class="nc" id="L57">            ais = new AudioInputStream(line);</span>
+<span class="nc" id="L58">            soundDetector = new SoundDetectionThread(line, bufferSize);</span>
+<span class="nc" id="L59">            soundDetector.start();</span>
+<span class="nc" id="L60">            calibrateMic(soundDetector);</span>
+<span class="nc" id="L61">            System.out.println(&quot;Started silenceDetector&quot;);</span>
 
             // Continually check for any sound detection
-<span class="nc bnc" id="L62" title="All 2 branches missed.">            while (running) {</span>
-<span class="nc bnc" id="L63" title="All 4 branches missed.">                if (soundDetector.soundDetected() &amp;&amp; canRecord) {</span>
-<span class="nc" id="L64">                    System.out.println(&quot;Detected Audio, starting recording..&quot;);</span>
-<span class="nc" id="L65">                    startRecording();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            while (running) {</span>
+<span class="nc bnc" id="L65" title="All 4 branches missed.">                if (soundDetector.soundDetected() &amp;&amp; canRecord) {</span>
+<span class="nc" id="L66">                    System.out.println(&quot;Detected Audio, starting recording..&quot;);</span>
+<span class="nc" id="L67">                    startRecording();</span>
                 }
             }
-<span class="nc" id="L68">        } catch (LineUnavailableException e) {</span>
-<span class="nc" id="L69">            System.out.println(&quot;The TargetDataLine for the microphone was unavailable - are you sure it's plugged in?&quot;);</span>
-<span class="nc" id="L70">            e.printStackTrace();</span>
-<span class="nc" id="L71">            System.exit(1);</span>
+<span class="nc" id="L70">        } catch (LineUnavailableException e) {</span>
+<span class="nc" id="L71">            System.out.println(&quot;The TargetDataLine for the microphone was unavailable - are you sure it's plugged in?&quot;);</span>
+<span class="nc" id="L72">            e.printStackTrace();</span>
+<span class="nc" id="L73">            System.exit(1);</span>
         } finally {
             // Close the line each time, so it can be accessed again by a new Thread when needed
-<span class="nc" id="L74">            line.close();</span>
-<span class="nc" id="L75">        }</span>
-<span class="nc" id="L76">    }</span>
+<span class="nc" id="L76">            line.close();</span>
+<span class="nc" id="L77">        }</span>
+<span class="nc" id="L78">    }</span>
 
     /**
      * Method to record a given amount of audio (TIMER) and store it to a file (FILENAME) as a wave file.
@@ -82,91 +84,93 @@ import java.util.ArrayList;
     void startRecording() {
         try {
             // Record the stream into a new file
-<span class="nc" id="L85">            ByteArrayOutputStream bos = new ByteArrayOutputStream();</span>
+<span class="nc" id="L87">            ByteArrayOutputStream bos = new ByteArrayOutputStream();</span>
 
-<span class="nc" id="L87">            int bufferSize = SAMPLE_RATE * ais.getFormat().getFrameSize();</span>
-<span class="nc" id="L88">            byte buffer[] = new byte[bufferSize];</span>
+<span class="nc" id="L89">            int bufferSize = SAMPLE_RATE * ais.getFormat().getFrameSize();</span>
+<span class="nc" id="L90">            byte buffer[] = new byte[bufferSize];</span>
 
-<span class="nc" id="L90">            int counter = TIMER;</span>
+<span class="nc" id="L92">            int counter = TIMER;</span>
             // Record whilst there is a sound detected and to a maximum of TIMER seconds
-<span class="nc bnc" id="L92" title="All 4 branches missed.">            while (counter &gt; 0 &amp;&amp; soundDetector.soundDetected()) {</span>
-<span class="nc" id="L93">                counter--;</span>
-<span class="nc" id="L94">                int n = ais.read(buffer, 0, buffer.length);</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">                if (n &gt; 0) {</span>
-<span class="nc" id="L96">                    bos.write(buffer, 0, n);</span>
+<span class="nc bnc" id="L94" title="All 4 branches missed.">            while (counter &gt; 0 &amp;&amp; soundDetector.soundDetected()) {</span>
+<span class="nc" id="L95">                counter--;</span>
+<span class="nc" id="L96">                int n = ais.read(buffer, 0, buffer.length);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                if (n &gt; 0) {</span>
+<span class="nc" id="L98">                    bos.write(buffer, 0, n);</span>
                 } else {
                     break;
                 }
-<span class="nc" id="L100">            }</span>
+<span class="nc" id="L102">            }</span>
 
             // Convert the recorded byte array and write it to a file
             // A file was used rather than storing the byte array in main memory so we can include further functionality
             // later on, such as replaying a clip.
-<span class="nc" id="L105">            byte[] ba = bos.toByteArray();</span>
-<span class="nc" id="L106">            InputStream is = new ByteArrayInputStream(ba);</span>
-<span class="nc" id="L107">            AudioInputStream ais = new AudioInputStream(is, format, ba.length);</span>
-<span class="nc" id="L108">            File file = new File(FILENAME);</span>
-<span class="nc" id="L109">            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);</span>
+<span class="nc" id="L107">            byte[] ba = bos.toByteArray();</span>
+<span class="nc" id="L108">            InputStream is = new ByteArrayInputStream(ba);</span>
+<span class="nc" id="L109">            AudioInputStream ais = new AudioInputStream(is, format, ba.length);</span>
+<span class="nc" id="L110">            File file = new File(FILENAME);</span>
+<span class="nc" id="L111">            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);</span>
 
             // Call all listeners and notify them that a new AudioFile has been recorded
-<span class="nc" id="L112">            System.out.println(&quot;Recorded a new audio file, notifying listeners..&quot;);</span>
-<span class="nc" id="L113">            SoundRecordedEvent event = new SoundRecordedEvent(this, 1, &quot;soundDetected&quot;);</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">            for (ActionListener listener : listeners) {</span>
-<span class="nc" id="L115">                listener.actionPerformed(event);</span>
-<span class="nc" id="L116">            }</span>
-<span class="nc" id="L117">        } catch (IOException e) {</span>
-<span class="nc" id="L118">            e.printStackTrace();</span>
-<span class="nc" id="L119">            System.exit(1);</span>
-<span class="nc" id="L120">        }</span>
-<span class="nc" id="L121">    }</span>
+<span class="nc" id="L114">            System.out.println(&quot;Recorded a new audio file, notifying listeners..&quot;);</span>
+<span class="nc" id="L115">            SoundRecordedEvent event = new SoundRecordedEvent(this, 1, &quot;soundDetected&quot;);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            for (ActionListener listener : listeners) {</span>
+<span class="nc" id="L117">                listener.actionPerformed(event);</span>
+<span class="nc" id="L118">            }</span>
+<span class="nc" id="L119">        } catch (IOException e) {</span>
+<span class="nc" id="L120">            e.printStackTrace();</span>
+<span class="nc" id="L121">            System.exit(1);</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc" id="L123">    }</span>
 
     /**
      * Method to register as an EventListener for any new sound recordings
+     * 
      * @param listener the EventListener to register
      * @return true if successful
      */
     boolean registerRecordingListener(ActionListener listener) {
-<span class="nc" id="L129">        return listeners.add(listener);</span>
+<span class="nc" id="L132">        return listeners.add(listener);</span>
     }
 
     /**
      * Method to unregister as an EventListener for any new sound recordings
+     * 
      * @param listener the EventListener to unregister
      * @return true if successful
      */
     boolean unregisterRecordingListener(ActionListener listener) {
-<span class="nc" id="L138">        return listeners.remove(listener);</span>
+<span class="nc" id="L142">        return listeners.remove(listener);</span>
     }
 
     /**
      * Method to re-enable the microphone after completely disabling it
      */
     void enableMic() {
-<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (!soundDetector.isAlive()) {</span>
-<span class="nc" id="L146">            soundDetector = new SoundDetectionThread(line, ais.getFormat().getFrameSize() * SAMPLE_RATE);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (!soundDetector.isAlive()) {</span>
+<span class="nc" id="L150">            soundDetector = new SoundDetectionThread(line, ais.getFormat().getFrameSize() * SAMPLE_RATE);</span>
         }
-<span class="nc" id="L148">    }</span>
+<span class="nc" id="L152">    }</span>
 
     /**
      * Method to be called before entering answer mode to disable any recording (prevents it from recording itself)
      */
     void pauseForAnswer() {
-<span class="nc" id="L154">        canRecord = false;</span>
-<span class="nc" id="L155">    }</span>
+<span class="nc" id="L158">        canRecord = false;</span>
+<span class="nc" id="L159">    }</span>
 
     /**
      * Method to be called after completing an answer to re-allow for any audio recording
      */
     void resumeAfterAnswer() {
-<span class="nc" id="L161">        canRecord = true;</span>
-<span class="nc" id="L162">    }</span>
+<span class="nc" id="L165">        canRecord = true;</span>
+<span class="nc" id="L166">    }</span>
 
     /**
      * Method should be called to disable the microphone's recording
      */
     void disableMic() {
-<span class="nc" id="L168">        running = false;</span>
-<span class="nc" id="L169">    }</span>
+<span class="nc" id="L172">        running = false;</span>
+<span class="nc" id="L173">    }</span>
 
     class SoundDetectionThread extends Thread {
         private TargetDataLine line;
@@ -175,20 +179,22 @@ import java.util.ArrayList;
 
         /**
          * Constructor to allow for the SoundDetectionThread to access the same audio input as the recording thread
+         * 
          * @param line The TargetDataLine to record from
          * @param bufferSize The buffer size to read into
          */
-<span class="nc" id="L181">        SoundDetectionThread(TargetDataLine line, int bufferSize) {</span>
-<span class="nc" id="L182">            this.line = line;</span>
-<span class="nc" id="L183">            this.bufferSize = bufferSize;</span>
-<span class="nc" id="L184">        }</span>
+<span class="nc" id="L186">        SoundDetectionThread(TargetDataLine line, int bufferSize) {</span>
+<span class="nc" id="L187">            this.line = line;</span>
+<span class="nc" id="L188">            this.bufferSize = bufferSize;</span>
+<span class="nc" id="L189">        }</span>
 
         /**
          * Method to check if the microphone's audio input is above a threshold level
+         * 
          * @return true if sound has been detected
          */
         boolean soundDetected() {
-<span class="nc bnc" id="L191" title="All 2 branches missed.">            return lastAmplitude &gt; THRESHOLD;</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">            return lastAmplitude &gt; THRESHOLD;</span>
         }
 
         /**
@@ -196,45 +202,45 @@ import java.util.ArrayList;
          */
         @Override
         public void run() {
-<span class="nc bnc" id="L199" title="All 2 branches missed.">            while (running) {</span>
-<span class="nc" id="L200">                byte[] buf = new byte[bufferSize];</span>
-<span class="nc" id="L201">                float[] samples = new float[bufferSize / 2];</span>
-<span class="nc bnc" id="L202" title="All 2 branches missed.">                while (running) {</span>
-<span class="nc" id="L203">                    int b = line.read(buf, 0, buf.length);</span>
-<span class="nc bnc" id="L204" title="All 2 branches missed.">                    for (int i = 0, s = 0; i &lt; b; ) {</span>
-<span class="nc" id="L205">                        int sample = 0;</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            while (running) {</span>
+<span class="nc" id="L206">                byte[] buf = new byte[bufferSize];</span>
+<span class="nc" id="L207">                float[] samples = new float[bufferSize / 2];</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">                while (running) {</span>
+<span class="nc" id="L209">                    int b = line.read(buf, 0, buf.length);</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">                    for (int i = 0, s = 0; i &lt; b; ) {</span>
+<span class="nc" id="L211">                        int sample = 0;</span>
 
                         // Converting the bytes to floats
-<span class="nc" id="L208">                        sample |= buf[i++] &lt;&lt; 8;</span>
-<span class="nc" id="L209">                        sample |= buf[i++] &amp; 0xFF;</span>
+<span class="nc" id="L214">                        sample |= buf[i++] &lt;&lt; 8;</span>
+<span class="nc" id="L215">                        sample |= buf[i++] &amp; 0xFF;</span>
 
                         // Reducing it to the range -1 to +1
-<span class="nc" id="L212">                        samples[s++] = sample / 32768f;</span>
-<span class="nc" id="L213">                    }</span>
+<span class="nc" id="L218">                        samples[s++] = sample / 32768f;</span>
+<span class="nc" id="L219">                    }</span>
 
                     // Calculating the RMS amplitude
-<span class="nc" id="L216">                    float rms = 0f;</span>
-<span class="nc" id="L217">                    float peak = 0f;</span>
-<span class="nc bnc" id="L218" title="All 2 branches missed.">                    for (float sample : samples) {</span>
-<span class="nc" id="L219">                        float abs = Math.abs(sample);</span>
-<span class="nc bnc" id="L220" title="All 2 branches missed.">                        if (abs &gt; peak) {</span>
-<span class="nc" id="L221">                            peak = abs;</span>
+<span class="nc" id="L222">                    float rms = 0f;</span>
+<span class="nc" id="L223">                    float peak = 0f;</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                    for (float sample : samples) {</span>
+<span class="nc" id="L225">                        float abs = Math.abs(sample);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">                        if (abs &gt; peak) {</span>
+<span class="nc" id="L227">                            peak = abs;</span>
                         }
-<span class="nc" id="L223">                        rms += sample * sample;</span>
+<span class="nc" id="L229">                        rms += sample * sample;</span>
                     }
-<span class="nc" id="L225">                    rms = (float) Math.sqrt(rms / samples.length);</span>
-<span class="nc" id="L226">                    lastAmplitude = rms;</span>
+<span class="nc" id="L231">                    rms = (float) Math.sqrt(rms / samples.length);</span>
+<span class="nc" id="L232">                    lastAmplitude = rms;</span>
                     try {
                         // Sleep temporarily to prevent the system overwhelming the OS
-<span class="nc" id="L229">                        sleep(2);</span>
-<span class="nc" id="L230">                    } catch (InterruptedException e) {</span>
-<span class="nc" id="L231">                        System.out.println(&quot;Interrupted exception - this shouldn't have happened.&quot;);</span>
-<span class="nc" id="L232">                        e.printStackTrace();</span>
-<span class="nc" id="L233">                        System.exit(1);</span>
-<span class="nc" id="L234">                    }</span>
-<span class="nc" id="L235">                }</span>
-<span class="nc" id="L236">            }</span>
-<span class="nc" id="L237">        }</span>
+<span class="nc" id="L235">                        sleep(2);</span>
+<span class="nc" id="L236">                    } catch (InterruptedException e) {</span>
+<span class="nc" id="L237">                        System.out.println(&quot;Interrupted exception - this shouldn't have happened.&quot;);</span>
+<span class="nc" id="L238">                        e.printStackTrace();</span>
+<span class="nc" id="L239">                        System.exit(1);</span>
+<span class="nc" id="L240">                    }</span>
+<span class="nc" id="L241">                }</span>
+<span class="nc" id="L242">            }</span>
+<span class="nc" id="L243">        }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

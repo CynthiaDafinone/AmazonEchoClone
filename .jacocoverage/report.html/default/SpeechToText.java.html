@@ -10,13 +10,14 @@ import java.util.UUID;
 
     /**
      * Method to convert speech audio bytes to text
+     *
      * @param token the access token to use for Microsoft Cognitive services
      * @param body the audio bytes
      * @return the JSON string returned from the server
      */
     static String recognizeSpeech( String token, byte[] body ) throws IOException {
-<span class="nc" id="L18">        final String method = &quot;POST&quot;;</span>
-<span class="nc" id="L19">        final String url</span>
+<span class="nc" id="L19">        final String method = &quot;POST&quot;;</span>
+<span class="nc" id="L20">        final String url</span>
                 = ( &quot;https://speech.platform.bing.com/recognize&quot;
                 + &quot;?&quot; + &quot;version&quot;    + &quot;=&quot; + &quot;3.0&quot;
                 + &quot;&amp;&quot; + &quot;format&quot;     + &quot;=&quot; + &quot;json&quot;
@@ -24,65 +25,67 @@ import java.util.UUID;
                 + &quot;&amp;&quot; + &quot;scenarios&quot;  + &quot;=&quot; + &quot;smd&quot;
                 + &quot;&amp;&quot; + &quot;locale&quot;     + &quot;=&quot; + LANG
                 + &quot;&amp;&quot; + &quot;appid&quot;      + &quot;=&quot; + &quot;D4D52672-91D7-4C74-8AD8-42B1D98141A5&quot;
-<span class="nc" id="L27">                + &quot;&amp;&quot; + &quot;instanceid&quot; + &quot;=&quot; + UUID.randomUUID().toString()</span>
-<span class="nc" id="L28">                + &quot;&amp;&quot; + &quot;requestid&quot;  + &quot;=&quot; + UUID.randomUUID().toString()</span>
+<span class="nc" id="L28">                + &quot;&amp;&quot; + &quot;instanceid&quot; + &quot;=&quot; + UUID.randomUUID().toString()</span>
+<span class="nc" id="L29">                + &quot;&amp;&quot; + &quot;requestid&quot;  + &quot;=&quot; + UUID.randomUUID().toString()</span>
         );
-<span class="nc" id="L30">        final String[][] headers</span>
+<span class="nc" id="L31">        final String[][] headers</span>
                 = { { &quot;Content-Type&quot;   , &quot;audio/wav; samplerate=16000&quot;  }
-<span class="nc" id="L32">                , { &quot;Content-Length&quot; , String.valueOf( body.length )  }</span>
+<span class="nc" id="L33">                , { &quot;Content-Length&quot; , String.valueOf( body.length )  }</span>
                 , { &quot;Authorization&quot;  , &quot;Bearer &quot; + token              }
-<span class="nc" id="L34">        };        byte[] response = HTTPConnect.httpConnect( method, url, headers, body );</span>
-<span class="nc" id="L35">        return new String( response );</span>
+<span class="nc" id="L35">        };        byte[] response = HTTPConnect.httpConnect( method, url, headers, body );</span>
+<span class="nc" id="L36">        return new String( response );</span>
     }
 
     /**
      * Method to read audio data from a file into a byte array
+     * 
      * @param name the filename in which to load data from
      * @return the byte array containing audio information
      */
     static byte[] readData( String name ) {
         try {
-<span class="nc" id="L45">            File            file = new File( name );</span>
-<span class="nc" id="L46">            FileInputStream fis  = new FileInputStream( file );</span>
-<span class="nc" id="L47">            DataInputStream dis  = new DataInputStream( fis );</span>
-<span class="nc" id="L48">            byte[] buffer = new byte[ (int) file.length() ];</span>
-<span class="nc" id="L49">            dis.readFully( buffer );</span>
-<span class="nc" id="L50">            dis.close();</span>
-<span class="nc" id="L51">            return buffer;</span>
-<span class="nc" id="L52">        } catch (IOException e) {</span>
-<span class="nc" id="L53">            e.printStackTrace();</span>
-<span class="nc" id="L54">            System.exit(1);</span>
-<span class="nc" id="L55">            return null;</span>
+<span class="nc" id="L47">            File            file = new File( name );</span>
+<span class="nc" id="L48">            FileInputStream fis  = new FileInputStream( file );</span>
+<span class="nc" id="L49">            DataInputStream dis  = new DataInputStream( fis );</span>
+<span class="nc" id="L50">            byte[] buffer = new byte[ (int) file.length() ];</span>
+<span class="nc" id="L51">            dis.readFully( buffer );</span>
+<span class="nc" id="L52">            dis.close();</span>
+<span class="nc" id="L53">            return buffer;</span>
+<span class="nc" id="L54">        } catch (IOException e) {</span>
+<span class="nc" id="L55">            e.printStackTrace();</span>
+<span class="nc" id="L56">            System.exit(1);</span>
+<span class="nc" id="L57">            return null;</span>
         }
     }
 
     /**
      * Method to get a String mentioned within an audio file
+     * 
      * @param filename the file in which to obtain data from
      * @return the string returned from the server
      */
     static String getTextFromAudio(String filename) {
         try {
-<span class="nc" id="L66">            final String token = HTTPConnect.renewAccessToken();</span>
-<span class="nc" id="L67">            final byte[] speech = readData(filename);</span>
-<span class="nc" id="L68">            String JSONString = recognizeSpeech(token, speech);</span>
+<span class="nc" id="L69">            final String token = HTTPConnect.renewAccessToken();</span>
+<span class="nc" id="L70">            final byte[] speech = readData(filename);</span>
+<span class="nc" id="L71">            String JSONString = recognizeSpeech(token, speech);</span>
 
             // The header contains the result with the highest confidence, we will therefore
             // use this result (it's the first we come across) and ignore others
-<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (JSONString.contains(&quot;\&quot;status\&quot;:\&quot;success\&quot;&quot;)) {</span>
-<span class="nc" id="L73">                int start = JSONString.indexOf(&quot;\&quot;name\&quot;:\&quot;&quot;) + 8;</span>
-<span class="nc" id="L74">                int end = JSONString.indexOf(&quot;\&quot;&quot;, start);</span>
-<span class="nc" id="L75">                String result = JSONString.substring(start, end);</span>
-<span class="nc" id="L76">                return result;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (JSONString.contains(&quot;\&quot;status\&quot;:\&quot;success\&quot;&quot;)) {</span>
+<span class="nc" id="L76">                int start = JSONString.indexOf(&quot;\&quot;name\&quot;:\&quot;&quot;) + 8;</span>
+<span class="nc" id="L77">                int end = JSONString.indexOf(&quot;\&quot;&quot;, start);</span>
+<span class="nc" id="L78">                String result = JSONString.substring(start, end);</span>
+<span class="nc" id="L79">                return result;</span>
             } else {
-<span class="nc" id="L78">                return null;</span>
+<span class="nc" id="L81">                return null;</span>
             }
-<span class="nc" id="L80">        }  catch (UnknownHostException e) {</span>
-<span class="nc" id="L81">            return &quot;UnknownHostException&quot;;</span>
-<span class="nc" id="L82">        } catch (Exception e) {</span>
+<span class="nc" id="L83">        }  catch (UnknownHostException e) {</span>
+<span class="nc" id="L84">            return &quot;UnknownHostException&quot;;</span>
+<span class="nc" id="L85">        } catch (Exception e) {</span>
             // TODO: Play &quot;Sorry, I don't have an answer for that question&quot;
-<span class="nc" id="L84">            e.printStackTrace();</span>
-<span class="nc" id="L85">            return null;</span>
+<span class="nc" id="L87">            e.printStackTrace();</span>
+<span class="nc" id="L88">            return null;</span>
         }
     }
 }

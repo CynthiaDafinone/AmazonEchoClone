@@ -7,28 +7,28 @@ import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Class to create a simulation of the Amazon Echo 
+ * Class to create a simulation of the Amazon Echo
  */
-
 public class EchoGUI extends JFrame {
 
-<span class="nc" id="L15">    private JFrame frame = new JFrame();</span>
-<span class="nc" id="L16">    private final PowerButton btnPOW = new PowerButton();</span>
-<span class="nc" id="L17">    private final MuteButton btnMUTE = new MuteButton();</span>
-<span class="nc" id="L18">    private final ListenButton btnLIST = new ListenButton();</span>
-    private final SoundDetector detector;
-    private Thread detectorThread;
-<span class="nc" id="L21">    private boolean isPowered = false;</span>
-<span class="nc" id="L22">    private boolean isPressed = false;</span>
-<span class="nc" id="L23">    private boolean listPressed = false;</span>
-    private ScheduledExecutorService executorService;
-<span class="nc" id="L25">    private int flashCount = 0;</span>
+<span class="nc" id="L14">    JFrame frame = new JFrame();</span>
+<span class="nc" id="L15">    final PowerButton btnPOW = new PowerButton();</span>
+<span class="nc" id="L16">    final MuteButton btnMUTE = new MuteButton();</span>
+<span class="nc" id="L17">    final ListenButton btnLIST = new ListenButton();</span>
+    final SoundDetector detector;
+    Thread detectorThread;
+<span class="nc" id="L20">    boolean isPowered = false;</span>
+<span class="nc" id="L21">    boolean isPressed = false;</span>
+<span class="nc" id="L22">    boolean listPressed = false;</span>
+    ScheduledExecutorService executorService;
+    private String currentColour;
+<span class="nc" id="L25">    int flashCount = 0;</span>
 
 
     /*
-    * Power button
+    * Power button - turns the echo on and off
      */
-    private class PowerButton extends JButton {
+    class PowerButton extends JButton {
 
 <span class="nc" id="L33">        PowerButton() {</span>
 <span class="nc" id="L34">            setBorder(null);</span>
@@ -39,142 +39,142 @@ public class EchoGUI extends JFrame {
 <span class="nc bnc" id="L39" title="All 2 branches missed.">                    if (!isPowered) {</span>
 <span class="nc" id="L40">                        System.out.println(&quot;TURNING ON&quot;);</span>
 <span class="nc" id="L41">                        isPowered = true;</span>
-
-<span class="nc" id="L43">                        detectorThread = new Thread(detector);</span>
-<span class="nc" id="L44">                        detectorThread.start();</span>
-<span class="nc" id="L45">                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;newStartSound.wav&quot;));</span>
-
-<span class="nc" id="L47">                        changeColor(&quot;Cyan&quot;);</span>
+<span class="nc" id="L42">                        detectorThread = new Thread(detector);</span>
+<span class="nc" id="L43">                        detectorThread.start();</span>
+<span class="nc" id="L44">                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;newStartSound.wav&quot;));</span>
+<span class="nc" id="L45">                        changeColor(&quot;Cyan&quot;);</span>
 
                     } //runs this if echo is turned on and turns it off
                     else {
 //                        try {
-<span class="nc" id="L52">                        detector.disableMic();</span>
-<span class="nc bnc" id="L53" title="All 2 branches missed.">                        if (executorService != null) {</span>
-<span class="nc" id="L54">                            executorService.shutdown();</span>
+<span class="nc" id="L50">                        detector.disableMic();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                        if (executorService != null) {</span>
+<span class="nc" id="L52">                            executorService.shutdown();</span>
                         }
-<span class="nc" id="L56">                        flashCount = 0;</span>
-<span class="nc" id="L57">                        System.out.println(&quot;TURNING OFF&quot;);</span>
-<span class="nc" id="L58">                        isPowered = false;</span>
-<span class="nc" id="L59">                        AudioOutput.stopAudio();</span>
-<span class="nc" id="L60">                        changeColor(&quot;Off&quot;);</span>
-<span class="nc" id="L61">                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;newOffSound.wav&quot;));</span>
+<span class="nc" id="L54">                        flashCount = 0;</span>
+<span class="nc" id="L55">                        System.out.println(&quot;TURNING OFF&quot;);</span>
+<span class="nc" id="L56">                        isPowered = false;</span>
+<span class="nc" id="L57">                        AudioOutput.stopAudio();</span>
+<span class="nc" id="L58">                        changeColor(&quot;Off&quot;);</span>
+<span class="nc" id="L59">                        AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;newOffSound.wav&quot;));</span>
                     }
-<span class="nc" id="L63">                }</span>
+<span class="nc" id="L61">                }</span>
             });
-<span class="nc" id="L65">        }</span>
+<span class="nc" id="L63">        }</span>
     }
 
 
     /*
-    * Mute Button
+    * Mute Button - mutes/unmutes the mircophone
      */
-    private class MuteButton extends JButton {
+    class MuteButton extends JButton {
 
-<span class="nc" id="L74">        MuteButton() {</span>
-<span class="nc" id="L75">            setIcon(new ImageIcon(&quot;mute.png&quot;));</span>
-<span class="nc" id="L76">            setBorder(null);</span>
-<span class="nc" id="L77">            addMouseListener(new MouseAdapter() {</span>
+<span class="nc" id="L72">        MuteButton() {</span>
+<span class="nc" id="L73">            setIcon(new ImageIcon(&quot;mute.png&quot;));</span>
+<span class="nc" id="L74">            setBorder(null);</span>
+<span class="nc" id="L75">            addMouseListener(new MouseAdapter() {</span>
                 @Override
                 public void mouseClicked(MouseEvent me) {
-<span class="nc bnc" id="L80" title="All 2 branches missed.">                    if (isPowered) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                    if (isPowered) {</span>
 
-                        //Holds previous value after being switched off and on
-<span class="nc bnc" id="L83" title="All 2 branches missed.">                        if (isPressed) {</span>
-<span class="nc" id="L84">                            flashCount = 0;</span>
-<span class="nc" id="L85">                            System.out.println(&quot;Microphone activated&quot;);</span>
-<span class="nc" id="L86">                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;unmuted.wav&quot;));</span>
-<span class="nc" id="L87">                            isPressed = false;</span>
-<span class="nc" id="L88">                            detector.enableMic();</span>
-<span class="nc" id="L89">                            detectorThread = new Thread(detector);</span>
-<span class="nc" id="L90">                            detectorThread.start();</span>
+                        //runs this when the gui is on and unmutes the microphone
+<span class="nc bnc" id="L81" title="All 2 branches missed.">                        if (isPressed) {</span>
+<span class="nc" id="L82">                            flashCount = 0;</span>
+<span class="nc" id="L83">                            System.out.println(&quot;Microphone activated&quot;);</span>
+<span class="nc" id="L84">                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;unmuted.wav&quot;));</span>
+<span class="nc" id="L85">                            isPressed = false;</span>
+<span class="nc" id="L86">                            detector.enableMic();</span>
+<span class="nc" id="L87">                            detectorThread = new Thread(detector);</span>
+<span class="nc" id="L88">                            detectorThread.start();</span>
 
-                        } else {
-<span class="nc" id="L93">                            flashCount = 0;</span>
-<span class="nc" id="L94">                            isPressed = true;</span>
-<span class="nc" id="L95">                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;muted.wav&quot;));</span>
-<span class="nc" id="L96">                            detector.disableMic();</span>
+                        } //runs this when the gui is on and mutes the microphone
+                        else {
+<span class="nc" id="L92">                            flashCount = 0;</span>
+<span class="nc" id="L93">                            isPressed = true;</span>
+<span class="nc" id="L94">                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;muted.wav&quot;));</span>
+<span class="nc" id="L95">                            detector.disableMic();</span>
                             try {
-<span class="nc" id="L98">                                detectorThread.join();</span>
-<span class="nc" id="L99">                            } catch (InterruptedException e) {</span>
-<span class="nc" id="L100">                                System.out.println(&quot;InterruptedException - this should not have happened.&quot;);</span>
-<span class="nc" id="L101">                                e.printStackTrace();</span>
-<span class="nc" id="L102">                                System.exit(1);</span>
+<span class="nc" id="L97">                                detectorThread.join();</span>
+<span class="nc" id="L98">                            } catch (InterruptedException e) {</span>
+<span class="nc" id="L99">                                System.out.println(&quot;InterruptedException - this should not have happened.&quot;);</span>
+<span class="nc" id="L100">                                e.printStackTrace();</span>
+<span class="nc" id="L101">                                System.exit(1);</span>
                             } finally {
-<span class="nc" id="L104">                                System.out.println(&quot;Disabled all microphone input.&quot;);</span>
-<span class="nc" id="L105">                            }</span>
-                            //STOP AUDIO INPUT
+<span class="nc" id="L103">                                System.out.println(&quot;Disabled all microphone input.&quot;);</span>
+<span class="nc" id="L104">                            }</span>
                         }
                     }
-<span class="nc" id="L109">                }</span>
+<span class="nc" id="L107">                }</span>
             });
-<span class="nc" id="L111">        }</span>
+<span class="nc" id="L109">        }</span>
     }
 
     /**
-     * Template for action button - functionality to be implemented in sprint 3
+     * Listen Button - this class handles the functions for turn off the timer
+     * and stopwatch and also has a cool flashing effect when pressed
      */
-    private class ListenButton extends JButton {
+    class ListenButton extends JButton {
 
-<span class="nc" id="L119">        ListenButton() {</span>
-<span class="nc" id="L120">            setBorder(null);</span>
-<span class="nc" id="L121">            addMouseListener(new MouseAdapter() {</span>
+<span class="nc" id="L118">        ListenButton() {</span>
+<span class="nc" id="L119">            setBorder(null);</span>
+<span class="nc" id="L120">            addMouseListener(new MouseAdapter() {</span>
                 @Override
                 public void mouseClicked(MouseEvent me) {
 
-<span class="nc bnc" id="L125" title="All 2 branches missed.">                    if (isPowered) {</span>
-<span class="nc bnc" id="L126" title="All 2 branches missed.">                        if(EchoTimer.isPlaying){</span>
-<span class="nc" id="L127">                        EchoTimer.stopPlaying();</span>
-<span class="nc" id="L128">                        AudioOutput.stopAudio();</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                    if (isPowered) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">                        if (EchoTimer.isPlaying) {</span>
+<span class="nc" id="L126">                            EchoTimer.stopPlaying();</span>
+<span class="nc" id="L127">                            AudioOutput.stopAudio();</span>
                         }
-<span class="nc" id="L130">                        EchoStopwatch.stopStopwatch();</span>
-<span class="nc bnc" id="L131" title="All 2 branches missed.">                        if (listPressed) {</span>
-<span class="nc" id="L132">                            System.out.println(&quot;Action button pressed&quot;);</span>
-<span class="nc" id="L133">                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;newListSound.wav&quot;));</span>
-<span class="nc" id="L134">                            changeColor(&quot;Flash&quot;);</span>
-<span class="nc" id="L135">                            listPressed = false;</span>
-
-                            //this button should probably do something
+<span class="nc" id="L129">                        EchoStopwatch.stopStopwatch();</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                        if (listPressed) {</span>
+<span class="nc" id="L131">                            System.out.println(&quot;Action button pressed&quot;);</span>
+<span class="nc" id="L132">                            AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream(&quot;newListSound.wav&quot;));</span>
+<span class="nc" id="L133">                            changeColor(&quot;Flash&quot;);</span>
+<span class="nc" id="L134">                            listPressed = false;</span>
                         } else {
-<span class="nc" id="L139">                            changeColor(&quot;Cyan&quot;);</span>
-<span class="nc" id="L140">                            listPressed = true;</span>
+<span class="nc" id="L136">                            changeColor(&quot;Cyan&quot;);</span>
+<span class="nc" id="L137">                            listPressed = true;</span>
                         }
                     }
-<span class="nc" id="L143">                }</span>
+<span class="nc" id="L140">                }</span>
             });
-<span class="nc" id="L145">        }</span>
+<span class="nc" id="L142">        }</span>
     }
 
-    //adds the three buttons onto the conent pane
+    /**
+     * methods that adds the buttons onto the content pane
+     */
     void addButtons() {
-<span class="nc" id="L150">        btnMUTE.setOpaque(false);</span>
-<span class="nc" id="L151">        btnMUTE.setContentAreaFilled(false);</span>
-<span class="nc" id="L152">        btnMUTE.setBorderPainted(false);</span>
-<span class="nc" id="L153">        btnMUTE.setBounds(301, 28, 30, 15);</span>
-<span class="nc" id="L154">        frame.add(btnMUTE);</span>
+<span class="nc" id="L149">        btnMUTE.setOpaque(false);</span>
+<span class="nc" id="L150">        btnMUTE.setContentAreaFilled(false);</span>
+<span class="nc" id="L151">        btnMUTE.setBorderPainted(false);</span>
+<span class="nc" id="L152">        btnMUTE.setBounds(301, 28, 30, 15);</span>
+<span class="nc" id="L153">        frame.add(btnMUTE);</span>
 
-<span class="nc" id="L156">        btnPOW.setOpaque(false);</span>
-<span class="nc" id="L157">        btnPOW.setContentAreaFilled(false);</span>
-<span class="nc" id="L158">        btnPOW.setBorderPainted(false);</span>
-<span class="nc" id="L159">        btnPOW.setBounds(350, 244, 30, 30);</span>
-<span class="nc" id="L160">        frame.add(btnPOW);</span>
+<span class="nc" id="L155">        btnPOW.setOpaque(false);</span>
+<span class="nc" id="L156">        btnPOW.setContentAreaFilled(false);</span>
+<span class="nc" id="L157">        btnPOW.setBorderPainted(false);</span>
+<span class="nc" id="L158">        btnPOW.setBounds(350, 244, 30, 30);</span>
+<span class="nc" id="L159">        frame.add(btnPOW);</span>
 
-<span class="nc" id="L162">        btnLIST.setOpaque(false);</span>
-<span class="nc" id="L163">        btnLIST.setContentAreaFilled(false);</span>
-<span class="nc" id="L164">        btnLIST.setBorderPainted(false);</span>
-<span class="nc" id="L165">        btnLIST.setBounds(401, 28, 30, 15);</span>
-<span class="nc" id="L166">        frame.add(btnLIST);</span>
-<span class="nc" id="L167">    }</span>
+<span class="nc" id="L161">        btnLIST.setOpaque(false);</span>
+<span class="nc" id="L162">        btnLIST.setContentAreaFilled(false);</span>
+<span class="nc" id="L163">        btnLIST.setBorderPainted(false);</span>
+<span class="nc" id="L164">        btnLIST.setBounds(401, 28, 30, 15);</span>
+<span class="nc" id="L165">        frame.add(btnLIST);</span>
+<span class="nc" id="L166">    }</span>
 
     /**
      * Method to change the color of the Echo's light
      * @param color the color to change it to - (Blue/Cyan/Off/Flash)
      */
     void changeColor(String color) {
-        // options for color are Blue, Cyan, Flash and Off
-<span class="nc bnc" id="L175" title="All 2 branches missed.">        if (executorService != null) {</span>
-<span class="nc" id="L176">            executorService.shutdown();</span>
+<span class="nc" id="L173">        currentColour = color;</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">        if (executorService != null) {</span>
+<span class="nc" id="L175">            executorService.shutdown();</span>
         }
+        //uses an executor service to set the flash to every 1 second
 <span class="nc bnc" id="L178" title="All 2 branches missed.">        if (color.equals(&quot;Flash&quot;)) {</span>
 <span class="nc" id="L179">            executorService = Executors.newSingleThreadScheduledExecutor();</span>
 <span class="nc" id="L180">            executorService.scheduleAtFixedRate(new Runnable() {</span>
@@ -185,58 +185,67 @@ public class EchoGUI extends JFrame {
             }, 0, 1, TimeUnit.SECONDS);
         } else {
 <span class="nc" id="L187">            frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource(&quot;echo&quot; + color + &quot;.png&quot;))));</span>
-//            frame.setContentPane(new JLabel(new ImageIcon(&quot;resources/echo&quot; + color + &quot;.png&quot;)));
-<span class="nc" id="L189">            frame.setLayout(null);</span>
-<span class="nc" id="L190">            frame.pack();</span>
-<span class="nc" id="L191">            addButtons();</span>
+<span class="nc" id="L188">            frame.setLayout(null);</span>
+<span class="nc" id="L189">            frame.pack();</span>
+<span class="nc" id="L190">            addButtons();</span>
         }
-<span class="nc" id="L193">    }</span>
+<span class="nc" id="L192">    }</span>
 
     /**
      * Method to have the lights atop the echo to flash
      */
     void Flash() {
+        //every other second the gui switches between flash and not flash
 <span class="nc bnc" id="L199" title="All 2 branches missed.">        if (flashCount % 2 == 0) {</span>
 <span class="nc" id="L200">            frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource(&quot;echoCyanFlash.png&quot;))));</span>
-
-//            frame.setContentPane(new JLabel(new ImageIcon(&quot;resources/echoCyanFlash.png&quot;)));
-<span class="nc" id="L203">            frame.setLayout(null);</span>
-<span class="nc" id="L204">            frame.pack();</span>
-<span class="nc" id="L205">            addButtons();</span>
-<span class="nc" id="L206">            flashCount++;</span>
+<span class="nc" id="L201">            frame.setLayout(null);</span>
+<span class="nc" id="L202">            frame.pack();</span>
+<span class="nc" id="L203">            addButtons();</span>
+<span class="nc" id="L204">            flashCount++;</span>
         } else {
-<span class="nc" id="L208">            frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource(&quot;echoCyanFlash2.png&quot;))));</span>
-//            frame.setContentPane(new JLabel(new ImageIcon(&quot;resources/echoCyanFlash2.png&quot;)));
-<span class="nc" id="L210">            frame.setLayout(null);</span>
-<span class="nc" id="L211">            frame.pack();</span>
-<span class="nc" id="L212">            addButtons();</span>
-<span class="nc" id="L213">            flashCount++;</span>
+<span class="nc" id="L206">            frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource(&quot;echoCyanFlash2.png&quot;))));</span>
+<span class="nc" id="L207">            frame.setLayout(null);</span>
+<span class="nc" id="L208">            frame.pack();</span>
+<span class="nc" id="L209">            addButtons();</span>
+<span class="nc" id="L210">            flashCount++;</span>
         }
-<span class="nc" id="L215">    }</span>
+<span class="nc" id="L212">    }</span>
 
     /**
      * Constructor to set up the GUI
      * @param detector the SoundDetector to interact with when muting, etc.
      */
-<span class="nc" id="L221">    EchoGUI(SoundDetector detector) {</span>
-<span class="nc" id="L222">        this.detector = detector;</span>
-<span class="nc" id="L223">        frame.setTitle(&quot;The Amazon Echo&quot;);</span>
-<span class="nc" id="L224">        changeColor(&quot;Off&quot;);</span>
-<span class="nc" id="L225">        frame.setLayout(null);</span>
-<span class="nc" id="L226">        frame.pack();</span>
-<span class="nc" id="L227">        frame.setLocationRelativeTo(null);</span>
-<span class="nc" id="L228">        frame.setSize(738, 622);</span>
-<span class="nc" id="L229">        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</span>
-<span class="nc" id="L230">        frame.setResizable(false);</span>
-<span class="nc" id="L231">        frame.setVisible(true);</span>
-<span class="nc" id="L232">    }</span>
+<span class="nc" id="L218">    EchoGUI(SoundDetector detector) {</span>
+<span class="nc" id="L219">        this.detector = detector;</span>
+<span class="nc" id="L220">        frame.setTitle(&quot;The Amazon Echo&quot;);</span>
+<span class="nc" id="L221">        changeColor(&quot;Off&quot;);</span>
+<span class="nc" id="L222">        frame.setLayout(null);</span>
+<span class="nc" id="L223">        frame.pack();</span>
+<span class="nc" id="L224">        frame.setLocationRelativeTo(null);</span>
+<span class="nc" id="L225">        frame.setSize(738, 622);</span>
+<span class="nc" id="L226">        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L227">        frame.setResizable(false);</span>
+<span class="nc" id="L228">        frame.setVisible(true);</span>
+<span class="nc" id="L229">    }</span>
 
+    /**
+     * Returns if the GUI is powered
+     * @return true if it's powered
+     */
     boolean isPowered() {
-<span class="nc" id="L235">        return isPowered;</span>
+<span class="nc" id="L236">        return isPowered;</span>
     }
 
+    /**
+     * Method sets if the GUI is powered
+     * @param value the value to set for the powered
+     */
     void setPowered(boolean value) {
-<span class="nc" id="L239">        isPowered = value;</span>
-<span class="nc" id="L240">    }</span>
+<span class="nc" id="L244">        isPowered = value;</span>
+<span class="nc" id="L245">    }</span>
+
+    String getColour() {
+<span class="nc" id="L248">        return currentColour;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

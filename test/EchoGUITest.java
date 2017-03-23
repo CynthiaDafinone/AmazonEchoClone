@@ -1,5 +1,3 @@
-
-
 import java.awt.AWTException;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -21,21 +19,10 @@ public class EchoGUITest {
 
     }
 
-    @BeforeClass
-    public static void setUpClass() throws AWTException {
-
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-
-    }
-
     /**
      * Clicks a button by initialising and dispatching the MOUSE_CLICKED event.
      *
      * @param button the button on the gui which will be clicked
-     *
      */
     public void click(JButton button) {
         int x;
@@ -50,7 +37,6 @@ public class EchoGUITest {
      * Presses a button by initialising and dispatching the MOUSE_PRESSED event.
      *
      * @param button the button on the gui which will be pressed
-     *
      */
     public void press(JButton button) {
         int x;
@@ -66,7 +52,6 @@ public class EchoGUITest {
      * MOUSE_RELEASE event.
      *
      * @param button the button on the gui which will be released
-     *
      */
     public void release(JButton button) {
         int x;
@@ -85,7 +70,6 @@ public class EchoGUITest {
      *
      * @throws InterruptedException
      */
-
     @Test
     public void testPowerButton() throws InterruptedException {
 
@@ -108,12 +92,11 @@ public class EchoGUITest {
     }
 
     /**
-     * test for the MuteButton# checks when the gui is on and the button is
+     * Test for the MuteButton# checks when the gui is on and the button is
      * clicked and when the button is clicked the microphone is disabled
      *
      * @throws InterruptedException
      */
-
     @Test
     public void testMuteButton() throws InterruptedException {
 
@@ -259,7 +242,5 @@ public class EchoGUITest {
         assertFalse(testgui.isPowered());
         click(testgui.btnPOW);
         assertTrue(testgui.isPowered());
-
     }
-
 }
