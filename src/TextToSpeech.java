@@ -74,7 +74,6 @@ class TextToSpeech {
         } catch (IOException e) {
             AudioOutput.playSound(Echo.class.getResourceAsStream("cant_answer.wav"));
             System.out.println(e.getMessage());
-            e.printStackTrace();
             System.out.println("Continuing as normal..");
             return null;
         }

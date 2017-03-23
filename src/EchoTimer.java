@@ -1,12 +1,16 @@
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Class responsible for the timer. Static methods provide the functionality.
+ */
 public class EchoTimer {
     volatile static boolean shouldPlay = true;
     static boolean isPlaying = false;
 
     /**
      * Method starts a timer based on the string
+     *
      * @param str the string containing seconds, minutes and hours to add to the timer
      * @return true if successfull
      */
@@ -22,13 +26,13 @@ public class EchoTimer {
         for (int i = 1; i < strings.length; i++) {
             try {
                 if (strings[i].equals("seconds") || strings[i].equals("second")) {
-                    time += Integer.parseInt(strings[i-1]) *  1000;
+                    time += Integer.parseInt(strings[i - 1]) * 1000;
                 }
                 if (strings[i].equals("minutes") || strings[i].equals("minute")) {
-                    time += Integer.parseInt(strings[i-1]) * 60000;
+                    time += Integer.parseInt(strings[i - 1]) * 60000;
                 }
                 if (strings[i].equals("hours") || strings[i].equals("hour")) {
-                    time += Integer.parseInt(strings[i-1]) * 3600000;
+                    time += Integer.parseInt(strings[i - 1]) * 3600000;
                 }
             } catch (NumberFormatException e) {
                 return false;
@@ -55,6 +59,7 @@ public class EchoTimer {
 
     /**
      * Method returns true if the timer should continually loop
+     *
      * @return true if it should play
      */
     static boolean shouldPlay() {

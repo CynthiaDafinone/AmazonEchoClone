@@ -17,7 +17,7 @@ public class SoundDetector implements Runnable {
     private SoundDetectionThread soundDetector;
     boolean canRecord = true;
 
-    ArrayList<ActionListener> listeners= new ArrayList<>();
+    private ArrayList<ActionListener> listeners= new ArrayList<>();
 
     boolean running;
     private TargetDataLine line;
@@ -27,12 +27,13 @@ public class SoundDetector implements Runnable {
      * Method to calibrate the microphone's threshold to just above the background RMS level
      * @param detector the SoundDetectionThread used to check for incoming audio
      */
-    void calibrateMic(SoundDetectionThread detector) {
+    private void calibrateMic(SoundDetectionThread detector) {
         // This is the lowest level possible
         THRESHOLD = -1f;
         while (detector.soundDetected()) {
             THRESHOLD += 1.05f;
         }
+        // Adding a small amount above the background level as the activation level
         THRESHOLD += 0.011f;
         System.out.println("Calibrated the threshold as " + THRESHOLD);
     }

@@ -10,8 +10,8 @@ import java.net.URLConnection;
  * Class will play the news for the user upon request
  * Powered by News API
  */
-public class News {
-    static int i=0;    
+class News {
+    private static int i=0;
     
     /**
      * Method to read out the news
@@ -30,7 +30,7 @@ public class News {
             
             //Set up buffered reader in order to interpret the JSON file
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String news = "";
+            String news;
             
             //Read the news file into an empty string 'news'
             if((news=br.readLine()) !=null){
@@ -63,7 +63,7 @@ public class News {
                 }
             
             }
-        } catch (InterruptedException | IOException ex) {
+        } catch (InterruptedException | NullPointerException | IOException ex) {
             return false;
         }
         return true;   

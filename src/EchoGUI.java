@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Class to create a simulation of the Amazon Echo 
+ * Class to create a simulation of the Amazon Echo
  */
 public class EchoGUI extends JFrame {
 
@@ -121,9 +121,9 @@ public class EchoGUI extends JFrame {
                 public void mouseClicked(MouseEvent me) {
 
                     if (isPowered) {
-                        if(EchoTimer.isPlaying){
-                        EchoTimer.stopPlaying();
-                        AudioOutput.stopAudio();
+                        if (EchoTimer.isPlaying) {
+                            EchoTimer.stopPlaying();
+                            AudioOutput.stopAudio();
                         }
                         EchoStopwatch.stopStopwatch();
                         if (listPressed) {
@@ -166,7 +166,7 @@ public class EchoGUI extends JFrame {
 
     /**
      * Method to change the color of the Echo's light
-     * 
+     *
      * @param color the color to change it to - (Blue/Cyan/Off/Flash)
      */
     void changeColor(String color) {
@@ -176,12 +176,7 @@ public class EchoGUI extends JFrame {
         }
         if (color.equals("Flash")) {
             executorService = Executors.newSingleThreadScheduledExecutor();
-            executorService.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    Flash();
-                }
-            }, 0, 1, TimeUnit.SECONDS);
+            executorService.scheduleAtFixedRate(() -> Flash(), 0, 1, TimeUnit.SECONDS);
         } else {
             frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echo" + color + ".png"))));
 //            frame.setContentPane(new JLabel(new ImageIcon("resources/echo" + color + ".png")));
@@ -215,7 +210,7 @@ public class EchoGUI extends JFrame {
 
     /**
      * Constructor to set up the GUI
-     * 
+     *
      * @param detector the SoundDetector to interact with when muting, etc.
      */
     EchoGUI(SoundDetector detector) {

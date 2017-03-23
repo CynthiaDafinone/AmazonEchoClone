@@ -1,5 +1,3 @@
-import java.beans.XMLDecoder;
-import java.io.File;
 import java.net.URLEncoder;
 import java.io.*;
 
@@ -12,7 +10,7 @@ class Computational {
 
     /**
      * Method to solve the given question using WolframAlpha
-     * 
+     *
      * @param question the question to be answered
      * @return a string containing the result
      * @throws IOException should there be an error with the connection to the server/answer
@@ -40,7 +38,7 @@ class Computational {
 
     /**
      * Method to encode the given string in a web-compatible format
-     * 
+     *
      * @param s the string to be encoded
      * @return a string in web-compatible format
      */
@@ -56,7 +54,7 @@ class Computational {
 
     /**
      * Method to get the answer to the given question
-     * 
+     *
      * @param question the question to be answered
      * @return the answer to the question
      */

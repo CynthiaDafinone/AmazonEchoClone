@@ -1,6 +1,5 @@
 import javax.sound.sampled.*;
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * Class responsible for any AudioOutput. Has static methods to play the files
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 class AudioOutput {
     static Clip clip;
     static Clip clipNoListener;
+
     static {
         try {
             clip = AudioSystem.getClip();
@@ -21,7 +21,6 @@ class AudioOutput {
 
     /**
      * Method to play the sound from an AudioInputStream
-     *
      * @param ais the stream to play from
      */
     static void playSound(AudioInputStream ais) {
@@ -39,6 +38,7 @@ class AudioOutput {
 
     /**
      * Method used to play sound without notifying any LineListeners
+     *
      * @param ais the AudioInputStream to play
      */
     static void playSoundWithoutListeners(AudioInputStream ais) {
@@ -56,6 +56,7 @@ class AudioOutput {
 
     /**
      * Method to add LineListeners to be aware of any changes to AudioOutput
+     *
      * @param listener the listener to add
      */
     static void addLineListener(LineListener listener) {
@@ -65,6 +66,7 @@ class AudioOutput {
 
     /**
      * Method to remove and LineListeners
+     *
      * @param listener the listener to remove
      */
     static void removeLineListener(LineListener listener) {
@@ -99,7 +101,7 @@ class AudioOutput {
 
     /**
      * Method plays sound without notifying any LineListeners
-     * 
+     *
      * @param is the input stream to play
      */
     static void playSoundWithoutListeners(InputStream is) {
@@ -141,7 +143,7 @@ class AudioOutput {
 
     /**
      * Method plays the resource continually.  Linked to EchoTimer for whether it should play or not
-     * 
+     *
      * @param is the resource stream to play
      */
     static void playTimerLooping(InputStream is) {

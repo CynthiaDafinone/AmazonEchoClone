@@ -7,10 +7,11 @@ import java.net.HttpURLConnection;
 import java.net.UnknownHostException;
 
 /**
+ * Class responsible for initiating and returning any HTTP query required by the system
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
  */
 class HTTPConnect {
-    private final static int TIMEOUT  = 10000; // Timeout in ms
+    private final static int TIMEOUT = 10000; // Timeout in ms
     private final static int BUFFSIZE = 4096; // Buffer response size
 
     private final static String KEY = "110c24ab25804509a223bac18251d6f2";
@@ -20,7 +21,7 @@ class HTTPConnect {
 
     /**
      * Method to renew an access token to the cognitive services
-     * @return  the access token
+     * @return the access token
      */
     static String renewAccessToken() throws UnknownHostException, IOException {
         final String method = "POST";
@@ -28,18 +29,19 @@ class HTTPConnect {
                 "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
         final byte[] body = {};
         final String[][] headers
-                = { { "Ocp-Apim-Subscription-Key", KEY}
-                , { "Content-Length"           , String.valueOf( body.length ) }
+                = {{"Ocp-Apim-Subscription-Key", KEY}
+                , {"Content-Length", String.valueOf(body.length)}
         };
-        byte[] response = HTTPConnect.httpConnect( method, url, headers, body );
-        return new String( response );
+        byte[] response = HTTPConnect.httpConnect(method, url, headers, body);
+        return new String(response);
     }
 
     /**
      * Method creates a HTTP connection, sends and receives data
-     * @param m the method of sending the request
-     * @param u the URL to send the request to
-     * @param h the headers to attach to the request
+     *
+     * @param m    the method of sending the request
+     * @param u    the URL to send the request to
+     * @param h    the headers to attach to the request
      * @param body the body of the request
      * @return a byte array containing the response
      */

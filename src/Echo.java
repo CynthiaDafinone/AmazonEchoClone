@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import java.awt.event.ActionEvent;
@@ -7,7 +5,6 @@ import java.awt.event.ActionListener;
 
 /**
  * Main class for the Echo
- * In future will call GUI builder and handle some events
  */
 public class Echo implements ActionListener, LineListener {
     String FILENAME = "temp.wav";
@@ -16,7 +13,7 @@ public class Echo implements ActionListener, LineListener {
 
     /**
      * Main method to initiate the echo simulation
-     * 
+     *
      * @param args command line arguments (not used)
      */
     public static void main(String[] args) {
@@ -35,7 +32,7 @@ public class Echo implements ActionListener, LineListener {
 
     /**
      * Method to check for any ActionEvents and perform an action based upon them
-     * 
+     *
      * @param e the ActionEvent to check
      */
     @Override
@@ -52,13 +49,13 @@ public class Echo implements ActionListener, LineListener {
                     AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
                     return;
                 }
-                if (str.contains("alexa")){
+                if (str.contains("alexa")) {
                     if (str.contains("timer")) {
                         if (!EchoTimer.startTimer(str)) {
                             AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("cant_answer.wav"));
                         }
                         return;
-                    } else if(str.contains("news")){
+                    } else if (str.contains("news")) {
                         News.playNews();
                         return;
                     } else if (str.contains("stopwatch") || str.contains("stop watch")) {
@@ -73,11 +70,11 @@ public class Echo implements ActionListener, LineListener {
                         }
                     }
                 }
-                
+
                 str = str.replaceFirst("alexa", "");
                 String result = Computational.getAnswer(str);
                 System.out.println("Got an answer as: " + result);
-                
+
                 // If there was an error connecting to Wolfram
                 if (result == null) {
                     AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("serverConnectionError.wav"));
@@ -86,16 +83,20 @@ public class Echo implements ActionListener, LineListener {
 
                 // Change into answer mode, say the answer 
                 TextToSpeech.convertStringToSpeech(result);
-            }
-            
-            else{
+            } else {
                 AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("inputWasNull.wav"));
                 gui.changeColor("Cyan");
-                
+
             }
         }
     }
 
+    /**
+     * Method used to handle any colour changes and disable the microphone whilst in listen mode.
+     * It reverses this change automatically when required.
+     *
+     * @param event the LineEvent containing information needed to make the change.
+     */
     @Override
     public void update(LineEvent event) {
         if (!gui.isPowered()) {
