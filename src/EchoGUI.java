@@ -226,10 +226,18 @@ public class EchoGUI extends JFrame {
         frame.setVisible(true);
     }
 
+    /**
+     * Returns if the GUI is powered
+     * @return true if it's powered
+     */
     boolean isPowered() {
         return isPowered;
     }
 
+    /**
+     * Method sets if the GUI is powered
+     * @param value the value to set for the powered
+     */
     void setPowered(boolean value) {
         isPowered = value;
     }
