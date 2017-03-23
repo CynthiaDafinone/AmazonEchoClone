@@ -96,6 +96,7 @@ class AudioOutput {
 
     /**
      * Method plays sound without notifying any LineListeners
+     * 
      * @param is the input stream to play
      */
     static void playSoundWithoutListeners(InputStream is) {
@@ -137,6 +138,7 @@ class AudioOutput {
 
     /**
      * Method plays the resource continually.  Linked to EchoTimer for whether it should play or not
+     * 
      * @param is the resource stream to play
      */
     static void playTimerLooping(InputStream is) {
