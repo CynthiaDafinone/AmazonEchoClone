@@ -1,4 +1,3 @@
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.Executors;
@@ -9,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Class to create a simulation of the Amazon Echo 
  */
-
 public class EchoGUI extends JFrame {
 
     JFrame frame = new JFrame();
@@ -27,7 +25,7 @@ public class EchoGUI extends JFrame {
 
     /*
     * Power button
-     */
+    */
     private class PowerButton extends JButton {
 
         PowerButton() {
@@ -68,7 +66,7 @@ public class EchoGUI extends JFrame {
 
     /*
     * Mute Button
-     */
+    */
     private class MuteButton extends JButton {
 
         MuteButton() {
@@ -168,6 +166,7 @@ public class EchoGUI extends JFrame {
 
     /**
      * Method to change the color of the Echo's light
+     * 
      * @param color the color to change it to - (Blue/Cyan/Off/Flash)
      */
     void changeColor(String color) {
@@ -216,6 +215,7 @@ public class EchoGUI extends JFrame {
 
     /**
      * Constructor to set up the GUI
+     * 
      * @param detector the SoundDetector to interact with when muting, etc.
      */
     EchoGUI(SoundDetector detector) {
