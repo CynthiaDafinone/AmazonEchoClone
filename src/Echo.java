@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import java.awt.event.ActionEvent;
@@ -7,7 +5,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Main class for the Echo
- * In future will call GUI builder and handle some events
+ * Class will create an empty Echo constructor which
  */
 public class Echo implements ActionListener, LineListener {
     String FILENAME = "temp.wav";
@@ -96,6 +94,10 @@ public class Echo implements ActionListener, LineListener {
         }
     }
 
+    /**
+     * Method to change the colour of the GUI depending on what mode the Echo is in
+     * @param event the LineEvent we will work on 
+     */
     @Override
     public void update(LineEvent event) {
         if (!gui.isPowered()) {
@@ -105,7 +107,7 @@ public class Echo implements ActionListener, LineListener {
         if (event.getSource() == AudioOutput.clip) {
             shouldChangeColour = true;
         }
-
+        
         if (event.getType() == LineEvent.Type.START) {
             detector.pauseForAnswer();
             System.out.println("Paused audio detection");
