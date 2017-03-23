@@ -8,6 +8,7 @@ import java.awt.AWTException;
 import static java.awt.Color.cyan;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import java.awt.event.MouseEvent;
 import static java.awt.event.MouseEvent.MOUSE_CLICKED;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.junit.After;
 //import javax.swing.WindowConstants;
 import org.junit.AfterClass;
@@ -88,18 +90,17 @@ public class EchoGUITest {
     
     
     }
-    /*
+    
     public void getcolour(){
-        Container c ;
-        JLabel j;
-        c = testgui.getContentPane();
-        //co = c.getColorModel();
-        j = JLabel.class.co;
+        Graphics g ;
+        JPanel j;
+        g = testgui.getGraphics();
+              
+        assertNotNull(g);
         
-        assertNotNull(c);
-        System.out.println(c+"the content pain");
+        System.out.println(g+"the JPanel");
     }
-    */
+    
     
     
     @Test 
@@ -125,6 +126,7 @@ public class EchoGUITest {
         assertFalse(testgui.isPowered());
         assertFalse(sounddetector.running);
         //change colour
+       // getcolour();
         
        
     }
@@ -237,7 +239,7 @@ public class EchoGUITest {
         String blue = "Blue";
         String cyan = "Cyan";
         String flash = "Flash";
-        assertNotNull(testgui.executorService);
+        /*assertNotNull(testgui.executorService);*/
         //--------------------------------
         testgui.changeColor(off);
         
@@ -255,14 +257,15 @@ public class EchoGUITest {
     /**
      * Test of Flash method, of class EchoGUI.
      */
-   /* @Test
+     @Test
     public void testFlash() {
-        System.out.println("Flash");
-        EchoGUI instance = null;
-        instance.Flash();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    } */
+      testgui.flashCount = 2;
+      testgui.Flash();
+      assertEquals(testgui.flashCount,3);
+      testgui.flashCount = 3;
+      testgui.Flash();
+      assertEquals(testgui.flashCount,4);
+    } 
     @Test
     public void testIsPowered(){
         assertFalse(testgui.isPowered());
