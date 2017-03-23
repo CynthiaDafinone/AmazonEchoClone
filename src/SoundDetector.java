@@ -25,6 +25,7 @@ public class SoundDetector implements Runnable {
 
     /**
      * Method to calibrate the microphone's threshold to just above the background RMS level
+     * 
      * @param detector the SoundDetectionThread used to check for incoming audio
      */
     private void calibrateMic(SoundDetectionThread detector) {
@@ -123,6 +124,7 @@ public class SoundDetector implements Runnable {
 
     /**
      * Method to register as an EventListener for any new sound recordings
+     * 
      * @param listener the EventListener to register
      * @return true if successful
      */
@@ -132,6 +134,7 @@ public class SoundDetector implements Runnable {
 
     /**
      * Method to unregister as an EventListener for any new sound recordings
+     * 
      * @param listener the EventListener to unregister
      * @return true if successful
      */
@@ -176,6 +179,7 @@ public class SoundDetector implements Runnable {
 
         /**
          * Constructor to allow for the SoundDetectionThread to access the same audio input as the recording thread
+         * 
          * @param line The TargetDataLine to record from
          * @param bufferSize The buffer size to read into
          */
@@ -186,6 +190,7 @@ public class SoundDetector implements Runnable {
 
         /**
          * Method to check if the microphone's audio input is above a threshold level
+         * 
          * @return true if sound has been detected
          */
         boolean soundDetected() {
