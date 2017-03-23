@@ -16,6 +16,7 @@ public class Echo implements ActionListener, LineListener {
 
     /**
      * Main method to initiate the echo simulation
+     * 
      * @param args command line arguments (not used)
      */
     public static void main(String[] args) {
@@ -34,6 +35,7 @@ public class Echo implements ActionListener, LineListener {
 
     /**
      * Method to check for any ActionEvents and perform an action based upon them
+     * 
      * @param e the ActionEvent to check
      */
     @Override
