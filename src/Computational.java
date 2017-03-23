@@ -5,7 +5,7 @@ import java.io.*;
 
 
 /*
- *
+ * Class used for any interaction with WolframAlpha.  Has static methods responsible for any interaction.
  */
 class Computational {
     // APPID for the WolframAlpha servers

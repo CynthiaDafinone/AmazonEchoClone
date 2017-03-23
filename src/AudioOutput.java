@@ -2,6 +2,9 @@ import javax.sound.sampled.*;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Class responsible for any AudioOutput. Has static methods to play the files
+ */
 class AudioOutput {
     static Clip clip;
     static Clip clipNoListener;
