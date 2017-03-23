@@ -1,3 +1,4 @@
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.Executors;
@@ -6,7 +7,7 @@ import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Class to create a simulation of the Amazon Echo 
+ * Class to create a simulation of the Amazon Echo
  */
 public class EchoGUI extends JFrame {
 
@@ -24,8 +25,8 @@ public class EchoGUI extends JFrame {
 
 
     /*
-    * Power button
-    */
+    * Power button - turns the echo on and off
+     */
     private class PowerButton extends JButton {
 
         PowerButton() {
@@ -37,11 +38,9 @@ public class EchoGUI extends JFrame {
                     if (!isPowered) {
                         System.out.println("TURNING ON");
                         isPowered = true;
-
                         detectorThread = new Thread(detector);
                         detectorThread.start();
                         AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newStartSound.wav"));
-
                         changeColor("Cyan");
 
                     } //runs this if echo is turned on and turns it off
@@ -65,8 +64,8 @@ public class EchoGUI extends JFrame {
 
 
     /*
-    * Mute Button
-    */
+    * Mute Button - mutes/unmutes the mircophone
+     */
     private class MuteButton extends JButton {
 
         MuteButton() {
@@ -77,7 +76,7 @@ public class EchoGUI extends JFrame {
                 public void mouseClicked(MouseEvent me) {
                     if (isPowered) {
 
-                        //Holds previous value after being switched off and on
+                        //runs this when the gui is on and unmutes the microphone
                         if (isPressed) {
                             flashCount = 0;
                             System.out.println("Microphone activated");
@@ -87,7 +86,8 @@ public class EchoGUI extends JFrame {
                             detectorThread = new Thread(detector);
                             detectorThread.start();
 
-                        } else {
+                        } //runs this when the gui is on and mutes the microphone
+                        else {
                             flashCount = 0;
                             isPressed = true;
                             AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("muted.wav"));
@@ -101,7 +101,6 @@ public class EchoGUI extends JFrame {
                             } finally {
                                 System.out.println("Disabled all microphone input.");
                             }
-                            //STOP AUDIO INPUT
                         }
                     }
                 }
@@ -110,7 +109,8 @@ public class EchoGUI extends JFrame {
     }
 
     /**
-     * Template for action button - functionality to be implemented in sprint 3
+     * Listen Button - this class handles the functions for turn off the timer
+     * and stopwatch and also has a cool flashing effect when pressed
      */
     private class ListenButton extends JButton {
 
@@ -121,9 +121,9 @@ public class EchoGUI extends JFrame {
                 public void mouseClicked(MouseEvent me) {
 
                     if (isPowered) {
-                        if(EchoTimer.isPlaying){
-                        EchoTimer.stopPlaying();
-                        AudioOutput.stopAudio();
+                        if (EchoTimer.isPlaying) {
+                            EchoTimer.stopPlaying();
+                            AudioOutput.stopAudio();
                         }
                         EchoStopwatch.stopStopwatch();
                         if (listPressed) {
@@ -131,8 +131,6 @@ public class EchoGUI extends JFrame {
                             AudioOutput.playSoundWithoutListeners(getClass().getClassLoader().getResourceAsStream("newListSound.wav"));
                             changeColor("Flash");
                             listPressed = false;
-
-                            //this button should probably do something
                         } else {
                             changeColor("Cyan");
                             listPressed = true;
@@ -143,7 +141,9 @@ public class EchoGUI extends JFrame {
         }
     }
 
-    //adds the three buttons onto the conent pane
+    /**
+     * methods that adds the buttons onto the content pane
+     */
     void addButtons() {
         btnMUTE.setOpaque(false);
         btnMUTE.setContentAreaFilled(false);
@@ -166,14 +166,13 @@ public class EchoGUI extends JFrame {
 
     /**
      * Method to change the color of the Echo's light
-     * 
      * @param color the color to change it to - (Blue/Cyan/Off/Flash)
      */
     void changeColor(String color) {
-        // options for color are Blue, Cyan, Flash and Off
         if (executorService != null) {
             executorService.shutdown();
         }
+        //uses an executor service to set the flash to every 1 second
         if (color.equals("Flash")) {
             executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleAtFixedRate(new Runnable() {
@@ -184,7 +183,6 @@ public class EchoGUI extends JFrame {
             }, 0, 1, TimeUnit.SECONDS);
         } else {
             frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echo" + color + ".png"))));
-//            frame.setContentPane(new JLabel(new ImageIcon("resources/echo" + color + ".png")));
             frame.setLayout(null);
             frame.pack();
             addButtons();
@@ -195,17 +193,15 @@ public class EchoGUI extends JFrame {
      * Method to have the lights atop the echo to flash
      */
     void Flash() {
+        //every other second the gui switches between flash and not flash
         if (flashCount % 2 == 0) {
             frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echoCyanFlash.png"))));
-
-//            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash.png")));
             frame.setLayout(null);
             frame.pack();
             addButtons();
             flashCount++;
         } else {
             frame.setContentPane(new JLabel(new ImageIcon(getClass().getResource("echoCyanFlash2.png"))));
-//            frame.setContentPane(new JLabel(new ImageIcon("resources/echoCyanFlash2.png")));
             frame.setLayout(null);
             frame.pack();
             addButtons();
@@ -215,7 +211,6 @@ public class EchoGUI extends JFrame {
 
     /**
      * Constructor to set up the GUI
-     * 
      * @param detector the SoundDetector to interact with when muting, etc.
      */
     EchoGUI(SoundDetector detector) {
