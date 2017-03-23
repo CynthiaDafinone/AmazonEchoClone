@@ -8,15 +8,14 @@ import java.net.UnknownHostException;
 
 /**
  * Much of this code is based on David Wakeling's Workshops, modified to suit our purposes.
+ * This Class is used for any interaction with Microsoft Cognitive Services. It has static
+ * methods for any interaction.
  */
 class HTTPConnect {
     private final static int TIMEOUT  = 10000; // Timeout in ms
     private final static int BUFFSIZE = 4096; // Buffer response size
 
     private final static String KEY = "110c24ab25804509a223bac18251d6f2";
-    // An extra access key to use, should we need it
-    // private final static String KEY = "ea072146f15446ed89d1c9f2498c0d87";
-
 
     /**
      * Method to renew an access token to the cognitive services

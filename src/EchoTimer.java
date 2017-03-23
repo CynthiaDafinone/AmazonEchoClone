@@ -8,17 +8,18 @@ public class EchoTimer {
     /**
      * Method starts a timer based on the string
      * @param str the string containing seconds, minutes and hours to add to the timer
-     * @return true if successfull
+     * @return true if successful
      */
     static boolean startTimer(String str) {
         if (str == null || !str.contains("minutes") && !str.contains("hours") && !str.contains("seconds")) {
             return false;
         }
-
+        //We start the time off at 0
         long time = 0;
         str = str.replaceAll("[^A-Za-z0-9 ]", "");
         String[] strings = str.split(" ");
-
+        
+        //Calculating how long the user wants the timer to run for
         for (int i = 1; i < strings.length; i++) {
             try {
                 if (strings[i].equals("seconds") || strings[i].equals("second")) {
@@ -41,6 +42,7 @@ public class EchoTimer {
             t.schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    //Setting booleans to call in other functions
                     isPlaying = true;
                     shouldPlay = true;
                     AudioOutput.playTimerLooping(getClass().getResourceAsStream("alarm.wav"));
