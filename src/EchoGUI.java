@@ -28,7 +28,7 @@ public class EchoGUI extends JFrame {
     /*
     * Power button - turns the echo on and off
      */
-    private class PowerButton extends JButton {
+    class PowerButton extends JButton {
 
         PowerButton() {
             setBorder(null);
@@ -67,7 +67,7 @@ public class EchoGUI extends JFrame {
     /*
     * Mute Button - mutes/unmutes the mircophone
      */
-    private class MuteButton extends JButton {
+    class MuteButton extends JButton {
 
         MuteButton() {
             setIcon(new ImageIcon("mute.png"));
@@ -113,7 +113,7 @@ public class EchoGUI extends JFrame {
      * Listen Button - this class handles the functions for turn off the timer
      * and stopwatch and also has a cool flashing effect when pressed
      */
-    private class ListenButton extends JButton {
+    class ListenButton extends JButton {
 
         ListenButton() {
             setBorder(null);
